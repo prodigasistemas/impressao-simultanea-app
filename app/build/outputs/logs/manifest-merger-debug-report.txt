@@ -1,0 +1,227 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:2:1-73:12
+INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:2:1-73:12
+INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:2:1-73:12
+INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:2:1-73:12
+INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:2:1-73:12
+INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:2:1-73:12
+INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:2:1-73:12
+	package
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:3:5-21
+		INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:5:5-45
+		INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:4:5-28
+		INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml
+uses-sdk
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:7:5-71
+INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:7:5-71
+INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:7:5-71
+INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:7:5-71
+INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:7:5-71
+	android:targetSdkVersion
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:7:41-69
+		INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:7:15-40
+		INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.ACCESS_GPS
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:8:2-66
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:8:19-63
+uses-permission#android.permission.ACCESS_LOCATION
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:9:2-71
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:9:19-68
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:10:2-78
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:10:19-75
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:11:2-76
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:11:19-73
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:12:2-76
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:12:19-73
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:13:5-80
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:13:22-78
+uses-permission#android.permission.INTERNET
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:14:2-63
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:14:19-61
+uses-permission#android.permission.BLUETOOTH
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:15:2-64
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:15:19-62
+uses-permission#android.permission.BLUETOOTH_ADMIN
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:16:2-70
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:16:19-68
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:17:2-71
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:17:19-69
+uses-permission#android.permission.READ_SYNC_SETTINGS
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:18:2-73
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:18:19-71
+uses-permission#android.permission.DEVICE_POWER
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:19:2-67
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:19:19-65
+application
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:21:2-71:19
+	android:label
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:21:45-77
+	android:allowTaskReparenting
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:21:78-113
+	android:icon
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:21:15-44
+activity#com.IS.Fachada
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:22:9-27:20
+	android:theme
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:22:43-90
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:22:19-42
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:23:13-26:29
+action#android.intent.action.MAIN
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:24:17-69
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:24:25-66
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:25:17-77
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:25:27-74
+activity#views.MainTab
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:29:9-30:20
+	android:launchMode
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:29:48-79
+	android:configChanges
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:29:80-115
+	android:theme
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:29:116-163
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:29:19-47
+activity#com.IS.ListaRotas
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:32:9-33:20
+	android:screenOrientation
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:32:46-82
+	configChanges
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:32:83-125
+	android:theme
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:32:126-173
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:32:19-45
+activity#com.IS.ListaImoveis
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:35:9-36:20
+	android:launchMode
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:35:48-79
+	android:theme
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:35:80-127
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:35:19-47
+activity#com.IS.MenuPrincipal
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:38:6-39:20
+	android:screenOrientation
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:38:78-114
+	android:launchMode
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:38:46-77
+	configChanges
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:38:115-157
+	android:theme
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:38:158-205
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:38:16-45
+activity#com.IS.TelaInformacoes
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:41:3-42:20
+	android:screenOrientation
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:41:45-81
+	android:launchMode
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:41:82-113
+	android:theme
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:41:114-161
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:41:13-44
+activity#com.IS.TelaRelatorio
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:44:3-45:20
+	android:launchMode
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:44:42-73
+	android:theme
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:44:74-121
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:44:13-41
+activity#com.IS.Consulta
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:47:3-48:20
+	android:launchMode
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:47:37-68
+	android:theme
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:47:69-116
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:47:13-36
+activity#views.ImovelTab
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:50:3-51:14
+	android:theme
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:50:44-91
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:50:13-43
+activity#views.ContaTab
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:53:3-54:20
+	android:theme
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:53:43-90
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:53:13-42
+activity#views.MedidorAguaTab
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:56:9-57:20
+	android:theme
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:56:55-102
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:56:19-54
+activity#views.MedidorPocoTab
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:59:9-60:20
+	android:theme
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:59:55-102
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:59:19-54
+receiver#util.PhoneListener
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:62:9-70:17
+	android:enabled
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:62:53-75
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:62:19-52
+intent-filter#action:name:android.intent.action.ACTION_SHUTDOWN+action:name:android.intent.action.AIRPLANE_MODE+action:name:android.intent.action.PHONE_STATE+action:name:android.intent.action.SCREEN_OFF+action:name:android.media.SCO_AUDIO_STATE_CHANGED
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:63:10-69:26
+action#android.intent.action.PHONE_STATE
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:64:14-73
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:64:22-70
+action#android.intent.action.SCREEN_OFF
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:65:14-72
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:65:22-69
+action#android.media.SCO_AUDIO_STATE_CHANGED
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:66:14-77
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:66:22-74
+action#android.intent.action.AIRPLANE_MODE
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:67:14-75
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:67:22-72
+action#android.intent.action.ACTION_SHUTDOWN
+ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:68:14-77
+	android:name
+		ADDED from C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:68:22-74

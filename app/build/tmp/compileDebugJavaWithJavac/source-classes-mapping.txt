@@ -1,0 +1,212 @@
+background/ApagarRotaThread.java
+ background.ApagarRotaThread
+model/Tarifa.java
+ model.Tarifa
+com/IS/BuildConfig.java
+ com.IS.BuildConfig
+com/IS/CompleteAlertDialogFragment.java
+ com.IS.CompleteAlertDialogFragment
+ com.IS.CompleteAlertDialogFragment$1
+ com.IS.CompleteAlertDialogFragment$2
+helper/EfetuarRateioConsumoHelper.java
+ helper.EfetuarRateioConsumoHelper
+dataBase/DbHelper.java
+ dataBase.DbHelper
+business/BusinessConta.java
+ business.BusinessConta
+ business.BusinessConta$1
+util/ZipUtil.java
+ util.ZipUtil
+ util.ZipUtil$1
+ui/DadosImovel.java
+ ui.DadosImovel
+com/IS/NotifyAlertDialogFragment.java
+ com.IS.NotifyAlertDialogFragment
+ com.IS.NotifyAlertDialogFragment$1
+ui/DadosTarifacao.java
+ ui.DadosTarifacao
+com/IS/TelaInformacoes.java
+ com.IS.TelaInformacoes
+com/IS/FragmentLog.java
+ com.IS.FragmentLog
+background/CarregarRotaThread.java
+ background.CarregarRotaThread
+com/IS/ListActivityLog.java
+ com.IS.ListActivityLog
+background/EnviarImovelOnlineThread.java
+ background.EnviarImovelOnlineThread
+com/IS/MenuPrincipal.java
+ com.IS.MenuPrincipal
+ com.IS.MenuPrincipal$1
+ com.IS.MenuPrincipal$1$1
+ com.IS.MenuPrincipal$10
+ com.IS.MenuPrincipal$11
+ com.IS.MenuPrincipal$12
+ com.IS.MenuPrincipal$13
+ com.IS.MenuPrincipal$14
+ com.IS.MenuPrincipal$15
+ com.IS.MenuPrincipal$2
+ com.IS.MenuPrincipal$3
+ com.IS.MenuPrincipal$4
+ com.IS.MenuPrincipal$4$1
+ com.IS.MenuPrincipal$4$2
+ com.IS.MenuPrincipal$5
+ com.IS.MenuPrincipal$6
+ com.IS.MenuPrincipal$7
+ com.IS.MenuPrincipal$8
+ com.IS.MenuPrincipal$9
+ com.IS.MenuPrincipal$9$1
+ com.IS.MenuPrincipal$ImageAdapter
+model/DadosFaturamento.java
+ model.DadosFaturamento
+com/IS/Consulta.java
+ com.IS.Consulta
+ com.IS.Consulta$1
+ com.IS.Consulta$2
+ com.IS.Consulta$MySimpleArrayAdapter
+model/Consumo.java
+ model.Consumo
+com/IS/TelaRelatorio.java
+ com.IS.TelaRelatorio
+background/EnviarImoveisCondominioThread.java
+ background.EnviarImoveisCondominioThread
+ui/MessageDispatcher.java
+ ui.MessageDispatcher
+util/GZIP.java
+ util.GZIP
+business/ControladorRota.java
+ business.ControladorRota
+ business.ControladorRota$1
+com/IS/ListaImoveis.java
+ com.IS.ListaImoveis
+ com.IS.ListaImoveis$MySimpleArrayAdapter
+util/ParserUtil.java
+ util.ParserUtil
+background/GerarArquivoCompletoThread.java
+ background.GerarArquivoCompletoThread
+util/ExternalStorage.java
+ util.ExternalStorage
+model/DadosRelatorio.java
+ model.DadosRelatorio
+util/DateUtil.java
+ util.DateUtil
+util/Criptografia.java
+ util.Criptografia
+com/IS/ActivityLog.java
+ com.IS.ActivityLog
+background/ImpressaoThread.java
+ background.ImpressaoThread
+util/Constantes.java
+ util.Constantes
+util/PhoneListener.java
+ util.PhoneListener
+views/ImovelTab.java
+ views.ImovelTab
+model/TarifacaoMinima.java
+ model.TarifacaoMinima
+views/MainTab.java
+ views.MainTab
+ views.MainTab$1
+ views.MainTab$10
+ views.MainTab$11
+ views.MainTab$12
+ views.MainTab$13
+ views.MainTab$14
+ views.MainTab$15
+ views.MainTab$16
+ views.MainTab$17
+ views.MainTab$18
+ views.MainTab$19
+ views.MainTab$2
+ views.MainTab$2$1
+ views.MainTab$2$2
+ views.MainTab$3
+ views.MainTab$4
+ views.MainTab$5
+ views.MainTab$6
+ views.MainTab$7
+ views.MainTab$8
+ views.MainTab$9
+ views.MainTab$ImpressaoCondominialThread
+ views.MainTab$ImpressaoCondominialThread$1
+ views.MainTab$ImpressaoCondominialThread$2
+model/Credito.java
+ model.Credito
+model/Debito.java
+ model.Debito
+business/ValidacaoLeitura.java
+ business.ValidacaoLeitura
+business/ControladorConta.java
+ business.ControladorConta
+ui/FileManager.java
+ ui.FileManager
+model/DadosTarifa.java
+ model.DadosTarifa
+model/DadosQualidadeAgua.java
+ model.DadosQualidadeAgua
+views/MedidorPocoTab.java
+ views.MedidorPocoTab
+ views.MedidorPocoTab$1
+ views.MedidorPocoTab$2
+model/Anormalidade.java
+ model.Anormalidade
+model/Imovel.java
+ model.Imovel
+model/HistoricoConsumo.java
+ model.HistoricoConsumo
+views/MedidorAguaTab.java
+ views.MedidorAguaTab
+ views.MedidorAguaTab$1
+ views.MedidorAguaTab$2
+util/Util.java
+ util.Util
+model/Imposto.java
+ model.Imposto
+model/Medidor.java
+ model.Medidor
+model/ConsumoAnormalidadeAcao.java
+ model.ConsumoAnormalidadeAcao
+model/DadosCategoria.java
+ model.DadosCategoria
+util/ImpressaoContaCosanpa.java
+ util.ImpressaoContaCosanpa
+background/FinalizarRotaThread.java
+ background.FinalizarRotaThread
+model/DadosFaturamentoFaixa.java
+ model.DadosFaturamentoFaixa
+business/ControladorAcessoOnline.java
+ business.ControladorAcessoOnline
+ business.ControladorAcessoOnline$1
+model/Configuracao.java
+ model.Configuracao
+views/ContaTab.java
+ views.ContaTab
+model/TarifacaoComplementar.java
+ model.TarifacaoComplementar
+util/LogUtil.java
+ util.LogUtil
+business/ControladorImovel.java
+ business.ControladorImovel
+ui/ArquivoRetorno.java
+ ui.ArquivoRetorno
+model/DadosGerais.java
+ model.DadosGerais
+model/SituacaoTipo.java
+ model.SituacaoTipo
+background/EnviarImoveisConcluidosThread.java
+ background.EnviarImoveisConcluidosThread
+model/Conta.java
+ model.Conta
+dataBase/DataManipulator.java
+ dataBase.DataManipulator
+com/IS/ListaRotas.java
+ com.IS.ListaRotas
+ com.IS.ListaRotas$1
+ com.IS.ListaRotas$2
+ com.IS.ListaRotas$3
+ com.IS.ListaRotas$MySimpleArrayAdapter
+com/IS/Fachada.java
+ com.IS.Fachada
+ com.IS.Fachada$1
+ com.IS.Fachada$2
+ com.IS.Fachada$3
