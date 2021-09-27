@@ -1755,7 +1755,11 @@ public class Imovel {
 	}
 
 	public String getCpfCnpjCliente() {
-		return cpfCnpjCliente;
+		if (cpfCnpjCliente != null && !cpfCnpjCliente.equals("")) {
+			return cpfCnpjCliente;
+		} else {
+			return "";
+		}
 	}
 
 	public void setCpfCnpjCliente(String cpfCnpjCliente) {

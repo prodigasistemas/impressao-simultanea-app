@@ -31,8 +31,7 @@ public class ImpressaoContaCosanpa {
 	
 	private static Imovel imovel;
     
-    // Numero do Hidrometro
-    private String numeroMedidor = "NAO MEDIDO";
+	private String numeroMedidor = "NAO MEDIDO";
     private String dataInstalacao = Constantes.NULO_STRING;
     private String situacaoAgua;
     private String situacaoEsgoto;
@@ -65,7 +64,7 @@ public class ImpressaoContaCosanpa {
     // Historico consumo
     private String anoMesReferencia = "";
     private String historicoConsumo = "";
-    private String hcMensagem = "7 0 50 499 ULTIMOS CONSUMOS\n";
+    private String hcMensagem = "7 0 50 579 ULTIMOS CONSUMOS\n";
 
     // Exigido Portaria 518/2004
     private int quantidadeCorExigidas;
@@ -115,122 +114,145 @@ public class ImpressaoContaCosanpa {
     
     private String montarComandoImpressaoFatura(int tipoImpressao) {
     	
-    	String comando = "! 0 200 200 1720 1\n"+
+    	String comando = "! 0 200 200 3100 1\n"+
     			
     			linesAndBoxes +
 
-    			"T 0 2 135 121 Versao: "+ Fachada.getAppVersion() + " - "+ MedidorAguaTab.getCurrentDateByGPS() + " /" + (imovel.getQuantidadeContasImpressas()+1) + "\n" +
-        		"T 7 1 464 90 "+ imovel.getMatricula() + "\n" +
-        		descricaoAnoMesConta +
-        		"T 0 0 201 47 "+ Util.formatarCnpj(ControladorRota.getInstancia().getDadosGerais().getCnpjEmpresa().trim()) + "\n" +
-        		"T 0 0 285 64 "+ ControladorRota.getInstancia().getDadosGerais().getInscricaoEstadualEmpresa().trim() + "\n" +
-        		"T 0 0 222 81 "+ imovel.getGrupoFaturamento() + "\n" +
-        		"T 0 2 52 199 \n"+
-        		endereco +
-        		"T 7 0 15 250 "+Util.formatarInscricao(imovel.getInscricao())+"\n"+
-        		"T 7 0 315 250 "+imovel.getCodigoRota()+"\n"+
-        		"T 7 0 415 250 "+imovel.getSequencialRota()+"\n"+
-        		economias +
-        		"T 7 0 48 301 "+ numeroMedidor +"\n"+
-        		"T 7 0 248 301 "+ dataInstalacao +"\n"+
-        		"T 7 0 446 301 "+ situacaoAgua +"\n"+
-        		"T 7 0 627 301 "+ situacaoEsgoto +"\n"+
-        		"T 7 0 168 330 LEITURA\n"+
-        		"T 7 0 190 354 "+ leituraAnteriorInformada +"\n"+
-        		"T 7 0 190 378 "+ leituraAtualInformada + "\n" +
-        		"T 7 0 313 330 DATA\n"+
-        		"T 7 0 285 354 "+ dataLeituraAnteriorInformada +"\n"+
-        		"T 7 0 285 378 "+ dataLeituraAtualInformada + "\n"+
-        		gerarLinhaTelefoneAgenciaReguladora()+
-        		"T 7 0 37 354 ANTERIOR\n"+
-        		"T 7 0 37 378 ATUAL\n"+
+    			//"T 0 0 201 47 " + Util.formatarCnpj(ControladorRota.getInstancia().getDadosGerais().getCnpjEmpresa().trim()) + "\n" + // TODO
+    			//"T 0 0 285 64 " + ControladorRota.getInstancia().getDadosGerais().getInscricaoEstadualEmpresa().trim() + "\n" + // TODO
+    			//"T 0 0 222 81 " + imovel.getGrupoFaturamento() + "\n" + // TODO 
+    			
+//    			"T 0 2 135 121 Versao: "+ Fachada.getAppVersion() + " - "+ MedidorAguaTab.getCurrentDateByGPS() + " /" + (imovel.getQuantidadeContasImpressas()+1) + "\n" + // TODO
         		
-        		anormalidadeConsumo +
-        		anormalidadeLeitura +
+				"T 7 1 70 115 " + imovel.getMatricula() + "\n" +
+				"T 7 1 640 115 " + descricaoAnoMesConta + 
+				
+//        		"T 0 2 52 199 \n " +
+				
+				"T 7 0 20 190 " + imovel.getNomeUsuario() + "\n" +
+				"T 7 0 20 210 " + imovel.getCpfCnpjCliente() + "\n" +
+				
+				dividirLinha(0, 2, 400, 200, endereco, 55, 22) +
+				
+        		"T 7 0 20 260 " + Util.formatarInscricao(imovel.getInscricao()) + "\n" +
+        		"T 7 0 350 260 " + imovel.getCodigoRota() + "\n" +
+        		"T 7 0 445 260 " + imovel.getSequencialRota() + "\n" +
         		
-        		"T 7 0 163 412 FATURADO\n"+
-        		"T 7 0 190 436 "+ leituraAnteriorFaturada + "\n"+
-        		"T 7 0 190 460 "+ leituraAtualFaturada + "\n" +
-        		"T 7 0 313 412 DATA\n"+
-        		"T 7 0 285 436 "+ dataLeituraAnteriorFaturada + "\n" +
-        		"T 7 0 285 460 "+ dataLeituraAtualFaturada + "\n" +
+        		economias + // TODO
+        		
+        		"T 7 0 20 310 "+ numeroMedidor +"\n"+
+        		"T 7 0 255 310 "+ dataInstalacao +"\n"+
+        		"T 7 0 500 310 "+ situacaoAgua +"\n"+
+        		"T 7 0 688 310 "+ situacaoEsgoto +"\n"+
+        		
+        		"T 7 0 163 362 LEITURA\n"+
+        		"T 7 0 163 382 FATURADO\n" +
+        		"T 7 0 190 406 "+ leituraAnteriorInformada +"\n"+
+        		"T 7 0 190 430 "+ leituraAtualInformada + "\n" +
+        		"T 7 0 313 382 DATA\n"+
+        		"T 7 0 285 406 "+ dataLeituraAnteriorInformada +"\n"+
+        		"T 7 0 285 430 "+ dataLeituraAtualInformada + "\n"+
+        		
+        		gerarLinhaTelefoneAgenciaReguladora() + // TODO
+        		
+        		//"T 7 0 37 436 ANTERIOR\n" +
+        		//"T 7 0 37 460 ATUAL\n" +
+        		
+        		anormalidadeConsumo + // TODO
+        		anormalidadeLeitura + // TODO
+        		
+        		//"T 7 0 163 500 FATURADO\n" +
+        		//"T 7 0 190 524 "+ leituraAnteriorFaturada + "\n" +
+        		//"T 7 0 190 548 "+ leituraAtualFaturada + "\n" +
+        		//"T 7 0 313 500 DATA\n"+
+        		//"T 7 0 285 524 "+ dataLeituraAnteriorFaturada + "\n" +
+        		//"T 7 0 285 548 "+ dataLeituraAtualFaturada + "\n" +
+        		
         		txtConsumo +
-        		"T 7 0 511 436 "+ consumo + "\n" +
-        		"T 7 0 745 412 DIAS\n"+
-        		"T 7 0 760 436 "+ diasConsumo +"\n" +
-        		"T 7 0 37 436 ANTERIOR\n"+
-        		"T 7 0 37 460 ATUAL\n"+
+        		
+        		"T 7 0 412 382 "+ consumo + "\n" +
+        		"T 7 0 745 382 DIAS\n"+
+        		"T 7 0 760 406 "+ diasConsumo +"\n" +
+        		"T 7 0 37 406 ANTERIOR\n"+
+        		"T 7 0 37 430 ATUAL\n"+
+        		
         		"T "+ hcMensagem +
+        		
         		anoMesReferencia +
         		historicoConsumo +
-        		"T 7 0 75 672 MEDIA(m3):\n"+
-        		"T 7 0 195 672 "+ media + "\n";
+        		"T 7 0 75 752 MEDIA(m3):\n"+
+        		"T 7 0 195 752 "+ media + "\n";
         		
     	//==============================================
     	
     	if (tipoImpressao == Constantes.IMPRESSAO_FATURA){
     		comando +=
     				
-    				 		
-        		
-    				"T 7 0 448 496 QUALIDADE DA AGUA\n"+
-	        		"T 0 0 672 505 Ref: \n"+
-	        		"T 0 0 705 505 "+ Util.retornaDescricaoAnoMes(imovel.getAnoMesConta()) + "\n" +
-	        		"T 7 0 287 520 PARAMETROS\n"+
-	        		"T 7 0 418 520 PORT5 A.XX\n"+
-	        		"T 7 0 545 520 ANALISADO\n"+
-	        		"T 7 0 672 520 CONFORME\n"+
-	        		"T 0 0 287 552 COR(uH)\n"+
-	        		"T 0 0 287 571 TURBIDEZ(UT)\n"+
-	        		"T 0 0 287 590 CLORO(mg/L)\n"+
-	        		"T 0 0 287 609 FLUOR(mg/L)\n"+
-	        		"T 0 0 287 628 COLIFORME TOTAL\n"+
-	        		"T 0 0 287 640 Pres/Aus)\n"+
-	        		"T 0 0 287 657 COLIFORME TERMO\n"+
-	        		"T 0 0 287 671 TOLER.(Pres/Aus)\n"+
-	        		"T 0 0 469 552 "+ quantidadeCorExigidas + "\n" +
-	        		"T 0 0 469 571 "+ quantidadeTurbidezExigidas + "\n" +
-	        		"T 0 0 469 590 "+ quantidadeCloroExigidas + "\n"+
-	        		"T 0 0 469 609 "+ quantidadeFluorExigidas +"\n"+
-	        		"T 0 0 469 628 "+ quantidadeColiformesTotaisExigidas + "\n"+
-	        		"T 0 0 469 657 "+ quantidadeColiformesTermoTolerantesExigidas + "\n" +
-	        		"T 0 0 582 552 "+ quantidadeCorAnalisadas + "\n" +
-	        		"T 0 0 582 571 "+ quantidadeTurbidezAnalisadas + "\n" +
-	        		"T 0 0 582 590 "+ quantidadeCloroAnalisadas + "\n" +
-	        		"T 0 0 582 609 "+ quantidadeFluorAnalisadas + "\n" +
-	        		"T 0 0 582 628 "+ quantidadeColiformesTotaisAnalisadas + "\n" +
-	        		"T 0 0 582 657 "+ quantidadeColiformesTermoTolerantesAnalisadas + "\n"+
-	        		"T 0 0 726 552 "+ quantidadeCorConforme + "\n" +
-	        		"T 0 0 726 571 "+ quantidadeTurbidezConforme + "\n" +
-	        		"T 0 0 726 590 "+ quantidadeCloroConforme + "\n" +
-	        		"T 0 0 726 609 "+ quantidadeFluorConforme + "\n" +
-	        		"T 0 0 726 628 "+ quantidadeColiformesTotaisConforme + "\n" +
-	        		"T 0 0 726 657 "+ quantidadeColiformesTermoTolerantesConforme + "\n" +
-	        		"T 7 0 53 708 DESCRICAO\n"+
-	        		"T 7 0 571 708 CONSUMO\n"+
-	        		"T 7 0 687 708 TOTAL(R$)\n"+
-	        		// Retornando "" (String vazia)
+    				"T 7 0 425 565 QUALIDADE DA AGUA\n"+
+	        		"T 7 0 645 565 Ref: \n"+
+	        		"T 7 0 690 565 "+ Util.retornaDescricaoAnoMes(imovel.getAnoMesConta()) + "\n" +
+	        		"T 7 0 287 590 PARAMETROS\n"+
+	        		"T 7 0 418 590 PORT5 A.XX\n"+
+	        		"T 7 0 545 590 ANALISADO\n"+
+	        		"T 7 0 672 590 CONFORME\n"+
+	        		"T 7 0 287 620 COR(uH)\n"+
+	        		"T 7 0 287 640 TURBIDEZ(UT)\n"+
+	        		"T 7 0 287 660 CLORO(mg/L)\n"+
+	        		"T 7 0 287 680 FLUOR(mg/L)\n"+
+	        		"T 7 0 287 700 COLIFORME TOTAL\n"+
+	        		"T 7 0 287 720 Pres/Aus)\n"+
+	        		"T 7 0 287 740 COLIFORME TERMO\n"+
+	        		"T 7 0 287 760 TOLER.(Pres/Aus)\n"+
+	        		"T 7 0 469 620 "+ quantidadeCorExigidas + "\n" +
+	        		"T 7 0 469 640 "+ quantidadeTurbidezExigidas + "\n" +
+	        		"T 7 0 469 660 "+ quantidadeCloroExigidas + "\n"+
+	        		"T 7 0 469 680 "+ quantidadeFluorExigidas +"\n"+
+	        		"T 7 0 469 700 "+ quantidadeColiformesTotaisExigidas + "\n"+
+	        		"T 7 0 469 740 "+ quantidadeColiformesTermoTolerantesExigidas + "\n" +
+	        		"T 7 0 582 620 "+ quantidadeCorAnalisadas + "\n" +
+	        		"T 7 0 582 640 "+ quantidadeTurbidezAnalisadas + "\n" +
+	        		"T 7 0 582 660 "+ quantidadeCloroAnalisadas + "\n" +
+	        		"T 7 0 582 680 "+ quantidadeFluorAnalisadas + "\n" +
+	        		"T 7 0 582 700 "+ quantidadeColiformesTotaisAnalisadas + "\n" +
+	        		"T 7 0 582 740 "+ quantidadeColiformesTermoTolerantesAnalisadas + "\n"+
+	        		"T 7 0 726 620 "+ quantidadeCorConforme + "\n" +
+	        		"T 7 0 726 640 "+ quantidadeTurbidezConforme + "\n" +
+	        		"T 7 0 726 660 "+ quantidadeCloroConforme + "\n" +
+	        		"T 7 0 726 680 "+ quantidadeFluorConforme + "\n" +
+	        		"T 7 0 726 700 "+ quantidadeColiformesTotaisConforme + "\n" +
+	        		"T 7 0 726 740 "+ quantidadeColiformesTermoTolerantesConforme + "\n" +
+	        		
+	        		"T 7 0 53 788 DESCRICAO\n"+
+	        		"T 7 0 571 788 CONSUMO\n"+
+	        		"T 7 0 687 788 TOTAL(R$)\n"+
+
 	        		tarifacaoAgua +
 	        		tarifacaoEsgoto +
 	        		rateioAguaEsgoto +
 	        		valorDebitos +
 	        		valorCreditos +
 	        		valorImpostos +
+	        		
 	        		gerarLinhasAliquotasImpostos(imovel.getValorContaSemParcelamentoDebito()) +
-	        		"T 7 1 160 1210 "+ dataVencimentoConta + "\n" +
-	        		"T 4 0 640 1210 "+ valorConta + "\n" +
-	        		"T 0 2 424 1265 OPCAO PELO DEB. AUTOMATICO: \n"+
-	        		"T 5 0 649 1266 "+ opcaoDebitoAutomatico + "\n" +
+	        		
+	        		"T 7 1 20 1115 "+ dataVencimentoConta + "\n" +
+	        		"T 4 0 640 1115 "+ valorConta + "\n" +
+	        		
+	        		"T 0 2 424 1270 OPCAO PELO DEB. AUTOMATICO: \n"+
+	        		"T 5 0 649 1270 "+ opcaoDebitoAutomatico + "\n" +
 					mensagens + 
-	        		"T 0 2 344 1456 "+ matricula + "\n" +
-	        		"T 0 2 443 1456 "+ referencia + "\n" +
-	        		"T 0 2 558 1456 "+ dataVencimento + "\n" +
-	        		"T 0 2 694 1456 "+ totalAPagar + "\n" +
+	        		"T 0 2 404 2606 "+ matricula + "\n" +
+	        		"T 0 2 505 2606 "+ referencia + "\n" +
+	        		"T 0 2 598 2606 "+ dataVencimento + "\n" +
+	        		"T 0 2 730 2606 "+ totalAPagar + "\n" +
+	        		
 	        		repNumericaCodBarra +
 	        		repCodigoBarrasSemDigitoVerificador +
-	        		"T 5 0 109 1661 "+ grupoFaturamento + "\n" +
-	        		"T 5 0 352 1661 4\n"+
-	        		"T 5 0 680 1661 "+imovel.getId()+"\n"+
+	        		
+	        		"T 5 0 79 3010 "+ "GRUPO" + "\n" +
+	        		"T 5 0 109 3035 "+ grupoFaturamento + "\n" +
+	        		"T 5 0 352 3035 4\n"+
+	        		"T 5 0 680 3035 "+imovel.getMatricula()+"\n"+
 	        		"FORM\n"+
 	        		"PRINT\n";
         		
@@ -259,9 +281,9 @@ public class ImpressaoContaCosanpa {
         		    "T 7 0 53 1075 RATEIO: Obtido atraves da diferenca do consumo entre \n"+
         		    "T 7 0 53 1100 o macromedidor e os consumos dos apartamentos \n"+
 
-        			"T 0 2 344 1456 "+ matricula + "\n" +
-	        		"T 5 0 109 1661 "+ grupoFaturamento + "\n" +
-	        		"T 5 0 352 1661 4\n"+
+        			"T 0 2 344 1961 "+ matricula + "\n" +
+	        		"T 5 0 109 1961 "+ grupoFaturamento + "\n" +
+	        		"T 5 0 352 1961 4\n"+
 	        		"FORM\n"+
 	        		"PRINT\n";
     	}
@@ -292,16 +314,24 @@ public class ImpressaoContaCosanpa {
     public void getDadosFatura(Imovel imovel, int tipoImpressao) {
     	
 		if (tipoImpressao == Constantes.IMPRESSAO_FATURA){
-			linesAndBoxes = "BOX 32 435 802 482 1\n"+
-							"LINE 720 415 720 455 1\n"+
-							"LINE 403 415 403 477 1\n"+
-							"BOX 32 411 802 435 1\n"+
-							"LINE 278 415 278 477 1\n"+
-							"BOX 283 518 802 545 1\n"+
-							"BOX 283 545 802 692 1\n"+
-							"LINE 656 518 656 692 1\n"+
-							"LINE 415 518 415 692 1\n"+
-							"LINE 540 518 540 692 1\n";
+			linesAndBoxes = "BOX 32 405 802 452 1\n" +
+							"LINE 720 385 720 425 1\n" +
+							"LINE 403 385 403 447 1\n" +
+							"BOX 32 361 802 405 1\n" +
+							"LINE 278 385 278 447 1\n" +
+							
+							//"BOX 32 523 802 570 1\n" +
+							//"LINE 720 503 720 543 1\n" +
+							//"LINE 403 503 403 565 1\n" +
+							//"BOX 32 499 802 523 1\n" +
+							//"LINE 278 503 278 565 1\n" +
+							
+							"BOX 283 588 802 615 1\n"+
+							"BOX 283 615 802 782 1\n"+
+							"LINE 656 588 656 782 1\n"+
+							"LINE 415 588 415 615 1\n"+
+							"LINE 535 588 535 782 1\n" +
+							"";
 			
 		}else if (tipoImpressao == Constantes.IMPRESSAO_EXTRATO_CONDOMINIAL){
 			linesAndBoxes = "BOX 32 435 802 482 1\n" + 
@@ -312,10 +342,10 @@ public class ImpressaoContaCosanpa {
 		}
 
 		if (imovel.getAnoMesConta().compareTo(Constantes.NULO_STRING) != 0){
-			descricaoAnoMesConta = "T 7 1 669 90 "+ Util.retornaDescricaoAnoMes(imovel.getAnoMesConta()) + "\n";
+			descricaoAnoMesConta = Util.retornaDescricaoAnoMes(imovel.getAnoMesConta()) + "\n";
 			
 		}else{
-			descricaoAnoMesConta = "T 7 1 669 90 "+ Util.retornaDescricaoAnoMes(ControladorRota.getInstancia().getDadosGerais().getAnoMesFaturamento()) + "\n";
+			descricaoAnoMesConta = Util.retornaDescricaoAnoMes(ControladorRota.getInstancia().getDadosGerais().getAnoMesFaturamento()) + "\n";
 		}
 		
     	List dc = imovel.getDadosCategoria();
@@ -326,20 +356,16 @@ public class ImpressaoContaCosanpa {
     	consumoAgua = imovel.getConsumoAgua();
         consumoEsgoto = imovel.getConsumoEsgoto();;
     	
-    	String cpfCnpjFormatado = "";
- 	    if (imovel.getCpfCnpjCliente() != null && !imovel.getCpfCnpjCliente().equals("")) {
- 	    	cpfCnpjFormatado = imovel.getCpfCnpjCliente().trim();
- 	    }
-    	if (imovel.getEnderecoEntrega().trim().length() == 0){
-		    endereco = 	formarLinha(0, 2, 52, 172, imovel.getNomeUsuario().trim(), 0, 0) + formarLinha(0, 2, 52, 199, cpfCnpjFormatado, 0, 0) + dividirLinha(0, 2, 434, 169, imovel.getEndereco(), 40, 27);
-	    }else{
-		    endereco =	formarLinha(0, 2, 52, 172, imovel.getNomeUsuario().trim(), 0, 0) + formarLinha(0, 2, 52, 199, cpfCnpjFormatado, 0, 0) + dividirLinha(0, 2, 434, 169, imovel.getEnderecoEntrega(), 40, 27);
-	    }
-	    
+		if (imovel.getEnderecoEntrega().trim().length() == 0) {
+			endereco = imovel.getEndereco();
+		} else {
+			endereco = imovel.getEnderecoEntrega();
+		}
+
 	    for (int i = 0; i < quantidadeEconomias.size(); i++) {
 			Object[] dadosCategoria = (Object[]) quantidadeEconomias.get(i);
-			economias += formarLinha(0, 0, 470, 254, dadosCategoria[0] + "", i * 85, 0);
-			economias += formarLinha(7, 0, 539, 250, dadosCategoria[1] + "", i * 85, 0);
+			economias += formarLinha(7, 0, 464, 260, dadosCategoria[0] + "", i * 85, 0);
+			economias += formarLinha(7, 0, 710, 260, dadosCategoria[1] + "", i * 85, 0);
 	    }
     	
     	medidorAgua = imovel.getMedidor(Constantes.LIGACAO_AGUA);
@@ -501,9 +527,9 @@ public class ImpressaoContaCosanpa {
 
 	    List<HistoricoConsumo> historicosConsumo = imovel.getHistoricosConsumo();
 	    int k = 0;
-	    hcMensagem += "LINE 115 525 115 665 1\n"; 
+	    hcMensagem += "LINE 115 605 115 745 1\n"; 
 	    for (HistoricoConsumo hc : historicosConsumo) {
-	    	anoMesReferencia += formarLinha(0, 2, 44, 522, Util.getAnoBarraMesReferencia(hc.getAnoMesReferencia()) + "", 0, k * 25);
+	    	anoMesReferencia += formarLinha(0, 2, 44, 602, Util.getAnoBarraMesReferencia(hc.getAnoMesReferencia()) + "", 0, k * 25);
 	    	
 	    	String anormalidade = "";
 	    	if (hc.getAnormalidadeLeitura() != Constantes.NULO_INT && hc.getAnormalidadeLeitura() != 0) {
@@ -512,7 +538,7 @@ public class ImpressaoContaCosanpa {
 	    		anormalidade = "A. Cons.:" + hc.getAnormalidadeConsumo() + "";
 	    	}
 	    	
-	    	historicoConsumo += formarLinha(0, 2, 127, 522, Util.verificarNuloInt(hc.getConsumo()) + " m3 " + anormalidade, 0, k*25);
+	    	historicoConsumo += formarLinha(0, 2, 127, 602, Util.verificarNuloInt(hc.getConsumo()) + " m3 " + anormalidade, 0, k*25);
 	    	k++;
 	    }
 	    
@@ -579,11 +605,10 @@ public class ImpressaoContaCosanpa {
 		    }
 		    
 		    if (imovel.isImovelCondominio()) {
-		    	txtConsumo += formarLinha(7, 0, 418, 412, "CONSUMO (m3)", 0, 0);// + formarLinha(7, 0, 511, 436, consumo, 0, 0);
+		    	txtConsumo += formarLinha(7, 0, 412, 382, "CONSUMO (m3)", 0, 0);
 		    
 		    } else {
-		    	txtConsumo +=	formarLinha(7, 0, 412, 412, ControladorConta.getInstancia().getTipoConsumoToPrint(tipoConsumo), 0, 0);
-	//	    	txtConsumo +=	formarLinha(7, 0, 511, 436, consumo, 0, 0);
+		    	txtConsumo +=	formarLinha(7, 0, 412, 382, ControladorConta.getInstancia().getTipoConsumoToPrint(tipoConsumo), 0, 0);
 		    }
 		    
 		    int ultimaLinhaAgua = 0;
@@ -611,13 +636,13 @@ public class ImpressaoContaCosanpa {
 				    deslocaDireitaColuna = 2;
 				}
 				if (tarifaPoco[0] != null) {
-				    tarifacaoEsgoto += formarLinha(7, 0, 53, 710, tarifaPoco[0], deslocaDireitaColuna * 10, (i + 1) * 25 + ultimaLinhaAgua);
+				    tarifacaoEsgoto += formarLinha(7, 0, 53, 788, tarifaPoco[0], deslocaDireitaColuna * 10, (i + 1) * 25 + ultimaLinhaAgua);
 				}
 				if (tarifaPoco[1] != null) {
-				    tarifacaoEsgoto += formarLinha(7, 0, 571, 710, tarifaPoco[1], 0, (i + 1) * 25 + ultimaLinhaAgua);
+				    tarifacaoEsgoto += formarLinha(7, 0, 571, 788, tarifaPoco[1], 0, (i + 1) * 25 + ultimaLinhaAgua);
 				}
 				if (tarifaPoco[2] != null) {
-				    tarifacaoEsgoto += formarLinha(7, 0, 697, 710, tarifaPoco[2], 0, (i + 1) * 25 + ultimaLinhaAgua);
+				    tarifacaoEsgoto += formarLinha(7, 0, 697, 788, tarifaPoco[2], 0, (i + 1) * 25 + ultimaLinhaAgua);
 				}
 		    }
 		    
@@ -631,10 +656,10 @@ public class ImpressaoContaCosanpa {
 				ultimaLinhaRateio = ultimaLinhaPoco + ((i + 1) * 25);
 				quantidadeLinhasAtual++;
 				if (debito[0] != null) {
-				    rateioAguaEsgoto += formarLinha(7, 0, 53, 710, debito[0], 0, (i + 1) * 25 + ultimaLinhaPoco);
+				    rateioAguaEsgoto += formarLinha(7, 0, 53, 788, debito[0], 0, (i + 1) * 25 + ultimaLinhaPoco);
 				}
 				if (debito[1] != null) {
-				    rateioAguaEsgoto += formarLinha(7, 0, 697, 710, debito[1], 0, (i + 1) * 25 + ultimaLinhaPoco);
+				    rateioAguaEsgoto += formarLinha(7, 0, 697, 788, debito[1], 0, (i + 1) * 25 + ultimaLinhaPoco);
 				}
 		    }
 		    
@@ -652,13 +677,13 @@ public class ImpressaoContaCosanpa {
 			// deslocaDireitaColuna = 2;
 			// }
 			if (debito[0] != null) {
-			    valorDebitos += formarLinha(7, 0, 53, 710, debito[0], 0, (i + 1) * 25 + ultimaLinhaRateio);
+			    valorDebitos += formarLinha(7, 0, 53, 788, debito[0], 0, (i + 1) * 25 + ultimaLinhaRateio);
 			}
 			if (debito[1] != null) {
-			    valorDebitos += formarLinha(7, 0, 571, 710, debito[1], 0, (i + 1) * 25 + ultimaLinhaRateio);
+			    valorDebitos += formarLinha(7, 0, 571, 788, debito[1], 0, (i + 1) * 25 + ultimaLinhaRateio);
 			}
 			if (debito[2] != null) {
-			    valorDebitos += formarLinha(7, 0, 697, 710, debito[2], 0, (i + 1) * 25 + ultimaLinhaRateio);
+			    valorDebitos += formarLinha(7, 0, 697, 788, debito[2], 0, (i + 1) * 25 + ultimaLinhaRateio);
 			}
 		    }
 		    indicadorDiscriminarDescricao = retornaIndicadorDiscriminar(quantidadeMaximaLinhas, quantidadeLinhasAtual, 'c');
@@ -674,13 +699,13 @@ public class ImpressaoContaCosanpa {
 			// deslocaDireitaColuna = 2;
 			// }
 			if (credito[0] != null) {
-			    valorCreditos += formarLinha(7, 0, 53, 710, credito[0], 0, (i + 1) * 25 + ultimaLinhaDebito);
+			    valorCreditos += formarLinha(7, 0, 53, 788, credito[0], 0, (i + 1) * 25 + ultimaLinhaDebito);
 			}
 			if (credito[1] != null) {
-			    valorCreditos += formarLinha(7, 0, 571, 710, credito[1], 0, (i + 1) * 25 + ultimaLinhaDebito);
+			    valorCreditos += formarLinha(7, 0, 571, 788, credito[1], 0, (i + 1) * 25 + ultimaLinhaDebito);
 			}
 			if (credito[2] != null) {
-			    valorCreditos += formarLinha(7, 0, 697, 710, credito[2], 0, (i + 1) * 25 + ultimaLinhaDebito);
+			    valorCreditos += formarLinha(7, 0, 697, 788, credito[2], 0, (i + 1) * 25 + ultimaLinhaDebito);
 			}
 		    }
 		    List impostos = this.gerarLinhasImpostosRetidos();
@@ -693,13 +718,13 @@ public class ImpressaoContaCosanpa {
 			    deslocaDireitaColuna = 1;
 			}
 			if (imposto[0] != null) {
-			    valorImpostos += formarLinha(7, 0, 53, 710, imposto[0], deslocaDireitaColuna * 10, (i + 1) * 25 + ultimaLinhaCredito);
+			    valorImpostos += formarLinha(7, 0, 53, 788, imposto[0], deslocaDireitaColuna * 10, (i + 1) * 25 + ultimaLinhaCredito);
 			}
 			if (imposto[1] != null) {
-			    valorImpostos += formarLinha(7, 0, 571, 710, imposto[1], 0, (i + 1) * 25 + ultimaLinhaCredito);
+			    valorImpostos += formarLinha(7, 0, 571, 788, imposto[1], 0, (i + 1) * 25 + ultimaLinhaCredito);
 			}
 			if (imposto[2] != null) {
-			    valorImpostos += formarLinha(7, 0, 697, 710, imposto[2], 0, (i + 1) * 25 + ultimaLinhaCredito);
+			    valorImpostos += formarLinha(7, 0, 697, 788, imposto[2], 0, (i + 1) * 25 + ultimaLinhaCredito);
 			}
 		    }
 		    
@@ -711,7 +736,7 @@ public class ImpressaoContaCosanpa {
 		    Log.i("opcao debito automatico", opcaoDebitoAutomatico);
 	
 			if (imovel.getMensagemQuitacaoAnual() != null && !imovel.getMensagemQuitacaoAnual().equals("")) {
-				mensagens = dividirLinha(7, 0, 35, 1300, imovel.getMensagemQuitacaoAnual(), 60, 20);
+				mensagens = dividirLinha(7, 0, 35, 1815, imovel.getMensagemQuitacaoAnual(), 60, 20);
 				
 			} else if (imovel.getMensagemEstouroConsumo1() != null && !imovel.getMensagemEstouroConsumo1().equals("")) {
 				String mensagensEstouro = "";
@@ -729,9 +754,9 @@ public class ImpressaoContaCosanpa {
 
 				if (mensagensEstouro != null){
 					if (mensagensEstouro.length() > 240){
-						mensagens = dividirLinha(7, 0, 35, 1300, mensagensEstouro.substring(0, 240), 60, 20);
+						mensagens = dividirLinha(7, 0, 35, 1815, mensagensEstouro.substring(0, 240), 60, 20);
 					}else{
-						mensagens = dividirLinha(7, 0, 35, 1300, mensagensEstouro, 60, 20);							
+						mensagens = dividirLinha(7, 0, 35, 1815, mensagensEstouro, 60, 20);							
 					}
 				}
 
@@ -752,9 +777,9 @@ public class ImpressaoContaCosanpa {
 
 				if (mensagensConta != null){
 					if (mensagensConta.length() > 240){
-						mensagens = dividirLinha(7, 0, 35, 1300, mensagensConta.substring(0, 240), 60, 20);
+						mensagens = dividirLinha(7, 0, 35, 1815, mensagensConta.substring(0, 240), 60, 20);
 					}else{
-						mensagens = dividirLinha(7, 0, 35, 1300, mensagensConta, 60, 20);							
+						mensagens = dividirLinha(7, 0, 35, 1815, mensagensConta, 60, 20);							
 					}
 				}
 		    }
@@ -773,12 +798,12 @@ public class ImpressaoContaCosanpa {
 					String representacaoNumericaCodBarraFormatada = representacaoNumericaCodBarra.substring(0, 11).trim() + "-" + representacaoNumericaCodBarra.substring(11, 12).trim() + " " + representacaoNumericaCodBarra.substring(12, 23).trim() + "-"
 						+ representacaoNumericaCodBarra.substring(23, 24).trim() + " " + representacaoNumericaCodBarra.substring(24, 35).trim() + "-" + representacaoNumericaCodBarra.substring(35, 36).trim() + " " + representacaoNumericaCodBarra.substring(36, 47).trim() + "-"
 						+ representacaoNumericaCodBarra.substring(47, 48);
-					repNumericaCodBarra += formarLinha(5, 0, 66, 1515, representacaoNumericaCodBarraFormatada, 0, 0);
+					repNumericaCodBarra += formarLinha(5, 0, 66, 2840, representacaoNumericaCodBarraFormatada, 0, 0);
 					String representacaoCodigoBarrasSemDigitoVerificador = representacaoNumericaCodBarra.substring(0, 11) + representacaoNumericaCodBarra.substring(12, 23) + representacaoNumericaCodBarra.substring(24, 35) + representacaoNumericaCodBarra.substring(36, 47);
-					repCodigoBarrasSemDigitoVerificador += "B I2OF5 1 2 90 35 1538 " + representacaoCodigoBarrasSemDigitoVerificador + "\n";
+					repCodigoBarrasSemDigitoVerificador += "B I2OF5 1 2 120 35 2863 " + representacaoCodigoBarrasSemDigitoVerificador + "\n";
 	
 		    } else {
-				repCodigoBarrasSemDigitoVerificador = formarLinha(4, 0, 182, 1538, "DEBITO AUTOMATICO", 0, 0);
+				repCodigoBarrasSemDigitoVerificador = formarLinha(4, 0, 182, 2863, "DEBITO AUTOMATICO", 0, 0);
 		    }
 		    
 		    grupoFaturamento = ""+imovel.getGrupoFaturamento();
@@ -885,10 +910,10 @@ public class ImpressaoContaCosanpa {
     public void getDadosAvisoDebito(Imovel imovel) {
 
 		if (imovel.getAnoMesConta().compareTo(Constantes.NULO_STRING) != 0){
-			descricaoAnoMesConta = "T 7 1 669 90 "+ Util.retornaDescricaoAnoMes(imovel.getAnoMesConta()) + "\n";
+			descricaoAnoMesConta = Util.retornaDescricaoAnoMes(imovel.getAnoMesConta()) + "\n";
 			
 		}else{
-			descricaoAnoMesConta = "T 7 1 669 90 "+ Util.retornaDescricaoAnoMes(ControladorRota.getInstancia().getDadosGerais().getAnoMesFaturamento()) + "\n";
+			descricaoAnoMesConta = Util.retornaDescricaoAnoMes(ControladorRota.getInstancia().getDadosGerais().getAnoMesFaturamento()) + "\n";
 		}
 		
     	List dc = imovel.getDadosCategoria();
@@ -899,14 +924,10 @@ public class ImpressaoContaCosanpa {
     	consumoAgua = imovel.getConsumoAgua();
         consumoEsgoto = imovel.getConsumoEsgoto();;
     	
-    	String cpfCnpjFormatado = "";
- 	    if (imovel.getCpfCnpjCliente() != null && !imovel.getCpfCnpjCliente().equals("")) {
- 	    	cpfCnpjFormatado = imovel.getCpfCnpjCliente().trim();
- 	    }
     	if (imovel.getEnderecoEntrega().trim().length() == 0){
-		    endereco = 	formarLinha(0, 2, 52, 172, imovel.getNomeUsuario().trim(), 0, 0) + formarLinha(0, 2, 52, 199, cpfCnpjFormatado, 0, 0) + dividirLinha(0, 2, 434, 169, imovel.getEndereco(), 40, 27);
+		    endereco = 	formarLinha(0, 2, 52, 172, imovel.getNomeUsuario().trim(), 0, 0) + formarLinha(0, 2, 52, 199, imovel.getCpfCnpjCliente(), 0, 0) + dividirLinha(0, 2, 434, 169, imovel.getEndereco(), 40, 27);
 	    }else{
-		    endereco =	formarLinha(0, 2, 52, 172, imovel.getNomeUsuario().trim(), 0, 0) + formarLinha(0, 2, 52, 199, cpfCnpjFormatado, 0, 0) + dividirLinha(0, 2, 434, 169, imovel.getEnderecoEntrega(), 40, 27);
+		    endereco =	formarLinha(0, 2, 52, 172, imovel.getNomeUsuario().trim(), 0, 0) + formarLinha(0, 2, 52, 199, imovel.getCpfCnpjCliente(), 0, 0) + dividirLinha(0, 2, 434, 169, imovel.getEnderecoEntrega(), 40, 27);
 	    }
 	    
 	    for (int i = 0; i < quantidadeEconomias.size(); i++) {
@@ -973,7 +994,7 @@ public class ImpressaoContaCosanpa {
 			qtdLinhas++;
 			if (linhas.equals("")) {
 			    // 2
-			    linhas += formarLinha(7, 0, 53, 710, "AGUA", 0, qtdLinhas * 25);
+			    linhas += formarLinha(7, 0, 200, 788, "AGUA", 0, qtdLinhas * 25);
 			    qtdLinhas++;
 			}
 			// 3.1
@@ -991,17 +1012,17 @@ public class ImpressaoContaCosanpa {
 			    descricao = dadosEconomiasSubcategorias.getDescricaoCategoria() + " " + quantidaEconomias + " " + "UNIDADE(S)";
 			    // 3.3.1.1, 3.3.1.2 e 3.3.2.2, 3.3.3
 			    if (descricao.length() > 40) {
-				linhas += formarLinha(7, 0, 63, 710, descricao.substring(0, 40), 0, qtdLinhas * 25);
+				linhas += formarLinha(7, 0, 53, 788, descricao.substring(0, 40), 0, qtdLinhas * 25);
 			    } else {
-				linhas += formarLinha(7, 0, 63, 710, descricao, 0, qtdLinhas * 25);
+				linhas += formarLinha(7, 0, 53, 788, descricao, 0, qtdLinhas * 25);
 			    }
 			} else {
 			    descricao = dadosEconomiasSubcategorias.getDescricaoAbreviadaSubcategoria() + " " + quantidaEconomias + " " + "UNIDADE(S)";
 			    // 3.3.2.1, 3.3.1.2 e 3.3.2.2, 3.3.3
 			    if (descricao.length() > 40) {
-				linhas += formarLinha(7, 0, 63, 710, descricao.substring(0, 40), 0, qtdLinhas * 25);
+				linhas += formarLinha(7, 0, 53, 788, descricao.substring(0, 40), 0, qtdLinhas * 25);
 			    } else {
-				linhas += formarLinha(7, 0, 63, 710, descricao, 0, qtdLinhas * 25);
+				linhas += formarLinha(7, 0, 53, 788, descricao, 0, qtdLinhas * 25);
 			    }
 			}
 			int consumoMinimo = 0;
@@ -1016,12 +1037,12 @@ public class ImpressaoContaCosanpa {
 			    descricao = "";
 			    // 3.4.2
 			    descricao = "TARIFA MINIMA " + Util.formatarDoubleParaMoedaReal(dadosEconomiasSubcategorias.getFaturamentoAgua().getValorTarifaMinima() / quantidaEconomias) + " POR UNIDADE ";
-			    linhas += formarLinha(7, 0, 63, 710, descricao, 0, qtdLinhas * 25);
+			    linhas += formarLinha(7, 0, 53, 788, descricao, 0, qtdLinhas * 25);
 			    descricao = consumoMinimo + " m3";
 			    // 3.4.3
-			    linhas += formarLinha(7, 0, 571, 710, descricao, 0, qtdLinhas * 25);
+			    linhas += formarLinha(7, 0, 571, 788, descricao, 0, qtdLinhas * 25);
 			    // 3.4.4
-			    linhas += formarLinha(7, 0, 697, 710, Util.formatarDoubleParaMoedaReal(dadosEconomiasSubcategorias.getFaturamentoAgua().getValorTarifaMinima()), 0, qtdLinhas * 25);
+			    linhas += formarLinha(7, 0, 697, 788, Util.formatarDoubleParaMoedaReal(dadosEconomiasSubcategorias.getFaturamentoAgua().getValorTarifaMinima()), 0, qtdLinhas * 25);
 			    // 3.5
 			} else {
 			    // 3.5.1
@@ -1033,11 +1054,11 @@ public class ImpressaoContaCosanpa {
 				// 3.5.1.1
 				    descricao = "ATE " + ((int) dadosEconomiasSubcategorias.getFaturamentoAgua().getConsumoMinimo() / quantidaEconomias) + " m3 - " + Util.formatarDoubleParaMoedaReal(dadosEconomiasSubcategorias.getFaturamentoAgua().getValorTarifaMinima() / quantidaEconomias)
 					    + " POR UNIDADE";
-				    linhas += formarLinha(7, 0, 73, 710, descricao, 0, qtdLinhas * 25);
+				    linhas += formarLinha(7, 0, 53, 788, descricao, 0, qtdLinhas * 25);
 				    // 3.5.1.2.3
-				    linhas += formarLinha(7, 0, 571, 710, dadosEconomiasSubcategorias.getFaturamentoAgua().getConsumoMinimo() + " m3", 0, qtdLinhas * 25);
+				    linhas += formarLinha(7, 0, 571, 788, dadosEconomiasSubcategorias.getFaturamentoAgua().getConsumoMinimo() + " m3", 0, qtdLinhas * 25);
 				    // 3.5.1.2.4
-				    linhas += formarLinha(7, 0, 697, 710, Util.formatarDoubleParaMoedaReal(dadosEconomiasSubcategorias.getFaturamentoAgua().getValorTarifaMinima()), 0, qtdLinhas * 25);
+				    linhas += formarLinha(7, 0, 697, 788, Util.formatarDoubleParaMoedaReal(dadosEconomiasSubcategorias.getFaturamentoAgua().getValorTarifaMinima()), 0, qtdLinhas * 25);
 				    // 3.5.1.2.5
 				    for (int j = 0; j < dadosEconomiasSubcategorias.getFaturamentoAgua().getFaixas().size(); j++) {
 					qtdLinhas++;
@@ -1049,12 +1070,12 @@ public class ImpressaoContaCosanpa {
 					    // 3.5.1.2.5.1.2.3, 3.5.1.2.5.1.2.4,
 					    // 3.5.1.2.5.1.2.5
 					    descricao = "ACIMA DE " + (faixa.getLimiteInicialConsumo() - 1) + " m3 - R$ " + Util.formatarDoubleParaMoedaReal(faixa.getValorTarifa()) + " POR m3";
-					    linhas += formarLinha(7, 0, 73, 710, descricao, 0, qtdLinhas * 25);
+					    linhas += formarLinha(7, 0, 53, 788, descricao, 0, qtdLinhas * 25);
 					    // 3.5.1.2.5.1.3.1
-					    linhas += formarLinha(7, 0, 571, 710, faixa.getConsumoFaturado() * quantidaEconomias + " m3 ", 0, qtdLinhas * 25);
+					    linhas += formarLinha(7, 0, 571, 788, faixa.getConsumoFaturado() * quantidaEconomias + " m3 ", 0, qtdLinhas * 25);
 					    // 3.5.1.2.5.1.3.2
 					    // 3.5.1.2.5.1.4
-					    linhas += formarLinha(7, 0, 697, 710, Util.formatarDoubleParaMoedaReal(faixa.getValorFaturado() * quantidaEconomias), 0, qtdLinhas * 25);
+					    linhas += formarLinha(7, 0, 697, 788, Util.formatarDoubleParaMoedaReal(faixa.getValorFaturado() * quantidaEconomias), 0, qtdLinhas * 25);
 					    // 3.5.1.2.5.2
 					} else {
 					    // 3.5.1.2.5.2.2.1, 3.5.1.2.5.2.2.2,
@@ -1062,11 +1083,11 @@ public class ImpressaoContaCosanpa {
 					    // 3.5.1.2.5.2.2.5, 3.5.1.2.5.2.2.6
 					    descricao = faixa.getLimiteInicialConsumo() + " m3 A " + faixa.getLimiteFinalConsumo() + " m3 - R$ " + Util.formatarDoubleParaMoedaReal(faixa.getValorTarifa()) + " POR M3 ";
 					    // 3.5.1.2.5.2.3.1
-					    linhas += formarLinha(7, 0, 73, 710, descricao, 0, qtdLinhas * 25);
+					    linhas += formarLinha(7, 0, 53, 788, descricao, 0, qtdLinhas * 25);
 					    // 3.5.1.2.5.1.3.2
-					    linhas += formarLinha(7, 0, 571, 710, faixa.getConsumoFaturado() * quantidaEconomias + " m3 ", 0, qtdLinhas * 25);
+					    linhas += formarLinha(7, 0, 571, 788, faixa.getConsumoFaturado() * quantidaEconomias + " m3 ", 0, qtdLinhas * 25);
 					    // 3.5.1.2.5.1.4.1
-					    linhas += formarLinha(7, 0, 697, 710, Util.formatarDoubleParaMoedaReal(faixa.getValorFaturado() * quantidaEconomias), 0, qtdLinhas * 25);
+					    linhas += formarLinha(7, 0, 697, 788, Util.formatarDoubleParaMoedaReal(faixa.getValorFaturado() * quantidaEconomias), 0, qtdLinhas * 25);
 					}
 				    }
 	//			}
@@ -1075,10 +1096,10 @@ public class ImpressaoContaCosanpa {
 				    qtdLinhas++;
 				    descricao = "CONSUMO DE AGUA";
 				    // 3.5.1.1.2.1
-				    linhas += formarLinha(7, 0, 73, 710, descricao, 0, qtdLinhas * 25);
-				    linhas += formarLinha(7, 0, 571, 710, ((int) dadosEconomiasSubcategorias.getFaturamentoAgua().getConsumoFaturado()) + " m3", 0, qtdLinhas * 25);
+				    linhas += formarLinha(7, 0, 53, 788, descricao, 0, qtdLinhas * 25);
+				    linhas += formarLinha(7, 0, 571, 788, ((int) dadosEconomiasSubcategorias.getFaturamentoAgua().getConsumoFaturado()) + " m3", 0, qtdLinhas * 25);
 				    // 3.5.1.1.2.2
-				    linhas += formarLinha(7, 0, 697, 710, Util.formatarDoubleParaMoedaReal(dadosEconomiasSubcategorias.getFaturamentoAgua().getValorFaturado()), 0, qtdLinhas * 25);
+				    linhas += formarLinha(7, 0, 697, 788, Util.formatarDoubleParaMoedaReal(dadosEconomiasSubcategorias.getFaturamentoAgua().getValorFaturado()), 0, qtdLinhas * 25);
 				}
 			    }
 			}
@@ -1496,15 +1517,15 @@ public class ImpressaoContaCosanpa {
        	double valorImposto = valorConta - (valorConta - (valorConta * aliquotaImposto/100));
 			
 		// Linha do cabecalho
-		linha += formarLinha(0, 2, 30, 1140, "Tributos", coluna, 0);
-		linha += formarLinha(0, 2, 200, 1140, "(%)", coluna, 0);
-		linha += formarLinha(0, 2, 260, 1140, "Base calculo", coluna, 0);
-		linha += formarLinha(0, 2, 380, 1140, "Valor (R$)", coluna, 0);
+		linha += formarLinha(0, 2, 140, 1100, "Tributos", coluna, 0);
+		linha += formarLinha(0, 2, 340, 1100, "(%)", coluna, 0);
+		linha += formarLinha(0, 2, 400, 1100, "Base calculo", coluna, 0);
+		linha += formarLinha(0, 2, 520, 1100, "Valor (R$)", coluna, 0);
 		// Linha dos valores
-		linha += formarLinha(0, 2, 30, 1165, descricaoImposto, coluna, 0);
-		linha += formarLinha(0, 2, 200, 1165, String.valueOf(aliquotaImposto).replace('.', ','), coluna, 0);
-		linha += formarLinha(0, 2, 260, 1165, String.format("R$%.2f", valorConta), coluna, 0); // Valor conta
-		linha += formarLinha(0, 2, 380, 1165, String.format("R$%.2f", valorImposto), coluna, 0); // Valor imposto
+		linha += formarLinha(0, 2, 140, 1125, descricaoImposto, coluna, 0);
+		linha += formarLinha(0, 2, 340, 1125, String.valueOf(aliquotaImposto).replace('.', ','), coluna, 0);
+		linha += formarLinha(0, 2, 400, 1125, String.format("R$%.2f", valorConta), coluna, 0); // Valor conta
+		linha += formarLinha(0, 2, 520, 1125, String.format("R$%.2f", valorImposto), coluna, 0); // Valor imposto
 		
 		if(ControladorRota.getInstancia().getDadosGerais().getValorAliquotaAgReguladora().doubleValue() != Constantes.NULO_DOUBLE) {
 			
@@ -1514,10 +1535,10 @@ public class ImpressaoContaCosanpa {
 				double valorImpostoAgReguladora = valorConta - (valorConta - (valorConta * aliquotaImpostoAgReguladora/100));
 				
 				// Linha dos valores da Agencia Reguladora
-				linha += formarLinha(0, 2, 30, 1190, descricaoImpostoAgReguladora, coluna, 0);
-				linha += formarLinha(0, 2, 200, 1190, String.valueOf(aliquotaImpostoAgReguladora).replace('.', ','), coluna, 0);
-			    linha += formarLinha(0, 2, 260, 1190, String.format("R$%.2f", valorConta), coluna, 0); // Valor conta Agencia Reguladora
-			    linha += formarLinha(0, 2, 380, 1190, String.format("R$%.2f", valorImpostoAgReguladora), coluna, 0); // Valor imposto Agencia Reguladora
+				linha += formarLinha(0, 2, 140, 1145, descricaoImpostoAgReguladora, coluna, 0);
+				linha += formarLinha(0, 2, 340, 1145, String.valueOf(aliquotaImpostoAgReguladora).replace('.', ','), coluna, 0);
+			    linha += formarLinha(0, 2, 400, 1145, String.format("R$%.2f", valorConta), coluna, 0); // Valor conta Agencia Reguladora
+			    linha += formarLinha(0, 2, 520, 1145, String.format("R$%.2f", valorImpostoAgReguladora), coluna, 0); // Valor imposto Agencia Reguladora
 		}
 		
 		
@@ -1525,9 +1546,9 @@ public class ImpressaoContaCosanpa {
     }
 
     public String gerarLinhaTelefoneAgenciaReguladora() {
-    	String linha = formarLinha(0, 2, 450, 31, String.format("Ag. reguladora (%s)", Constantes.nomeAgenciaReguladora), 0, 0);
-    	linha += formarLinha(0, 2, 450, 51, String.format("Telefone: %s", Constantes.numeroAgenciaReguladora), 0, 0);
-    	linha += formarLinha(0, 2, 450, 66, String.format("Email: %s", Constantes.emailAgenciaReguladora), 0, 0);    	
+    	String linha = formarLinha(0, 2, 243, 100, String.format("Ag. reguladora (%s)", Constantes.nomeAgenciaReguladora), 0, 0);
+    	linha += formarLinha(0, 2, 243, 120, String.format("Telefone: %s", Constantes.numeroAgenciaReguladora), 0, 0);
+    	linha += formarLinha(0, 2, 243, 140, String.format("Email: %s", Constantes.emailAgenciaReguladora), 0, 0);    	
     	
     	return linha;
     }

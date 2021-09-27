@@ -241,7 +241,7 @@ public class ListaRotas extends ListActivity {
 			return selectedPos;
 		}
 
-		@SuppressLint({"ViewHolder", "InflateParams", "ResourceAsColor"})
+		@SuppressLint({ "ViewHolder", "InflateParams" })
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = context.getLayoutInflater();
