@@ -4,7 +4,8 @@ import util.Util;
 
 public class Credito {
 
-    public final static String DESCRICAO_CERDITO_NITRATO = "DEDUCAO JUDICIAL";
+	public final static String DESCRICAO_CERDITO_NITRATO = "DEDUCAO JUDICIAL";
+	public final static String CRED_BOLSA_AGUA = "871";
 
 	private int id;
 	private int matricula;

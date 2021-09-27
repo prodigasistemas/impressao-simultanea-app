@@ -23,7 +23,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:18.+'
-    compile 'com.google.code.gson:gson:2.2.4'
-    compile files('libs/ZSDK_API.jar')
+    implementation 'com.android.support:support-v4:18.+'
+    implementation 'com.google.code.gson:gson:2.2.4'
+    implementation files('libs/ZSDK_API.jar')
 }

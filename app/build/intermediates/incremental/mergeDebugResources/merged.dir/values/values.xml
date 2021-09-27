@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="consulta">
+	    <item>Matrícula</item>
+	    <item>Nº do Hidrômetro</item>
+	    <item>Sequencial Rota</item>
+	    <item>Sequencial</item>
+	    <item>Quadra</item>
+	</string-array>
+    <string-array name="filtro">
+        <item>Todos</item>
+        <item>Concluídos com Sucesso</item>
+        <item>Concluídos com Anormalidade</item>
+        <item>Pendentes</item>
+        <item>Retidos</item>
+        <item>Transmitidos</item>
+        <item>Não Transmitidos</item>
+	</string-array>
+    <color name="adicionalColor">#FFF4A1</color>
+    <color name="colorBege1">#FFBB59</color>
+    <color name="colorbege2">#E09639</color>
+    <color name="labelColor">#024659</color>
+    <color name="myColor">#45A1C0</color>
+    <color name="textColor">#FFFFFF</color>
+    <color name="textColorYellowBackground">#001A5C</color>
+    <color name="textValueColor">#be7a0e</color>
+    <color name="transparent">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <string name="app_name">ImpressaoSimultanea</string>
+    <string name="app_versao">1.7.8</string>
+    <string name="auth_problem">Dados Incorretos</string>
+    <string name="menu_arquivo_completo">Arquivo Completo</string>
+    <string name="menu_cadastros">Lista de Imóveis</string>
+    <string name="menu_cadastros_concluidos">Enviar Concluídos </string>
+    <string name="menu_consulta">Consultar Imóvel</string>
+    <string name="menu_finalizar">Finalizar Roteiro</string>
+    <string name="menu_impresssao_fixos">Imprimir Não-Hidrometrados</string>
+    <string name="menu_info">Informações do Roteiro</string>
+    <string name="menu_novo_roteiro">Limpar Tudo</string>
+    <string name="menu_relatorio">Relatórios</string>
+    <string name="menu_selecionar_impressora">Selecionar Impressora</string>
+    <string name="options_anterior">Imovel Anterior</string>
+    <string name="options_calcular_consumo">Calcular</string>
+    <string name="options_imprimir">Imprimir</string>
+    <string name="options_imprimir_condominio">Imprimir Condomínio</string>
+    <string name="options_lista_cadastro">Lista de Imóveis</string>
+    <string name="options_localizar_pendente">Localizar Pendente</string>
+    <string name="options_menu_principal">Menu Principal</string>
+    <string name="options_proximo">Próximo Imóvel</string>
+    <string name="password">Senha</string>
+    <string name="user">Usuário</string>
+</resources>

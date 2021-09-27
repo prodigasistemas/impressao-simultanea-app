@@ -5,203 +5,204 @@
 5    android:versionName="@string/app_versao" >
 6
 7    <uses-sdk
-7-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:7:5-71
+7-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:7:5-71
 8        android:minSdkVersion="5"
-8-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:7:15-40
+8-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:7:15-40
 9        android:targetSdkVersion="5" />
-9-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:7:41-69
+9-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:7:41-69
 10
 11    <uses-permission android:name="android.permission.ACCESS_GPS" />
-11-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:8:2-66
-11-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:8:19-63
+11-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:8:2-66
+11-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:8:19-63
 12    <uses-permission android:name="android.permission.ACCESS_LOCATION" />
-12-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:9:2-71
-12-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:9:19-68
+12-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:9:2-71
+12-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:9:19-68
 13    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-13-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:10:2-78
-13-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:10:19-75
+13-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:10:2-78
+13-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:10:19-75
 14    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-14-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:11:2-76
-14-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:11:19-73
+14-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:11:2-76
+14-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:11:19-73
 15    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-15-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:12:2-76
-15-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:12:19-73
+15-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:12:2-76
+15-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:12:19-73
 16    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-16-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:13:5-80
-16-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:13:22-78
+16-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:13:5-80
+16-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:13:22-78
 17    <uses-permission android:name="android.permission.INTERNET" />
-17-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:14:2-63
-17-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:14:19-61
+17-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:14:2-63
+17-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:14:19-61
 18    <uses-permission android:name="android.permission.BLUETOOTH" />
-18-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:15:2-64
-18-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:15:19-62
+18-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:15:2-64
+18-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:15:19-62
 19    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-19-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:16:2-70
-19-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:16:19-68
+19-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:16:2-70
+19-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:16:19-68
 20    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-20-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:17:2-71
-20-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:17:19-69
+20-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:17:2-71
+20-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:17:19-69
 21    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
-21-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:18:2-73
-21-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:18:19-71
+21-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:18:2-73
+21-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:18:19-71
 22    <uses-permission android:name="android.permission.DEVICE_POWER" />
-22-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:19:2-67
-22-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:19:19-65
+22-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:19:2-67
+22-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:19:19-65
 23
 24    <application
-24-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:21:2-71:19
+24-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:21:2-71:19
 25        android:allowTaskReparenting="true"
-25-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:21:78-113
+25-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:21:78-113
 26        android:debuggable="true"
 27        android:icon="@drawable/gsan"
-27-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:21:15-44
-28        android:label="@string/app_name" >
-28-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:21:45-77
-29        <activity
-29-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:22:9-27:20
-30            android:name="com.IS.Fachada"
-30-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:22:19-42
-31            android:theme="@android:style/Theme.NoTitleBar" >
-31-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:22:43-90
-32            <intent-filter>
-32-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:23:13-26:29
-33                <action android:name="android.intent.action.MAIN" />
-33-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:24:17-69
-33-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:24:25-66
-34
-35                <category android:name="android.intent.category.LAUNCHER" />
-35-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:25:17-77
-35-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:25:27-74
-36            </intent-filter>
-37        </activity>
-38        <activity
-38-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:29:9-30:20
-39            android:name="views.MainTab"
-39-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:29:19-47
-40            android:configChanges="orientation"
-40-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:29:80-115
-41            android:launchMode="singleTask"
-41-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:29:48-79
-42            android:theme="@android:style/Theme.NoTitleBar" >
-42-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:29:116-163
-43        </activity>
-44        <activity
-44-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:32:9-33:20
-45            android:name="com.IS.ListaRotas"
-45-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:32:19-45
-46            configChanges="orientation|keyboardHidden"
-46-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:32:83-125
-47            android:screenOrientation="portrait"
-47-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:32:46-82
-48            android:theme="@android:style/Theme.NoTitleBar" >
-48-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:32:126-173
-49        </activity>
-50        <activity
-50-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:35:9-36:20
-51            android:name="com.IS.ListaImoveis"
-51-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:35:19-47
-52            android:launchMode="singleTask"
-52-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:35:48-79
-53            android:theme="@android:style/Theme.NoTitleBar" >
-53-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:35:80-127
-54        </activity>
-55        <activity
-55-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:38:6-39:20
-56            android:name="com.IS.MenuPrincipal"
-56-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:38:16-45
-57            configChanges="orientation|keyboardHidden"
-57-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:38:115-157
-58            android:launchMode="singleTask"
-58-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:38:46-77
-59            android:screenOrientation="portrait"
-59-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:38:78-114
-60            android:theme="@android:style/Theme.NoTitleBar" >
-60-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:38:158-205
-61        </activity>
-62        <activity
-62-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:41:3-42:20
-63            android:name="com.IS.TelaInformacoes"
-63-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:41:13-44
-64            android:launchMode="singleTask"
-64-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:41:82-113
-65            android:screenOrientation="portrait"
-65-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:41:45-81
-66            android:theme="@android:style/Theme.NoTitleBar" >
-66-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:41:114-161
-67        </activity>
-68        <activity
-68-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:44:3-45:20
-69            android:name="com.IS.TelaRelatorio"
-69-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:44:13-41
-70            android:launchMode="singleTask"
-70-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:44:42-73
-71            android:theme="@android:style/Theme.NoTitleBar" >
-71-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:44:74-121
-72        </activity>
-73        <activity
-73-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:47:3-48:20
-74            android:name="com.IS.Consulta"
-74-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:47:13-36
-75            android:launchMode="singleTask"
-75-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:47:37-68
-76            android:theme="@android:style/Theme.NoTitleBar" >
-76-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:47:69-116
-77        </activity>
-78        <activity
-78-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:50:3-51:14
-79            android:name="views.ImovelTab"
-79-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:50:13-43
-80            android:theme="@android:style/Theme.NoTitleBar" >
-80-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:50:44-91
-81>
-82        </activity>
-83        <activity
-83-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:53:3-54:20
-84            android:name="views.ContaTab"
-84-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:53:13-42
-85            android:theme="@android:style/Theme.NoTitleBar" >
-85-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:53:43-90
-86        </activity>
-87        <activity
-87-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:56:9-57:20
-88            android:name="views.MedidorAguaTab"
-88-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:56:19-54
-89            android:theme="@android:style/Theme.NoTitleBar" >
-89-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:56:55-102
-90        </activity>
-91        <activity
-91-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:59:9-60:20
-92            android:name="views.MedidorPocoTab"
-92-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:59:19-54
-93            android:theme="@android:style/Theme.NoTitleBar" >
-93-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:59:55-102
-94        </activity>
-95
-96        <receiver
-96-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:62:9-70:17
-97            android:name="util.PhoneListener"
-97-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:62:19-52
-98            android:enabled="true" >
-98-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:62:53-75
-99            <intent-filter>
-99-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:63:10-69:26
-100                <action android:name="android.intent.action.PHONE_STATE" />
-100-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:64:14-73
-100-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:64:22-70
-101                <action android:name="android.intent.action.SCREEN_OFF" />
-101-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:65:14-72
-101-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:65:22-69
-102                <action android:name="android.media.SCO_AUDIO_STATE_CHANGED" />
-102-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:66:14-77
-102-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:66:22-74
-103                <action android:name="android.intent.action.AIRPLANE_MODE" />
-103-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:67:14-75
-103-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:67:22-72
-104                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
-104-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:68:14-77
-104-->C:\Users\User\StudioProjects\impressao-simultanea-android2\app\src\main\AndroidManifest.xml:68:22-74
-105            </intent-filter>
-106        </receiver>
-107    </application>
-108
-109</manifest>
+27-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:21:15-44
+28        android:label="@string/app_name"
+28-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:21:45-77
+29        android:testOnly="true" >
+30        <activity
+30-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:22:9-27:20
+31            android:name="com.IS.Fachada"
+31-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:22:19-42
+32            android:theme="@android:style/Theme.NoTitleBar" >
+32-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:22:43-90
+33            <intent-filter>
+33-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:23:13-26:29
+34                <action android:name="android.intent.action.MAIN" />
+34-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:24:17-69
+34-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:24:25-66
+35
+36                <category android:name="android.intent.category.LAUNCHER" />
+36-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:25:17-77
+36-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:25:27-74
+37            </intent-filter>
+38        </activity>
+39        <activity
+39-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:29:9-30:20
+40            android:name="views.MainTab"
+40-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:29:19-47
+41            android:configChanges="orientation"
+41-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:29:80-115
+42            android:launchMode="singleTask"
+42-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:29:48-79
+43            android:theme="@android:style/Theme.DeviceDefault.Light" >
+43-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:29:116-172
+44        </activity>
+45        <activity
+45-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:32:9-33:20
+46            android:name="com.IS.ListaRotas"
+46-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:32:19-45
+47            configChanges="orientation|keyboardHidden"
+47-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:32:83-125
+48            android:screenOrientation="portrait"
+48-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:32:46-82
+49            android:theme="@android:style/Theme.DeviceDefault.Light" >
+49-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:32:126-182
+50        </activity>
+51        <activity
+51-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:35:9-36:20
+52            android:name="com.IS.ListaImoveis"
+52-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:35:19-47
+53            android:launchMode="singleTask"
+53-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:35:48-79
+54            android:theme="@android:style/Theme.NoTitleBar" >
+54-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:35:80-127
+55        </activity>
+56        <activity
+56-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:38:6-39:20
+57            android:name="com.IS.MenuPrincipal"
+57-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:38:16-45
+58            configChanges="orientation|keyboardHidden"
+58-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:38:115-157
+59            android:launchMode="singleTask"
+59-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:38:46-77
+60            android:screenOrientation="portrait"
+60-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:38:78-114
+61            android:theme="@android:style/Theme.DeviceDefault.Light" >
+61-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:38:158-214
+62        </activity>
+63        <activity
+63-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:41:3-42:20
+64            android:name="com.IS.TelaInformacoes"
+64-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:41:13-44
+65            android:launchMode="singleTask"
+65-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:41:82-113
+66            android:screenOrientation="portrait"
+66-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:41:45-81
+67            android:theme="@android:style/Theme.NoTitleBar" >
+67-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:41:114-161
+68        </activity>
+69        <activity
+69-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:44:3-45:20
+70            android:name="com.IS.TelaRelatorio"
+70-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:44:13-41
+71            android:launchMode="singleTask"
+71-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:44:42-73
+72            android:theme="@android:style/Theme.NoTitleBar" >
+72-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:44:74-121
+73        </activity>
+74        <activity
+74-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:47:3-48:20
+75            android:name="com.IS.Consulta"
+75-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:47:13-36
+76            android:launchMode="singleTask"
+76-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:47:37-68
+77            android:theme="@android:style/Theme.NoTitleBar" >
+77-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:47:69-116
+78        </activity>
+79        <activity
+79-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:50:3-51:14
+80            android:name="views.ImovelTab"
+80-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:50:13-43
+81            android:theme="@android:style/Theme.NoTitleBar" >
+81-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:50:44-91
+82>
+83        </activity>
+84        <activity
+84-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:53:3-54:20
+85            android:name="views.ContaTab"
+85-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:53:13-42
+86            android:theme="@android:style/Theme.NoTitleBar" >
+86-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:53:43-90
+87        </activity>
+88        <activity
+88-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:56:9-57:20
+89            android:name="views.MedidorAguaTab"
+89-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:56:19-54
+90            android:theme="@android:style/Theme.NoTitleBar" >
+90-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:56:55-102
+91        </activity>
+92        <activity
+92-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:59:9-60:20
+93            android:name="views.MedidorPocoTab"
+93-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:59:19-54
+94            android:theme="@android:style/Theme.NoTitleBar" >
+94-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:59:55-102
+95        </activity>
+96
+97        <receiver
+97-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:62:9-70:17
+98            android:name="util.PhoneListener"
+98-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:62:19-52
+99            android:enabled="true" >
+99-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:62:53-75
+100            <intent-filter>
+100-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:63:10-69:26
+101                <action android:name="android.intent.action.PHONE_STATE" />
+101-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:64:14-73
+101-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:64:22-70
+102                <action android:name="android.intent.action.SCREEN_OFF" />
+102-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:65:14-72
+102-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:65:22-69
+103                <action android:name="android.media.SCO_AUDIO_STATE_CHANGED" />
+103-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:66:14-77
+103-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:66:22-74
+104                <action android:name="android.intent.action.AIRPLANE_MODE" />
+104-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:67:14-75
+104-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:67:22-72
+105                <action android:name="android.intent.action.ACTION_SHUTDOWN" />
+105-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:68:14-77
+105-->/home/guilherme/impressao-simultanea-android/app/src/main/AndroidManifest.xml:68:22-74
+106            </intent-filter>
+107        </receiver>
+108    </application>
+109
+110</manifest>

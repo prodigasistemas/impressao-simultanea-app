@@ -1,4 +1,4 @@
-#Fri Jun 11 10:56:07 BRT 2021
-base.0=C\:\\Users\\User\\StudioProjects\\impressao-simultanea-android2\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
+#Mon Sep 27 16:49:34 BRT 2021
+base.0=/home/guilherme/impressao-simultanea-android/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex

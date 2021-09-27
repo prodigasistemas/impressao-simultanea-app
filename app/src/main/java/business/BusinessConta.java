@@ -424,7 +424,8 @@ public class BusinessConta {
 		boolean emiteConta = true; 
 		boolean reterConta = false; 
 		boolean permiteImpressao = true;
-		
+
+		int imovelPerfil =  Integer.parseInt(getImovelSelecionado().getCodigoPerfil());
 		double valorConta = getImovelSelecionado().getValorConta();			
 		valorAcimaDoMinimo = getImovelSelecionado().isValorContaAcimaDoMinimo();
 		valorContaMaiorPermitido = getImovelSelecionado().isValorContaMaiorPermitido();
@@ -450,8 +451,12 @@ public class BusinessConta {
 				reterConta = true;
 			}
 		}
-		
-		if (!leituraInvalida && !emiteConta) {
+
+		if(Imovel.PERFIL_BOLSA_AGUA == imovelPerfil){
+
+			permiteImpressao = true;
+
+		} else if (!leituraInvalida && !emiteConta) {
 
 			mensagemPermiteImpressao = "Conta do imóvel nao pode ser emitida.";
 			permiteImpressao = false;

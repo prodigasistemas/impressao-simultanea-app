@@ -692,7 +692,7 @@ public class MenuPrincipal extends ActivityLog {
 
 		return null;
 	}
- 
+
     public class ImageAdapter extends BaseAdapter {
         private Context context;
 		public static final int ACTIVITY_CREATE = 10;

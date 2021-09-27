@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\User\\StudioProjects\\impressao-simultanea-android2\\app\\build\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
+            "outputFile": "/home/guilherme/impressao-simultanea-android/app/build/intermediates/res/merged/debug/values_values.arsc.flat",
             "map": [
                 {
-                    "source": "C:\\Users\\User\\StudioProjects\\impressao-simultanea-android2\\app\\src\\main\\res\\values\\strings.xml",
+                    "source": "/home/guilherme/impressao-simultanea-android/app/src/main/res/values/strings.xml",
                     "from": {
                         "startLines": "30,38,6,8,9,11,3,5,4,12,7,10,15,14,18,26,19,23,21,24,28,20,25,22,27,55,50,48,49,53,51,52,54,17,16",
                         "startColumns": "4,1,1,1,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,1,1,1,1,4,1,4,1,4,4",

@@ -16,6 +16,7 @@ import util.Util;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.TabActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
@@ -131,6 +132,8 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 		}
 
 		tabHost.setCurrentTab(tabHost.getChildCount());
+
+
 
 	}
 
@@ -264,7 +267,8 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 			// Verifica se a data atual é anterior ao mes de referencia da rota em andamento.
 			if (Util.compararData(getImovelSelecionado().getDataLeituraAnteriorNaoMedido(), MedidorAguaTab.getCurrentDateByGPS()) > 0) {
 				showMessage("Data do celular está errada. Por favor, verifique a configuração do celular e tente novamente.");
-
+	//		} else if(getImovelSelecionado().getEnviarContaFisica() == Constantes.NAO) {
+			//	showMessage("Imovel indisponivel para conta fisica.");
 			} else {
 				calculoEImpressao();
 			}
@@ -278,9 +282,12 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 			return true;
 
 		case R.id.imprimirContasCondominio:
-			imprimirCondominio();
-			LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Imprimir Contas de Condominio");
-
+		// if(getImovelSelecionado().getEnviarContaFisica() == Constantes.NAO) {
+			 //	showMessage("Imovel indisponivel para conta fisica.");
+		// } else {
+			 imprimirCondominio();
+			 LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Imprimir Contas de Condominio");
+		// }
 			return true;
 
 		case R.id.localizarPendente:
@@ -522,7 +529,7 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 	}
 
 	private void imprimirContasCondominio(EfetuarRateioConsumoHelper helper, int idImovelinicial, int idImovelFinal) {
-
+		if(getImovelSelecionado().getEnviarContaFisica() == Constantes.SIM){
 		List<Imovel> imoveis = new ArrayList<Imovel>();
 
 		// Para cada imóvel MICRO ligado ou cortado de água:
@@ -570,6 +577,9 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 			}
 		}
 		imprimirContaCondominial(idImovelinicial, idImovelFinal, imoveis);
+		} else {
+			showMessage("Imovel indisponivel para impressão.");
+		}
 	}
 
 	public void mensagemImpressaoParcialCondominioOk(String mensagem, final int idImovelinicial, final int idImovelFinal) {
@@ -1278,4 +1288,6 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 		String msg = "Saiu de " + this.getClass().getName();
 		LogUtil.salvarLog("FLUXO DE JANELA", msg);
 	}
+
+
 }

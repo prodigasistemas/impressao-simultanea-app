@@ -2,14 +2,21 @@ package views;
 
 import java.util.ArrayList;
 
+import business.ControladorRota;
+import dataBase.DataManipulator;
 import model.DadosCategoria;
+
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +24,7 @@ import business.ControladorImovel;
 
 import com.IS.FragmentLog;
 import com.IS.R;
+
 
 public class ImovelTab extends FragmentLog {
 
@@ -34,6 +42,8 @@ public class ImovelTab extends FragmentLog {
 	private TextView imovelInformativo;
 	private ImageView imovelInformativoImage;
 	private LinearLayout imovelInformativoLayout;
+
+
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -43,6 +53,8 @@ public class ImovelTab extends FragmentLog {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+
 		
 		if (container == null) {
 			return null;
@@ -91,6 +103,9 @@ public class ImovelTab extends FragmentLog {
 		imovelInformativo = (TextView) view.findViewById(R.id.imovelInformativo);
 		imovelInformativoImage = (ImageView) view.findViewById(R.id.imovelInformativoImage);
 		imovelInformativoLayout = (LinearLayout) view.findViewById(R.id.imovelInformativoLayout);
+
+
+
 		
 		nomeUsuario.setText(ControladorImovel.getInstancia().getImovelSelecionado().getNomeUsuario());
 		matricula.setText(""+ControladorImovel.getInstancia().getImovelSelecionado().getMatricula());

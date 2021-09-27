@@ -505,7 +505,9 @@ public class DataManipulator {
 																		"indc_imovel_impresso",
 																		"indc_geracao",
 																		"latitude",
-																		"longitude"}, condition, null, null, null,  "id asc");
+																		"longitude",
+				                                                      //  "enviar_conta_fisica"
+		}, condition, null, null, null,  "id asc");
 		Imovel imovel = null;
 		
 		if (cursor.moveToFirst()) {
@@ -596,6 +598,7 @@ public class DataManipulator {
           	imovel.setIndcGeracaoConta(Integer.parseInt(cursor.getString(81)));
           	imovel.setLatitude(Double.valueOf(cursor.getString(82)));
           	imovel.setLongitude(Double.valueOf(cursor.getString(83)));
+	//		imovel.setEnviarContaFisica(Integer.parseInt(cursor.getString(84)));
 		}
 		
 		fecharCursor(cursor);
@@ -603,7 +606,7 @@ public class DataManipulator {
 		if(selectDependencias){
 			selectDependenciasImovel(imovel);
 		}
-		 
+
 		return imovel;
 	}
 	
@@ -1809,6 +1812,9 @@ public class DataManipulator {
 		} else {
 			initialValues.put("imovel_status", String.valueOf(Constantes.IMOVEL_STATUS_PENDENTE));
 		}
+		// fazer o parse da nova posição da linha
+		// adicionar curso nos metodos que retorna imovel
+	    // initialValues.put("enviar_conta_fisica", parser.obterDadoParser(1));
 
 		db.insert(Constantes.TABLE_IMOVEL, null, initialValues);
 		

@@ -1,5 +1,7 @@
 package model;
 
+import static model.Credito.CRED_BOLSA_AGUA;
+
 import helper.EfetuarRateioConsumoHelper;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import business.ControladorRota;
 
 public class Imovel {
 
+
 	private static String logType = "";
 
 	public static final String CODIGO_BONUS_SOCIAL = "11";
@@ -29,6 +32,7 @@ public class Imovel {
 	public static final int PERFIL_GOVERNO_INTERIOR = 8;
 	public static final int PERFIL_CONDOMINIAL = 9;
 	public static final int PERFIL_COLABORADOR = 10;
+	public static final int PERFIL_BOLSA_AGUA = 11;
 
 	// Situação da ligação de Água
 	public final static int POTENCIAL = 1;
@@ -114,6 +118,7 @@ public class Imovel {
 	private double percentualAlternativoEsgoto;
 	private int consumoPercentualAlternativoEsgoto;
 	private Date dataEmissaoDocumento;
+	private int enviarContaFisica;
 
 	// ================= Estao no banco, mas nao estao na rota (.txt)
 	// ===================
@@ -224,6 +229,14 @@ public class Imovel {
 
 	public int getConsumoRateioEsgoto() {
 		return consumoRateioEsgoto;
+	}
+
+	public int getEnviarContaFisica() {
+		return enviarContaFisica;
+	}
+
+	public void setEnviarContaFisica(int enviarContaFisica) {
+		this.enviarContaFisica = enviarContaFisica;
 	}
 
 	public void setConsumoRateioEsgoto(int consumoRateioEsgoto) {
@@ -1252,7 +1265,7 @@ public class Imovel {
 	public List<HistoricoConsumo> getHistoricosConsumo() {
 		return historicoConsumo;
 	}
-	
+
 	public List<Debito> getDebitos(int indcUso, int indicadorIncluirCalculoImposto) {
 
 		if (debitos != null) {
@@ -1284,7 +1297,7 @@ public class Imovel {
 
 		return Util.arredondar(soma, 2);
 	}
-	
+
 	public double getValorContaSemImpostoSemParcelamento() {
 
 		double valorContaSem = (this.getValorAgua() + this.getValorEsgoto() + this.getValorDebitosParaImposto() + this.getValorRateioAgua() + this.getValorRateioEsgoto());
@@ -1294,7 +1307,7 @@ public class Imovel {
 		}
 		return Util.arredondar(valorContaSem, 2);
 	}
-	
+
 	public double getValorContaSemParcelamentoDebito() {
 
 		double valorConta = this.getValorContaSemImpostoSemParcelamento() - this.getValores();
@@ -1472,15 +1485,15 @@ public class Imovel {
 			for (int i = 0; i < this.getCreditos(Constantes.SIM).size(); i++) {
 
 				/**
-		         * Foi excluida condicao de maximo consumo para bonus social
-		         */
+				 * Foi excluida condicao de maximo consumo para bonus social
+				 */
 //				if (((Credito) (this.getCreditos(Constantes.SIM).get(i))).getCodigo().equalsIgnoreCase(CODIGO_BONUS_SOCIAL)
 //						&& Integer.parseInt(this.getCodigoPerfil()) == PERFIL_BONUS_SOCIAL && this.getConsumoAgua() != null && this.getConsumoAgua().getConsumoCobradoMes() > 10) {
 //
 //					System.out.println("CREDITO DE BONUS SOCIAL DESCARTADO!");
 //
 //				} else {
-					soma += ((Credito) (this.getCreditos().get(i))).getValor();
+				soma += ((Credito) (this.getCreditos().get(i))).getValor();
 //				}
 			}
 		}
@@ -1492,6 +1505,29 @@ public class Imovel {
 		return Util.arredondar(soma, 2);
 	}
 
+	public double getValorCreditosSemBolsaAgua() {
+
+		double soma = 0d;
+		// Tratamento de Bônus Social
+		if (this.getCreditos(Constantes.SIM) != null) {
+
+			for (int i = 0; i < this.getCreditos(Constantes.SIM).size(); i++) {
+
+				if (!((Credito) (this.getCreditos(Constantes.SIM).get(i))).getCodigo().equalsIgnoreCase(CRED_BOLSA_AGUA)
+						&& Integer.parseInt(this.getCodigoPerfil()) != PERFIL_BOLSA_AGUA){
+					soma += ((Credito) (this.getCreditos().get(i))).getValor();
+				}
+			}
+		}
+
+		if (valorResidualCredito != 0d) {
+			soma = soma - this.valorResidualCredito;
+		}
+
+		return Util.arredondar(soma, 2);
+	}
+
+
 	public double getValorContaSemImposto() {
 
 		double valorContaSem = (this.getValorAgua() + this.getValorEsgoto() + this.getValorDebitos() + this.getValorRateioAgua() + this.getValorRateioEsgoto())
@@ -1502,6 +1538,9 @@ public class Imovel {
 		}
 		return Util.arredondar(valorContaSem, 2);
 	}
+
+
+
 
 	public double getValores() {
 		double soma = 0d;
@@ -1576,7 +1615,7 @@ public class Imovel {
 
 	/**
 	 * Calcula a tarifa de consumo por categoria ou subcategoria
-	 * 
+	 *
 	 * @param tipoTarifaPorCategoria
 	 *            informa se devemos pesquisar por categoria ou por sub
 	 * @param codigo
@@ -1585,7 +1624,7 @@ public class Imovel {
 	 */
 	public TarifacaoMinima pesquisarDadosTarifaMinimaImovel(boolean tipoTarifaPorCategoria, String codigoCategoria, String codigoSubCategoria, int codigoTarifa, Date dataInicioVigencia) {
 		logType = "pesquisarDadosTarifaMinimaImovel";
-		
+
 		LogUtil.salvarLog(logType, "Tipo Tarifa Por Categoria: " + tipoTarifaPorCategoria + " | Codigo Tarifa: " + codigoTarifa + " | Data Inicio Vigencia: " + dataInicioVigencia);
 
 		TarifacaoMinima retorno = null;
@@ -1663,33 +1702,33 @@ public class Imovel {
 
 			switch (situacaoLigAgua) {
 
-			case POTENCIAL:
-				descricaoSitLigacaoAgua = "POTENCIAL";
-				break;
-			case FACTIVEL:
-				descricaoSitLigacaoAgua = "FACTIVEL";
-				break;
-			case LIGADO:
-				descricaoSitLigacaoAgua = "LIGADO";
-				break;
-			case EM_FISCALIZACAO:
-				descricaoSitLigacaoAgua = "LIGADO EM ANALISE.";
-				break;
-			case CORTADO:
-				descricaoSitLigacaoAgua = "CORTADO";
-				break;
-			case SUPRIMIDO:
-				descricaoSitLigacaoAgua = "SUPRIMIDO";
-				break;
-			case SUPR_PARC:
-				descricaoSitLigacaoAgua = "SUPR. PARC.";
-				break;
-			case SUPR_PARC_PEDIDO:
-				descricaoSitLigacaoAgua = "SUP. PARC. PED.";
-				break;
-			case EM_CANCELAMENTO:
-				descricaoSitLigacaoAgua = "EM CANCEL.";
-				break;
+				case POTENCIAL:
+					descricaoSitLigacaoAgua = "POTENCIAL";
+					break;
+				case FACTIVEL:
+					descricaoSitLigacaoAgua = "FACTIVEL";
+					break;
+				case LIGADO:
+					descricaoSitLigacaoAgua = "LIGADO";
+					break;
+				case EM_FISCALIZACAO:
+					descricaoSitLigacaoAgua = "LIGADO EM ANALISE.";
+					break;
+				case CORTADO:
+					descricaoSitLigacaoAgua = "CORTADO";
+					break;
+				case SUPRIMIDO:
+					descricaoSitLigacaoAgua = "SUPRIMIDO";
+					break;
+				case SUPR_PARC:
+					descricaoSitLigacaoAgua = "SUPR. PARC.";
+					break;
+				case SUPR_PARC_PEDIDO:
+					descricaoSitLigacaoAgua = "SUP. PARC. PED.";
+					break;
+				case EM_CANCELAMENTO:
+					descricaoSitLigacaoAgua = "EM CANCEL.";
+					break;
 			}
 		}
 		return descricaoSitLigacaoAgua;
@@ -1701,27 +1740,27 @@ public class Imovel {
 		if (situacaoLigEsgoto != 0) {
 			switch (situacaoLigEsgoto) {
 
-			case POTENCIAL:
-				descricaoSitLigacaoEsgoto = "POTENCIAL";
-				break;
-			case FACTIVEL:
-				descricaoSitLigacaoEsgoto = "FACTIVEL";
-				break;
-			case LIGADO:
-				descricaoSitLigacaoEsgoto = "LIGADO";
-				break;
-			case EM_FISCALIZACAO:
-				descricaoSitLigacaoEsgoto = "EM FISCAL.";
-				break;
-			case LIG_FORA_USO:
-				descricaoSitLigacaoEsgoto = "LIG. FORA DE USO";
-				break;
-			case TAMPONADO:
-				descricaoSitLigacaoEsgoto = "TAMPONADO";
-				break;
-			case CONVERSAO:
-				descricaoSitLigacaoEsgoto = "CONVERSAO";
-				break;
+				case POTENCIAL:
+					descricaoSitLigacaoEsgoto = "POTENCIAL";
+					break;
+				case FACTIVEL:
+					descricaoSitLigacaoEsgoto = "FACTIVEL";
+					break;
+				case LIGADO:
+					descricaoSitLigacaoEsgoto = "LIGADO";
+					break;
+				case EM_FISCALIZACAO:
+					descricaoSitLigacaoEsgoto = "EM FISCAL.";
+					break;
+				case LIG_FORA_USO:
+					descricaoSitLigacaoEsgoto = "LIG. FORA DE USO";
+					break;
+				case TAMPONADO:
+					descricaoSitLigacaoEsgoto = "TAMPONADO";
+					break;
+				case CONVERSAO:
+					descricaoSitLigacaoEsgoto = "CONVERSAO";
+					break;
 
 			}
 		}
@@ -1755,11 +1794,7 @@ public class Imovel {
 	}
 
 	public String getCpfCnpjCliente() {
-		if (cpfCnpjCliente != null && !cpfCnpjCliente.equals("")) {
-			return cpfCnpjCliente;
-		} else {
-			return "";
-		}
+		return cpfCnpjCliente;
 	}
 
 	public void setCpfCnpjCliente(String cpfCnpjCliente) {
@@ -1997,7 +2032,7 @@ public class Imovel {
 	/**
 	 * Metodo que atualiza o resumo necessário para o rateio do imóvel
 	 * condominio
-	 * 
+	 *
 	 * @author Bruno Barros
 	 * @date 11/03/2010
 	 * @param consumoAgua
@@ -2158,45 +2193,45 @@ public class Imovel {
 		double valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_CONTA;
 
 		switch (Integer.parseInt(this.getCodigoPerfil())) {
-		case PERFIL_GRANDE:
-			valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_GRANDE;
-			break;
+			case PERFIL_GRANDE:
+				valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_GRANDE;
+				break;
 
-		case PERFIL_GRANDE_MES:
-			valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_GRANDE_MES;
-			break;
+			case PERFIL_GRANDE_MES:
+				valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_GRANDE_MES;
+				break;
 
-		case PERFIL_ESPECIAL:
-			valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_ESPECIAL;
-			break;
+			case PERFIL_ESPECIAL:
+				valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_ESPECIAL;
+				break;
 
-		case PERFIL_BONUS_SOCIAL:
-			valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_BONUS_SOCIAL;
-			break;
+			case PERFIL_BONUS_SOCIAL:
+				valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_BONUS_SOCIAL;
+				break;
 
-		case PERFIL_NORMAL:
-			valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_NORMAL;
-			break;
+			case PERFIL_NORMAL:
+				valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_NORMAL;
+				break;
 
-		case PERFIL_CORPORATIVO:
-			valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_CORPORATIVO;
-			break;
+			case PERFIL_CORPORATIVO:
+				valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_CORPORATIVO;
+				break;
 
-		case PERFIL_GOVERNO_METROPOLITANO:
-			valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_GOVERNO_METROPOLITANO;
-			break;
+			case PERFIL_GOVERNO_METROPOLITANO:
+				valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_GOVERNO_METROPOLITANO;
+				break;
 
-		case PERFIL_GOVERNO_INTERIOR:
-			valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_GOVERNO_INTERIOR;
-			break;
+			case PERFIL_GOVERNO_INTERIOR:
+				valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_GOVERNO_INTERIOR;
+				break;
 
-		case PERFIL_CONDOMINIAL:
-			valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_CONDOMINIAL;
-			break;
+			case PERFIL_CONDOMINIAL:
+				valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_CONDOMINIAL;
+				break;
 
-		case PERFIL_COLABORADOR:
-			valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_COLABORADOR;
-			break;
+			case PERFIL_COLABORADOR:
+				valorMaximoEmissaoConta = ControladorConta.VALOR_LIMITE_PERFIL_COLABORADOR;
+				break;
 		}
 
 		if (valorConta > valorMaximoEmissaoConta) {
@@ -2322,7 +2357,7 @@ public class Imovel {
 	}
 
 	/**
-	 * 
+	 *
 	 * Verifica se existe um débito com o código informado Caso positivo,
 	 * retornar senão nulo
 	 */
@@ -2355,10 +2390,10 @@ public class Imovel {
 	}
 
 	public List<TarifacaoComplementar> selecionarTarifasComplementaresParaCalculo(boolean tipoTarifaPorCategoria, String codigoCategoria,
-			String codigoSubCategoria, int codigoTarifa, Date dataInicioVigencia) {
+																				  String codigoSubCategoria, int codigoTarifa, Date dataInicioVigencia) {
 
 		logType = "selecionarTarifasComplementaresParaCalculo";
-		
+
 		List<TarifacaoComplementar> retorno = new ArrayList<TarifacaoComplementar>();
 
 		LogUtil.salvarLog(logType, "Qtd : " + tarifacoesComplementares.size());
@@ -2395,12 +2430,12 @@ public class Imovel {
 	}
 
 	/**
-	 * 
+	 *
 	 * Verifica se o imóvel é do tipo informativo.
-	 * 
+	 *
 	 * @author Daniel Zaccarias
 	 * @date 03/07/2011
-	 * 
+	 *
 	 * @param
 	 * @return
 	 */

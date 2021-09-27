@@ -26,16 +26,16 @@
             </intent-filter>
         </activity>
         
-        <activity android:name="views.MainTab" android:launchMode="singleTask" android:configChanges="orientation" android:theme="@android:style/Theme.NoTitleBar">
+        <activity android:name="views.MainTab" android:launchMode="singleTask" android:configChanges="orientation" android:theme="@android:style/Theme.DeviceDefault.Light">
         </activity>
 
-        <activity android:name=".ListaRotas" android:screenOrientation="portrait" configChanges="orientation|keyboardHidden" android:theme="@android:style/Theme.NoTitleBar">
+        <activity android:name=".ListaRotas" android:screenOrientation="portrait" configChanges="orientation|keyboardHidden" android:theme="@android:style/Theme.DeviceDefault.Light">
         </activity>
 
         <activity android:name=".ListaImoveis" android:launchMode="singleTask" android:theme="@android:style/Theme.NoTitleBar">
         </activity>
 
-   		<activity android:name=".MenuPrincipal" android:launchMode="singleTask" android:screenOrientation="portrait" configChanges="orientation|keyboardHidden" android:theme="@android:style/Theme.NoTitleBar">
+   		<activity android:name=".MenuPrincipal" android:launchMode="singleTask" android:screenOrientation="portrait" configChanges="orientation|keyboardHidden" android:theme="@android:style/Theme.DeviceDefault.Light">
         </activity>
 
 		<activity android:name=".TelaInformacoes" android:screenOrientation="portrait" android:launchMode="singleTask" android:theme="@android:style/Theme.NoTitleBar">

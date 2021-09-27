@@ -25,7 +25,8 @@
         android:allowTaskReparenting="true"
         android:debuggable="true"
         android:icon="@drawable/gsan"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:testOnly="true" >
         <activity
             android:name="com.IS.Fachada"
             android:theme="@android:style/Theme.NoTitleBar" >
@@ -39,13 +40,13 @@
             android:name="views.MainTab"
             android:configChanges="orientation"
             android:launchMode="singleTask"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.DeviceDefault.Light" >
         </activity>
         <activity
             android:name="com.IS.ListaRotas"
             configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.DeviceDefault.Light" >
         </activity>
         <activity
             android:name="com.IS.ListaImoveis"
@@ -57,7 +58,7 @@
             configChanges="orientation|keyboardHidden"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:theme="@android:style/Theme.DeviceDefault.Light" >
         </activity>
         <activity
             android:name="com.IS.TelaInformacoes"
