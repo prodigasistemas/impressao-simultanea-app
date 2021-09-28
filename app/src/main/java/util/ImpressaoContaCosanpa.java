@@ -743,9 +743,9 @@ public class ImpressaoContaCosanpa {
 			Log.i("opcao debito automatico", opcaoDebitoAutomatico);
 
 			if(Integer.parseInt(imovel.getCodigoPerfil()) == PERFIL_BOLSA_AGUA  && imovel.getValorConta() <= 0.0){
-				mensagemBolsaAgua = dividirLinha(7, 0, 20, 1815, "CONTA QUITADA PELO ÁGUA PARÁ", 60, 20);
+				mensagemBolsaAgua = dividirLinha(7, 0, 30, 1270, "CONTA QUITADA PELO AGUA PARA", 28, 20);
 			}else if(Integer.parseInt(imovel.getCodigoPerfil()) == PERFIL_BOLSA_AGUA && imovel.getValorConta() > 0.0 ){
-				mensagemBolsaAgua = dividirLinha(7, 0, 20, 1815, "20.000 LITROS QUITADOS PELO ÁGUA PARÁ", 60, 20);
+				mensagemBolsaAgua = dividirLinha(7, 0, 30, 1270, "20.000 LITROS QUITADOS PELO AGUA PARA", 28, 20);
 			}
 
 			if (imovel.getMensagemQuitacaoAnual() != null && !imovel.getMensagemQuitacaoAnual().equals("")) {
@@ -1397,7 +1397,7 @@ public class ImpressaoContaCosanpa {
 				double valorContaResidual = 0d;
 				boolean valorCreditoMaiorValorConta = false;
 				boolean naoEmitirMaisCreditos = false;
-				if (imovel.getValorResidualCredito() != 0d) {
+				if (imovel.getValorResidualCredito() != 0d || Integer.parseInt(imovel.getCodigoPerfil()) == PERFIL_BOLSA_AGUA) {
 					valorContaSemCreditos = imovel.getValorContaSemCreditos();
 					valorCreditoMaiorValorConta = true;
 				}
@@ -1457,7 +1457,7 @@ public class ImpressaoContaCosanpa {
 								dados[0] = dadosCreditosRealizado.getDescricao();
 								// 1.1.3
 								dados[2] = Util.formatarDoubleParaMoedaReal(valorCredito);
-								//				    dados[2] = Util.formatarDoubleParaMoedaReal(valorContaSemCreditos);
+							//	dados[2] = Util.formatarDoubleParaMoedaReal(valorContaSemCreditos);
 
 								retorno.add(dados);
 							}

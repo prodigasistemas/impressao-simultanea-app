@@ -1,4 +1,4 @@
-#Mon Sep 27 16:49:34 BRT 2021
+#Tue Sep 28 11:43:36 BRT 2021
 base.0=/home/guilherme/impressao-simultanea-android/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
 renamed.0=classes.dex
 path.0=classes.dex
