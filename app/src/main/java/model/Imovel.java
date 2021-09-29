@@ -1496,7 +1496,7 @@ public class Imovel {
 		return Util.arredondar(soma, 2);
 	}
 
-	private boolean isCreditoBolsaAgua(int i) {
+	public boolean isCreditoBolsaAgua(int i) {
 		return ((Credito) (this.getCreditos(Constantes.SIM).get(i))).getCodigo().equalsIgnoreCase(CRED_BOLSA_AGUA);
 	}
 
