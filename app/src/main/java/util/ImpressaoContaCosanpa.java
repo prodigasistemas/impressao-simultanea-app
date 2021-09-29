@@ -1397,12 +1397,14 @@ public class ImpressaoContaCosanpa {
 				double valorContaResidual = 0d;
 				boolean valorCreditoMaiorValorConta = false;
 				boolean naoEmitirMaisCreditos = false;
-				if (imovel.getValorResidualCredito() != 0d || Integer.parseInt(imovel.getCodigoPerfil()) == PERFIL_BOLSA_AGUA) {
+				if (imovel.getValorResidualCredito() != 0d) {
 					valorContaSemCreditos = imovel.getValorContaSemCreditos();
 					valorCreditoMaiorValorConta = true;
 				}
 				for (int i = 0; i < imovel.getCreditos(Constantes.SIM).size(); i++) {
-					Credito dadosCreditosRealizado = imovel.getCreditos(Constantes.SIM).get(i);
+					if (!imovel.isCreditoBolsaAgua(i)){
+
+						Credito dadosCreditosRealizado = imovel.getCreditos(Constantes.SIM).get(i);
 					// caso o valor dos créditos n seja maior que o valor da
 					// conta sem os créditos
 
@@ -1448,7 +1450,7 @@ public class ImpressaoContaCosanpa {
 
 								retorno.add(dados);
 
-							}else{
+							} else {
 
 								valorContaSemCreditos = valorContaSemCreditos - valorCredito;
 
@@ -1457,13 +1459,14 @@ public class ImpressaoContaCosanpa {
 								dados[0] = dadosCreditosRealizado.getDescricao();
 								// 1.1.3
 								dados[2] = Util.formatarDoubleParaMoedaReal(valorCredito);
-							//	dados[2] = Util.formatarDoubleParaMoedaReal(valorContaSemCreditos);
+								//	dados[2] = Util.formatarDoubleParaMoedaReal(valorContaSemCreditos);
 
 								retorno.add(dados);
 							}
 						}
 					}
 				}
+			}
 			} else {
 				double soma = imovel.getValorCreditos();
 				// for ( int i = 0; i < imovel.getRegistros5().size(); i++ ){
@@ -1481,6 +1484,16 @@ public class ImpressaoContaCosanpa {
 				retorno.add(dados);
 			}
 		}
+		if (imovel.getValorCreditosBolsaAgua() > 0d) {
+			dados = new String[3];
+			// 1.1.2
+			dados[0] = " CREDITO SUBSIDIO AGUA PARA";
+			// 1.1.3
+			dados[2] = Util.formatarDoubleParaMoedaReal(imovel.getValorCreditosBolsaAgua());
+
+			retorno.add(dados);
+		}
+
 		return retorno;
 	}
 
