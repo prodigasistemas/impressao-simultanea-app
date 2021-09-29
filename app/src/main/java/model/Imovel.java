@@ -1479,22 +1479,13 @@ public class Imovel {
 
 		double soma = 0d;
 
-		// Tratamento de Bônus Social
 		if (this.getCreditos(Constantes.SIM) != null) {
 
 			for (int i = 0; i < this.getCreditos(Constantes.SIM).size(); i++) {
 
-				/**
-				 * Foi excluida condicao de maximo consumo para bonus social
-				 */
-//				if (((Credito) (this.getCreditos(Constantes.SIM).get(i))).getCodigo().equalsIgnoreCase(CODIGO_BONUS_SOCIAL)
-//						&& Integer.parseInt(this.getCodigoPerfil()) == PERFIL_BONUS_SOCIAL && this.getConsumoAgua() != null && this.getConsumoAgua().getConsumoCobradoMes() > 10) {
-//
-//					System.out.println("CREDITO DE BONUS SOCIAL DESCARTADO!");
-//
-//				} else {
-				soma += ((Credito) (this.getCreditos().get(i))).getValor();
-//				}
+				if (!isCreditoBolsaAgua(i)) {
+					soma += ((Credito) (this.getCreditos().get(i))).getValor();
+				}
 			}
 		}
 
@@ -1505,16 +1496,19 @@ public class Imovel {
 		return Util.arredondar(soma, 2);
 	}
 
+	private boolean isCreditoBolsaAgua(int i) {
+		return ((Credito) (this.getCreditos(Constantes.SIM).get(i))).getCodigo().equalsIgnoreCase(CRED_BOLSA_AGUA);
+	}
+
 	public double getValorCreditosSemBolsaAgua() {
 
 		double soma = 0d;
-		// Tratamento de Bônus Social
+
 		if (this.getCreditos(Constantes.SIM) != null) {
 
 			for (int i = 0; i < this.getCreditos(Constantes.SIM).size(); i++) {
 
-				if (!((Credito) (this.getCreditos(Constantes.SIM).get(i))).getCodigo().equalsIgnoreCase(CRED_BOLSA_AGUA)
-						&& Integer.parseInt(this.getCodigoPerfil()) != PERFIL_BOLSA_AGUA){
+				if (!isCreditoBolsaAgua(i) && Integer.parseInt(this.getCodigoPerfil()) != PERFIL_BOLSA_AGUA){
 					soma += ((Credito) (this.getCreditos().get(i))).getValor();
 				}
 			}
@@ -1531,7 +1525,7 @@ public class Imovel {
 	public double getValorContaSemImposto() {
 
 		double valorContaSem = (this.getValorAgua() + this.getValorEsgoto() + this.getValorDebitos() + this.getValorRateioAgua() + this.getValorRateioEsgoto())
-				- this.getValorCreditos();
+				- this.getValorCreditos() - this.getValorCreditosBolsaAgua();
 
 		if (valorContaSem < 0d) {
 			valorContaSem = 0d;
@@ -1539,7 +1533,32 @@ public class Imovel {
 		return Util.arredondar(valorContaSem, 2);
 	}
 
+	public double getValorCreditosBolsaAgua() {
+		double soma = 0d;
 
+		if (this.getCreditos(Constantes.SIM) != null) {
+
+			for (int i = 0; i < this.getCreditos(Constantes.SIM).size(); i++) {
+
+				if (isCreditoBolsaAgua(i)) {
+					double valorAguaEsgoto = this.getValorAgua() + this.getValorEsgoto();
+					double valorCredito = ((Credito) (this.getCreditos().get(i))).getValor();
+
+					if (valorAguaEsgoto > valorCredito) {
+						soma += valorCredito;
+					} else {
+						soma += valorAguaEsgoto;
+					}
+				}
+			}
+		}
+
+		if (valorResidualCredito != 0d) {
+			soma = soma - this.valorResidualCredito;
+		}
+
+		return Util.arredondar(soma, 2);
+	}
 
 
 	public double getValores() {
