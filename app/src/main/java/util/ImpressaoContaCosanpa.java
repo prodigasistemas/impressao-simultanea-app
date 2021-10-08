@@ -743,9 +743,9 @@ public class ImpressaoContaCosanpa {
 			Log.i("opcao debito automatico", opcaoDebitoAutomatico);
 
 			if(Integer.parseInt(imovel.getCodigoPerfil()) == PERFIL_BOLSA_AGUA  && imovel.getValorConta() <= 0.0){
-				mensagemBolsaAgua = dividirLinha(7, 0, 30, 1270, "CONTA QUITADA PELO AGUA PARA", 28, 20);
+				mensagemBolsaAgua = dividirLinha(7, 0, 30, 1270, "PROGRAMA AGUA PARA, QUITADO PELO GOVERNO DO ESTADO DO PARA", 27, 20);
 			}else if(Integer.parseInt(imovel.getCodigoPerfil()) == PERFIL_BOLSA_AGUA && imovel.getValorConta() > 0.0 ){
-				mensagemBolsaAgua = dividirLinha(7, 0, 30, 1270, "20.000 LITROS QUITADOS PELO AGUA PARA", 28, 20);
+				mensagemBolsaAgua = dividirLinha(7, 0, 30, 1270, "PROGRAMA AGUA PARA, 20.000  LITROS QUITADOS PELO GOVERNO DO ESTADO DO PARA", 28, 20);
 			}
 
 			if (imovel.getMensagemQuitacaoAnual() != null && !imovel.getMensagemQuitacaoAnual().equals("")) {

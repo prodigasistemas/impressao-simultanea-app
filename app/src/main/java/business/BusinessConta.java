@@ -452,9 +452,13 @@ public class BusinessConta {
 			}
 		}
 
-		if(Imovel.PERFIL_BOLSA_AGUA == imovelPerfil){
-
-			permiteImpressao = true;
+		if(Imovel.PERFIL_BOLSA_AGUA == imovelPerfil ){
+			if(reterConta){
+				mensagemPermiteImpressao = "Conta retida, entrega posterior.";
+				permiteImpressao = false;
+			}else{
+				permiteImpressao = true;
+			}
 
 		} else if (!leituraInvalida && !emiteConta) {
 
