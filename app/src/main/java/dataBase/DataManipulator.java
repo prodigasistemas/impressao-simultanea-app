@@ -1,5 +1,7 @@
 package dataBase;
 
+import static util.Constantes.IMOVEL_STATUS_PENDENTE;
+
 import helper.EfetuarRateioConsumoHelper;
 
 import java.io.File;
@@ -306,7 +308,7 @@ public class DataManipulator {
 					}
 		        	
 					// Verifica imovel_status
-					if (Integer.parseInt(cursor.getString(0)) == Constantes.IMOVEL_STATUS_PENDENTE) {
+					if (Integer.parseInt(cursor.getString(0)) == IMOVEL_STATUS_PENDENTE) {
 						pendentes++;
 	
 					// Imovel esta concluído
@@ -1810,7 +1812,7 @@ public class DataManipulator {
 		if (informativo && indcCondominio == Constantes.NAO) {
 			initialValues.put("imovel_status", String.valueOf(Constantes.IMOVEL_STATUS_INFORMATIVO));
 		} else {
-			initialValues.put("imovel_status", String.valueOf(Constantes.IMOVEL_STATUS_PENDENTE));
+			initialValues.put("imovel_status", String.valueOf(IMOVEL_STATUS_PENDENTE));
 		}
 		// fazer o parse da nova posição da linha
 		// adicionar curso nos metodos que retorna imovel
@@ -2124,14 +2126,21 @@ public class DataManipulator {
 		ParserUtil parser = new ParserUtil(linhaArquivo);
 		parser.obterDadoParser(2);
 		ContentValues initialValues = new ContentValues();
-		
-		initialValues.put("matricula", parser.obterDadoParser(9));
+        ContentValues values = new ContentValues();
+
+		String matricula = parser.obterDadoParser(9);
+
+		initialValues.put("matricula", matricula);
 		initialValues.put("descricao", parser.obterDadoParser(90));
 		initialValues.put("valor", parser.obterDadoParser(14));
 		initialValues.put("codigo", parser.obterDadoParser(6));
 		initialValues.put("indc_uso", (short) Constantes.SIM );
 		initialValues.put("indc_incluir_calculo_imposto", Short.parseShort(parser.obterDadoParser(1)));
-		
+
+		//update mudando o imovel de informativo para pendente, quando o mesmo tiver algum débito a ser cobrado mesmo Situação de Água != LIgado (Almeida Paulo, 19-10-2021)
+        values.put("imovel_status",  String.valueOf(IMOVEL_STATUS_PENDENTE));
+        db.update(Constantes.TABLE_IMOVEL, values, "matricula = ?", new String[] {String.valueOf(matricula).substring(2)});
+
 		return db.insert(Constantes.TABLE_DEBITO, null, initialValues);
 				
 	}
