@@ -1592,6 +1592,7 @@ public class DataManipulator {
 		String indcParalizarFaturamentoEsgoto;
 		String numeroConta;
 		String situacaoLigacaoAgua;
+		String situacaoLigacaoEsgoto;
 		int indcCondominio = Constantes.NAO;
 		String matriculaCondominio = "";
 		int matricula = Integer.parseInt(parser.obterDadoParser(9));
@@ -1630,7 +1631,8 @@ public class DataManipulator {
 		situacaoLigacaoAgua = parser.obterDadoParser(1);
 		initialValues.put("situacao_lig_agua", situacaoLigacaoAgua);
 
-		initialValues.put("situacao_lig_esgoto", parser.obterDadoParser(1));
+		situacaoLigacaoEsgoto = parser.obterDadoParser(1);
+		initialValues.put("situacao_lig_esgoto", situacaoLigacaoEsgoto);
 		initialValues.put("descricao_banco", parser.obterDadoParser(15));
 		initialValues.put("codigo_agencia", parser.obterDadoParser(5));
 
@@ -1807,7 +1809,7 @@ public class DataManipulator {
 				Integer.parseInt(indcParalizarFaturamentoAgua),
 				Integer.parseInt(indcParalizarFaturamentoEsgoto), 
 				Util.verificarNuloInt(numeroConta), 
-				situacaoLigacaoAgua);
+				situacaoLigacaoAgua, situacaoLigacaoEsgoto);
 
 		if (informativo && indcCondominio == Constantes.NAO) {
 			initialValues.put("imovel_status", String.valueOf(Constantes.IMOVEL_STATUS_INFORMATIVO));

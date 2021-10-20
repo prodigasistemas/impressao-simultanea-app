@@ -822,7 +822,7 @@ public class ControladorImovel {
 		return habilitaOpcaoImpressao;
 	}
     
-    public boolean isImovelInformativo(int indcParalizarFaturamentoAgua,  int indcParalizarFaturamentoEsgoto, int numeroConta, String situacaoLigacaoAgua) {
+    public boolean isImovelInformativo(int indcParalizarFaturamentoAgua,  int indcParalizarFaturamentoEsgoto, int numeroConta, String situacaoLigacaoAgua, String situacaoLigacaoEsgoto) {
 		boolean informativo = false;
 		boolean paralizarFaturamento = false;
 
@@ -830,9 +830,16 @@ public class ControladorImovel {
 			paralizarFaturamento = true;
 		}
 
-		if (numeroConta == Constantes.NULO_INT && paralizarFaturamento == true || !Constantes.LIGADO.equals(situacaoLigacaoAgua)) {
+		if (numeroConta == Constantes.NULO_INT && paralizarFaturamento == true || !Constantes.LIGADO.equals(situacaoLigacaoAgua) && !Constantes.LIGADO.equals(situacaoLigacaoEsgoto)) {
 			informativo = true;
 		}
+
+
+
+
+
+
+
 
 		return informativo;
 		//Os imoveis setados como informativo contendo debitos passados, que precisam ter suas contas geradas e impressas, tem seu status alterado
