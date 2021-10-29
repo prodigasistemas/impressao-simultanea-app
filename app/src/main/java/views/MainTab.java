@@ -1050,12 +1050,10 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 
 		// Realiza calculos de rateio condominial
 		ControladorConta.getInstancia().determinarRateio();
-
 		// Verifica se deve reter impressao das contas condominiais.
 		if (getImovelSelecionado().getEfetuarRateioConsumoHelper().isCondominioRetido()) {
 
 			showMessage("Contas do condomínio retidas. Impressao não permitida!");
-
 			// Para todos os imoveis do condominio - Macro e micros
 			List<Integer> listaIdsCondominio = getDataManipulator().getListaIdsCondominio(getImovelSelecionado().getEfetuarRateioConsumoHelper().getMatriculaMacro());
 
@@ -1066,12 +1064,10 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 				setTabColor();
 				getDataManipulator().salvarImovel(imovelCondominial);
 			}
-
 		} else {
 			controladorImpressaoCondominial();
 		}
 	}
-
 	/**
 	 * Inicia procedimento para calcular consumo de água e esgoto do imóvel e
 	 * imprime a fatura caso seja permitido.
