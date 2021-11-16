@@ -282,12 +282,8 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 			return true;
 
 		case R.id.imprimirContasCondominio:
-		// if(getImovelSelecionado().getEnviarContaFisica() == Constantes.NAO) {
-			 //	showMessage("Imovel indisponivel para conta fisica.");
-		// } else {
 			 imprimirCondominio();
 			 LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Imprimir Contas de Condominio");
-		// }
 			return true;
 
 		case R.id.localizarPendente:
@@ -529,7 +525,6 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 	}
 
 	private void imprimirContasCondominio(EfetuarRateioConsumoHelper helper, int idImovelinicial, int idImovelFinal) {
-		if(getImovelSelecionado().getEnviarContaFisica() == Constantes.SIM){
 		List<Imovel> imoveis = new ArrayList<Imovel>();
 
 		// Para cada imóvel MICRO ligado ou cortado de água:
@@ -577,9 +572,6 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 			}
 		}
 		imprimirContaCondominial(idImovelinicial, idImovelFinal, imoveis);
-		} else {
-			showMessage("Imovel indisponivel para impressão.");
-		}
 	}
 
 	public void mensagemImpressaoParcialCondominioOk(String mensagem, final int idImovelinicial, final int idImovelFinal) {
@@ -901,7 +893,7 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 						// Caso o valor da conta seja menor que o valor permitido para ser impresso
 						// ou o valor do crédito for maior que o valor da conta, não imprime a conta
 						String comando = null;
-						if (imovel.isValorContaAcimaDoMinimo() && imovel.getIndcEmissaoConta() == Constantes.SIM) {
+						if (imovel.isValorContaAcimaDoMinimo() && imovel.getIndcEmissaoConta() == Constantes.SIM) { // && imovel.getEnviarContaFisica() == Constantes.SIM
 							comando = new ImpressaoContaCosanpa().getComandoImpressaoFatura(imovel, Constantes.IMPRESSAO_FATURA);
 							conexao.write(comando.getBytes());
 							
@@ -918,7 +910,9 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 								imovel.setDataImpressaoNaoMedido(Util.dateToAnoMesDiaString(MedidorAguaTab.getCurrentDateByGPS()));
 							}
 							getDataManipulator().salvarImovel(imovel);
-						}
+						} //else {
+						 //   showMessage("Imovel indisponivel para impressão.");
+					//  }
 
 						// Verifica se é a última conta
 						if (imovel.getId() == idImovelFinal) {
