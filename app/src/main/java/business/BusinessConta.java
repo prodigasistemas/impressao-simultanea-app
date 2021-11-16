@@ -452,14 +452,9 @@ public class BusinessConta {
 			}
 		}
 
-		if(Imovel.PERFIL_BOLSA_AGUA == imovelPerfil ){
-			if(reterConta){
+		if(Imovel.PERFIL_BOLSA_AGUA == imovelPerfil && reterConta){
 				mensagemPermiteImpressao = "Conta retida, entrega posterior.";
 				permiteImpressao = false;
-			}else{
-				permiteImpressao = true;
-			}
-
 		} else if (!leituraInvalida && !emiteConta) {
 
 			mensagemPermiteImpressao = "Conta do imóvel nao pode ser emitida.";
@@ -476,7 +471,7 @@ public class BusinessConta {
 
 			permiteImpressao = false;
 
-		} else if (!leituraInvalida && !valorAcimaDoMinimo) {
+		} else if (!leituraInvalida && !valorAcimaDoMinimo && Imovel.PERFIL_BOLSA_AGUA != imovelPerfil) {
 
 			mensagemPermiteImpressao = "Valor da conta menor que o permitido.";
 
@@ -502,7 +497,6 @@ public class BusinessConta {
 			mensagemPermiteImpressao = "Conta do imóvel não pode ser emitida. Entrega posterior.";
 			permiteImpressao = false;
 		}
-		
         if (!permiteImpressao) LogUtil.salvarLog(logType, "Mensagem: " + mensagemPermiteImpressao);
         LogUtil.salvarLog(logType, "Permite Impressao: " + permiteImpressao);
 		
