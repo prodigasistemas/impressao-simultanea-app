@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import business.ControladorImovel;
 import model.Consumo;
 import model.DadosRelatorio;
 import android.os.Build;
@@ -1569,8 +1570,9 @@ public class Util {
 
 		// G.05.6 - Identificação da empresa
 		// Fixo por enquanto
-		String identificacaoEmpresa = ControladorRota.getInstancia().getDadosGerais().getCodigoEmpresaFebraban();
-		identificacaoEmpresa = Util.adicionarZerosEsquerdaNumero(4, identificacaoEmpresa);
+		String identificacaoEmpresa = String.valueOf(ControladorImovel.getInstancia().getImovelSelecionado().getCodigoConvenio());
+	//	String identificacaoEmpresa = ControladorRota.getInstancia().getDadosGerais().getCodigoEmpresaFebraban();
+		identificacaoEmpresa = Util.adicionarZerosEsquerdaNumero(7, identificacaoEmpresa);
 		representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + identificacaoEmpresa;
 
 		// G.05.7 Identificação do pagamento

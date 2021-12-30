@@ -11,7 +11,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 1;
 
 	private static final String DATABASE_DADOS_ROTA = "CREATE TABLE dados_rota (id INTEGER PRIMARY KEY, grupo TEXT, localidade TEXT, setor TEXT, rota TEXT, referencia TEXT)";
-	
+
 	private static final String DATABASE_IMOVEL_QUERY = "CREATE TABLE imovel (id INTEGER PRIMARY KEY, matricula INTEGER, nome_gerencia_regional TEXT, nome_escritorio TEXT, nome_usuario TEXT, data_vencimento DATE, data_validade_conta DATE, inscricao TEXT, localidade TEXT, setor TEXT, quadra TEXT, lote TEXT, sublote TEXT,"
 			+ "endereco TEXT, ano_mes_conta TEXT, digito_verificador_conta TEXT, codigo_responsavel TEXT, nome_responsavel TEXT, endereco_entrega TEXT, situacao_lig_agua TEXT, situacao_lig_esgoto TEXT, descricao_banco TEXT, codigo_agencia TEXT, matricula_condominio TEXT, indc_condominio TEXT, "
 			+ "codigo_perfil TEXT, consumo_medio INTEGER, indc_faturamento_agua TEXT, indc_faturamento_esgoto TEXT, indc_emissao_conta TEXT, consumo_min_agua TEXT, consumo_min_esgoto TEXT, percent_coleta_esgoto TEXT, percent_cobranca_esgoto TEXT, tipo_poco TEXT, codigo_tarifa TEXT, consumo_estouro INTEGER, "
@@ -19,9 +19,8 @@ public class DbHelper extends SQLiteOpenHelper {
 			+ " sequencial_rota INTEGER, mensagem_conta1 TEXT, mensagem_conta2 TEXT, mensagem_conta3 TEXT, mensagem_quitacao_anual TEXT, consumo_minimo_imovel INTEGER, consumo_minimo_imovel_nao_medido INTEGER, numero_documento_notificacao_debito TEXT, numero_codigo_barra_notificacao_debito TEXT, cpf_cnpj_cliente TEXT, data_leitura_anterior_nao_medido DATE, indicador_abastecimento_agua TEXT,"
 			+ " indicador_imovel_sazonal TEXT, indicador_paralizar_faturamento_agua TEXT, indicador_paralizar_faturamento_esgoto TEXT, opcao_debito_automatico TEXT, percentual_alternativo_esgoto TEXT, consumo_percentual_alternativo_esgoto TEXT, data_emissao_documento DATE, quantidade_contas_impressas TEXT, contagem_validacao_agua TEXT,"
 			+ " contagem_validacao_poco TEXT, leitura_gravada_anterior TEXT, anormalidade_gravada_anterior TEXT, data_impressao_nao_medido DATE, valor_residual_credito TEXT, indc_adicionou_dados_iniciais_helper_rateio TEXT, valor_rateio_agua TEXT, valor_rateio_esgoto TEXT, consumo_rateio_agua TEXT, "
-			+ "consumo_rateio_esgoto TEXT, mensagem_estouro_consumo_1 TEXT, mensagem_estouro_consumo_2 TEXT, mensagem_estouro_consumo_3 TEXT, imovel_status TEXT, imovel_enviado TEXT, indc_imovel_impresso TEXT, indc_geracao TEXT, latitude TEXT, longitude TEXT" +
-			//", enviar_conta_fisica TEXT" +
-			")";
+			+ "consumo_rateio_esgoto TEXT, mensagem_estouro_consumo_1 TEXT, mensagem_estouro_consumo_2 TEXT, mensagem_estouro_consumo_3 TEXT, imovel_status TEXT, imovel_enviado TEXT, indc_imovel_impresso TEXT, indc_geracao TEXT, latitude TEXT, longitude TEXT,"
+			+ " enviar_conta_fisica TEXT, codigo_convenio TEXT)";
 
 	private static final String DATABASE_DADOS_CATEGORIA_QUERY = "CREATE TABLE dados_categoria (id INTEGER PRIMARY KEY autoincrement, matricula INTEGER not null, codigo_categoria TEXT, descricao_categoria TEXT, codigo_subcategoria TEXT, descricao_subcategoria TEXT, "
 			+ "quantidade_econominas_subcategoria TEXT, descricao_abreviada_categoria TEXT, descricao_abreviada_subcategoria TEXT, fator_economia_categoria TEXT)";

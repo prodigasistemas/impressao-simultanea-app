@@ -119,6 +119,7 @@ public class Imovel {
 	private int consumoPercentualAlternativoEsgoto;
 	private Date dataEmissaoDocumento;
 	private int enviarContaFisica;
+	private int codigoConvenio;
 
 	// ================= Estao no banco, mas nao estao na rota (.txt)
 	// ===================
@@ -237,6 +238,14 @@ public class Imovel {
 
 	public void setEnviarContaFisica(int enviarContaFisica) {
 		this.enviarContaFisica = enviarContaFisica;
+	}
+
+	public int getCodigoConvenio() {
+		return codigoConvenio;
+	}
+
+	public void setCodigoConvenio(int codigoConvenio) {
+		this.codigoConvenio = codigoConvenio;
 	}
 
 	public void setConsumoRateioEsgoto(int consumoRateioEsgoto) {
