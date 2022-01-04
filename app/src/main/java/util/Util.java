@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.GregorianCalendar;
+import java.sql.Timestamp;
 
 import business.ControladorImovel;
 import model.Consumo;
@@ -1537,108 +1539,313 @@ public class Util {
 			}
 		}
 
+
 		// Cria a variável que vai armazenar a representação númerica do código
 		// de barras
 		String representacaoNumericaCodigoBarra = "";
+		Integer codigoConvenio = ControladorImovel.getInstancia().getImovelSelecionado().getCodigoConvenio();
 
-		// G.05.1 - Identificação do produto
-		String identificacaoProduto = "8";
-		representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + identificacaoProduto;
+		if(codigoConvenio == null){
 
-		// G.05.2 - Identificação do segmento
-		String identificacaoSegmento = "2";
-		representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + identificacaoSegmento;
+			// G.05.1 - Identificação do produto
+			String identificacaoProduto = "8";
+			representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + identificacaoProduto;
 
-		// G.05.3 - Identificação dovalor real ou referência
+			// G.05.2 - Identificação do segmento
+			String identificacaoSegmento = "2";
+			representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + identificacaoSegmento;
 
-		// MODULO 11
-		// String identificacaoValorRealOuReferencia = "8";
+			// G.05.3 - Identificação dovalor real ou referência
 
-		// MODULO 10
-		String identificacaoValorRealOuReferencia = "6";
+			// MODULO 11
+			// String identificacaoValorRealOuReferencia = "8";
 
-		representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + identificacaoValorRealOuReferencia;
+			// MODULO 10
+			String identificacaoValorRealOuReferencia = "6";
 
-		String valorContaString = Util.formatarDoubleParaMoedaReal(valorCodigoBarra);
+			representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + identificacaoValorRealOuReferencia;
 
-		valorContaString = replaceAll(valorContaString, ".", "");
-		valorContaString = replaceAll(valorContaString, ",", "");
+			String valorContaString = Util.formatarDoubleParaMoedaReal(valorCodigoBarra);
 
-		// G.05.5 - Valor do código de barras
-		String valorCodigoBarraFormatado = Util.adicionarZerosEsquerdaNumero(11, valorContaString);
-		representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + valorCodigoBarraFormatado;
+			valorContaString = replaceAll(valorContaString, ".", "");
+			valorContaString = replaceAll(valorContaString, ",", "");
 
-		// G.05.6 - Identificação da empresa
-		// Fixo por enquanto
-		String identificacaoEmpresa = String.valueOf(ControladorImovel.getInstancia().getImovelSelecionado().getCodigoConvenio());
-	//	String identificacaoEmpresa = ControladorRota.getInstancia().getDadosGerais().getCodigoEmpresaFebraban();
-		identificacaoEmpresa = Util.adicionarZerosEsquerdaNumero(7, identificacaoEmpresa);
-		representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + identificacaoEmpresa;
+			// G.05.5 - Valor do código de barras
+			String valorCodigoBarraFormatado = Util.adicionarZerosEsquerdaNumero(11, valorContaString);
+			representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + valorCodigoBarraFormatado;
 
-		// G.05.7 Identificação do pagamento
-		// [SB0001] Obter Identificação do Pagamento
-		String identificacaoPagamento = obterIdentificacaoPagamento(tipoPagamento, idLocalidade, matriculaImovel, mesAnoReferenciaConta, digitoVerificadorRefContaModulo10,
-				idTipoDebito, anoEmissaoGuiaPagamento, sequencialDocumentoCobranca, idTipoDocumento, idCliente, seqFaturaClienteResponsavel);
+			// G.05.6 - Identificação da empresa
+			// Fixo por enquanto
+			String identificacaoEmpresa = ControladorRota.getInstancia().getDadosGerais().getCodigoEmpresaFebraban();
+			identificacaoEmpresa = Util.adicionarZerosEsquerdaNumero(7, identificacaoEmpresa);
+			representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + identificacaoEmpresa;
 
-		representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + identificacaoPagamento + tipoPagamento.toString();
+			// G.05.7 Identificação do pagamento
+			// [SB0001] Obter Identificação do Pagamento
+			String identificacaoPagamento = obterIdentificacaoPagamento(tipoPagamento, idLocalidade, matriculaImovel, mesAnoReferenciaConta, digitoVerificadorRefContaModulo10,
+					idTipoDebito, anoEmissaoGuiaPagamento, sequencialDocumentoCobranca, idTipoDocumento, idCliente, seqFaturaClienteResponsavel);
 
-		// G.05.4 - Dígito verificador geral
-		// [SB0002] Obter Dígito verificador geral
-		String digitoVerificadorGeral = (Util.obterDigitoVerificadorGeral(representacaoNumericaCodigoBarra)).toString();
+			representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + identificacaoPagamento + tipoPagamento.toString();
 
-		// Monta a representaçaõ númerica com todos os campos informados
-		representacaoNumericaCodigoBarra = identificacaoProduto + identificacaoSegmento + identificacaoValorRealOuReferencia + digitoVerificadorGeral + valorCodigoBarraFormatado
-				+ identificacaoEmpresa + identificacaoPagamento + tipoPagamento.toString();
+			// G.05.4 - Dígito verificador geral
+			// [SB0002] Obter Dígito verificador geral
+			String digitoVerificadorGeral = (Util.obterDigitoVerificadorGeral(representacaoNumericaCodigoBarra)).toString();
 
-		// Cria as variáveis que vão armazenar o código de barra separado por
-		// campos
-		// e seus respectivos dígitos verificadores se existirem
-		String codigoBarraCampo1 = null;
-		String codigoBarraDigitoVerificadorCampo1 = null;
-		String codigoBarraCampo2 = null;
-		String codigoBarraDigitoVerificadorCampo2 = null;
-		String codigoBarraCampo3 = null;
-		String codigoBarraDigitoVerificadorCampo3 = null;
-		String codigoBarraCampo4 = null;
-		String codigoBarraDigitoVerificadorCampo4 = null;
+			// Monta a representaçaõ númerica com todos os campos informados
+			representacaoNumericaCodigoBarra = identificacaoProduto + identificacaoSegmento + identificacaoValorRealOuReferencia + digitoVerificadorGeral + valorCodigoBarraFormatado
+					+ identificacaoEmpresa + identificacaoPagamento + tipoPagamento.toString();
 
-		// Separa as 44 posições do código de barras em 4 grupos de onze
-		// posições
-		// e para cada um dos grupos calcula o dígito verificador do módulo 11
-		codigoBarraCampo1 = representacaoNumericaCodigoBarra.substring(0, 11);
-		// codigoBarraDigitoVerificadorCampo1 =
-		// (obterDigitoVerificadorModulo11(new Long(
-		// codigoBarraCampo1))).toString();
-		codigoBarraDigitoVerificadorCampo1 = (Util.obterDigitoVerificadorModulo10(new Long(Long.parseLong(codigoBarraCampo1)))).toString();
-		codigoBarraCampo2 = representacaoNumericaCodigoBarra.substring(11, 22);
-		/*
-		 * codigoBarraDigitoVerificadorCampo2 =
-		 * (obterDigitoVerificadorModulo11(new Long(
-		 * codigoBarraCampo2))).toString();
-		 */
-		codigoBarraDigitoVerificadorCampo2 = (Util.obterDigitoVerificadorModulo10(new Long(Long.parseLong(codigoBarraCampo2)))).toString();
-		codigoBarraCampo3 = representacaoNumericaCodigoBarra.substring(22, 33);
-		/*
-		 * codigoBarraDigitoVerificadorCampo3 =
-		 * (obterDigitoVerificadorModulo11(new Long(
-		 * codigoBarraCampo3))).toString();
-		 */
-		codigoBarraDigitoVerificadorCampo3 = (Util.obterDigitoVerificadorModulo10(new Long(Long.parseLong(codigoBarraCampo3)))).toString();
-		codigoBarraCampo4 = representacaoNumericaCodigoBarra.substring(33, 44);
-		/*
-		 * codigoBarraDigitoVerificadorCampo4 =
-		 * (obterDigitoVerificadorModulo11(new Long(
-		 * codigoBarraCampo4))).toString();
-		 */
-		codigoBarraDigitoVerificadorCampo4 = (Util.obterDigitoVerificadorModulo10(new Long(Long.parseLong(codigoBarraCampo4)))).toString();
+			// Cria as variáveis que vão armazenar o código de barra separado por
+			// campos
+			// e seus respectivos dígitos verificadores se existirem
+			String codigoBarraCampo1 = null;
+			String codigoBarraDigitoVerificadorCampo1 = null;
+			String codigoBarraCampo2 = null;
+			String codigoBarraDigitoVerificadorCampo2 = null;
+			String codigoBarraCampo3 = null;
+			String codigoBarraDigitoVerificadorCampo3 = null;
+			String codigoBarraCampo4 = null;
+			String codigoBarraDigitoVerificadorCampo4 = null;
 
-		// Monta a representação númerica do código de barras com os dígitos
-		// verificadores
-		representacaoNumericaCodigoBarra = codigoBarraCampo1 + codigoBarraDigitoVerificadorCampo1 + codigoBarraCampo2 + codigoBarraDigitoVerificadorCampo2 + codigoBarraCampo3
-				+ codigoBarraDigitoVerificadorCampo3 + codigoBarraCampo4 + codigoBarraDigitoVerificadorCampo4;
+			// Separa as 44 posições do código de barras em 4 grupos de onze
+			// posições
+			// e para cada um dos grupos calcula o dígito verificador do módulo 11
+			codigoBarraCampo1 = representacaoNumericaCodigoBarra.substring(0, 11);
+			// codigoBarraDigitoVerificadorCampo1 =
+			// (obterDigitoVerificadorModulo11(new Long(
+			// codigoBarraCampo1))).toString();
+			codigoBarraDigitoVerificadorCampo1 = (Util.obterDigitoVerificadorModulo10(new Long(Long.parseLong(codigoBarraCampo1)))).toString();
+			codigoBarraCampo2 = representacaoNumericaCodigoBarra.substring(11, 22);
+			/*
+			 * codigoBarraDigitoVerificadorCampo2 =
+			 * (obterDigitoVerificadorModulo11(new Long(
+			 * codigoBarraCampo2))).toString();
+			 */
+			codigoBarraDigitoVerificadorCampo2 = (Util.obterDigitoVerificadorModulo10(new Long(Long.parseLong(codigoBarraCampo2)))).toString();
+			codigoBarraCampo3 = representacaoNumericaCodigoBarra.substring(22, 33);
+			/*
+			 * codigoBarraDigitoVerificadorCampo3 =
+			 * (obterDigitoVerificadorModulo11(new Long(
+			 * codigoBarraCampo3))).toString();
+			 */
+			codigoBarraDigitoVerificadorCampo3 = (Util.obterDigitoVerificadorModulo10(new Long(Long.parseLong(codigoBarraCampo3)))).toString();
+			codigoBarraCampo4 = representacaoNumericaCodigoBarra.substring(33, 44);
+			/*
+			 * codigoBarraDigitoVerificadorCampo4 =
+			 * (obterDigitoVerificadorModulo11(new Long(
+			 * codigoBarraCampo4))).toString();
+			 */
+			codigoBarraDigitoVerificadorCampo4 = (Util.obterDigitoVerificadorModulo10(new Long(Long.parseLong(codigoBarraCampo4)))).toString();
+
+			// Monta a representação númerica do código de barras com os dígitos
+			// verificadores
+			representacaoNumericaCodigoBarra = codigoBarraCampo1 + codigoBarraDigitoVerificadorCampo1 + codigoBarraCampo2 + codigoBarraDigitoVerificadorCampo2 + codigoBarraCampo3
+					+ codigoBarraDigitoVerificadorCampo3 + codigoBarraCampo4 + codigoBarraDigitoVerificadorCampo4;
+		} else{
+
+			String representacaoNumericaCodigoBarraMontagem = "";
+			// G.05.1 - Codigo Banco
+			String codigoBancoFichaCompensacao = "001";
+			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + codigoBancoFichaCompensacao;
+
+			// Codigo Moeda
+			String codigoMoeda = "9";
+			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + codigoMoeda;
+
+			//Fator vencimento
+			Date validade = ControladorImovel.getInstancia().getImovelSelecionado().getDataValidadeConta();
+			String fatorVencimento = Util.obterFatorVencimento(validade);
+
+			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + fatorVencimento;
+
+			//Valor Conta
+			String valorContaString = Util.formatarDoubleParaMoedaReal(valorCodigoBarra);
+			valorContaString = replaceAll(valorContaString, ".", "");
+			valorContaString = replaceAll(valorContaString, ",", "");
+
+			// G.05.5 - Valor do código de barras
+			String valorCodigoBarraFormatado = Util.adicionarZerosEsquerdaNumero(10, valorContaString);
+			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + valorCodigoBarraFormatado;
+
+			//Zeros
+			String zeros = "0";
+			zeros = Util.adicionarZerosEsquerdaNumero(6, zeros);
+			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + zeros;
+
+			// G.05.1 - Identificação do convenio
+			String identificacaoEmpresa = String.valueOf(ControladorImovel.getInstancia().getImovelSelecionado().getCodigoConvenio());
+			identificacaoEmpresa = Util.adicionarZerosEsquerdaNumero(7, identificacaoEmpresa);
+			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + identificacaoEmpresa;
+
+			// G.05.1 - Id tipo documento
+			String idTipoDocumentoFichaCompensacao = "01";
+			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + idTipoDocumentoFichaCompensacao;
+
+			String numeroConta = String.valueOf(ControladorImovel.getInstancia().getImovelSelecionado().getNumeroConta());
+			numeroConta = Util.adicionarZerosEsquerdaNumero(8, numeroConta);
+			numeroConta = Util.removerUltimoCaractere(numeroConta);
+			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + numeroConta;
+
+			// Carteira
+			String carteira = "18";
+			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + carteira;
+
+			// G.05.3 - Dígito verificador geral
+			// [SB0001] Obter Dígito verificador geral
+			String digitoVerificadorGeral = (Util.obterDigitoVerificadorModulo11(representacaoNumericaCodigoBarraMontagem.toString())).toString();
+
+			if(digitoVerificadorGeral.equalsIgnoreCase("0") ||
+					digitoVerificadorGeral.equalsIgnoreCase("10") ||
+					digitoVerificadorGeral.equalsIgnoreCase("11")){
+				digitoVerificadorGeral = "1";
+			}
+            // Numero sem DV
+			String nossoNumeroSemDv = "";
+			nossoNumeroSemDv = identificacaoEmpresa + idTipoDocumentoFichaCompensacao + numeroConta;
+
+			//Representacao numerica do cadigo de barras para ser formatado
+			representacaoNumericaCodigoBarra = codigoBancoFichaCompensacao + codigoMoeda + digitoVerificadorGeral + fatorVencimento + valorCodigoBarraFormatado + zeros + nossoNumeroSemDv + carteira;
+
+			//Formatação do cadigo de barras ficha de compensação
+			String codigoBarraCampo1 = representacaoNumericaCodigoBarra.substring(0, 4) + representacaoNumericaCodigoBarra.substring(20, 21);
+			codigoBarraCampo1 = codigoBarraCampo1 + "." +  representacaoNumericaCodigoBarra.substring(21, 25);
+			String codigoBarraDigitoVerificadorCampo1 = (Util.obterDigitoVerificadorModulo10(new Long(codigoBarraCampo1.replace(".","")))).toString();
+			codigoBarraDigitoVerificadorCampo1 = codigoBarraDigitoVerificadorCampo1 + " ";
+
+			String codigoBarraCampo2 = representacaoNumericaCodigoBarra.substring(24, 29);
+			codigoBarraCampo2 = codigoBarraCampo2 + "." +  representacaoNumericaCodigoBarra.substring(29, 34);
+			String codigoBarraDigitoVerificadorCampo2 = (Util.obterDigitoVerificadorModulo10(new Long(codigoBarraCampo2.replace(".","")))).toString();
+			codigoBarraDigitoVerificadorCampo2 = codigoBarraDigitoVerificadorCampo2 + " ";
+
+			String codigoBarraCampo3 = representacaoNumericaCodigoBarra.substring(34, 39);
+			codigoBarraCampo3 = codigoBarraCampo3 + "." +  representacaoNumericaCodigoBarra.substring(39, 44);
+			String codigoBarraDigitoVerificadorCampo3 = (Util.obterDigitoVerificadorModulo10(new Long(codigoBarraCampo3.replace(".","")))).toString();
+			codigoBarraDigitoVerificadorCampo3 = codigoBarraDigitoVerificadorCampo3 + " ";
+
+			String codigoBarraDigitoVerificadorCampo4 = representacaoNumericaCodigoBarra.substring(4,5) + " ";
+
+			String codigoBarraCampo5 = representacaoNumericaCodigoBarra.substring(5, 19);
+
+			// Monta a representação númerica do código de barras com os dígitos verificadores
+			representacaoNumericaCodigoBarra = codigoBarraCampo1
+					+ codigoBarraDigitoVerificadorCampo1
+					+ codigoBarraCampo2
+					+ codigoBarraDigitoVerificadorCampo2
+					+ codigoBarraCampo3
+					+ codigoBarraDigitoVerificadorCampo3
+					+ codigoBarraDigitoVerificadorCampo4
+					+ codigoBarraCampo5;
+
+		}
 
 		// Retorna a representação númerica do código de barras
 		return representacaoNumericaCodigoBarra;
+	}
+
+	public static String removerUltimoCaractere(String str)
+	{
+		str = str.substring(0, str.length()-1);
+		return str;
+	}
+
+	/**
+	 * [UC0261] - Obter Dígito Verificador Módulo 11
+	 */
+	public static Integer obterDigitoVerificadorModulo11(String numero) {
+
+		String wnumero = numero;
+		int param = 2;
+		int soma = 0;
+
+		for (int ind = (wnumero.length() - 1); ind >= 0; ind--) {
+			if (param > 9) {
+				param = 2;
+			}
+			soma = soma + (Integer.parseInt(wnumero.substring(ind, ind + 1)) * param);
+			param = param + 1;
+		}
+
+		int resto = soma % 11;
+		int dv;
+
+		if ((resto == 0) || (resto == 1)) {
+			dv = 0;
+		} else {
+			dv = 11 - resto;
+		}
+		return dv;
+	}
+
+	public static final String obterFatorVencimento(Date dataVencimento){
+		Date dataBase = Util.criarData(07, 10, 1997);
+
+		return String.valueOf(Util.obterQuantidadeDiasEntreDuasDatas(dataBase, dataVencimento));
+	}
+
+	public static Date criarData(int dia, int mes, int ano) {
+		Calendar calendario;
+
+		calendario = Calendar.getInstance();
+		calendario.set(ano, mes - 1, dia, 0, 0, 0);
+
+		return calendario.getTime();
+	}
+
+	public static int obterQuantidadeDiasEntreDuasDatas(Date dataInicial, Date dataFinal) {
+
+		GregorianCalendar startTime = new GregorianCalendar();
+		GregorianCalendar endTime = new GregorianCalendar();
+
+		GregorianCalendar curTime = new GregorianCalendar();
+		GregorianCalendar baseTime = new GregorianCalendar();
+
+		if (dataInicial instanceof Timestamp) {
+			dataInicial = new Date(((Date) dataInicial).getTime());
+		}
+
+		if (dataFinal instanceof Timestamp) {
+			dataFinal = new Date(((Date) dataFinal).getTime());
+		}
+
+		startTime.setTime(dataInicial);
+		endTime.setTime(dataFinal);
+
+		int multiplicadorDiferenca = 1;
+
+		// Verifica a ordem de inicio das datas
+		if (dataInicial.compareTo(dataFinal) < 0) {
+			baseTime.setTime(dataFinal);
+			curTime.setTime(dataInicial);
+			multiplicadorDiferenca = 1;
+		} else {
+			baseTime.setTime(dataInicial);
+			curTime.setTime(dataFinal);
+			multiplicadorDiferenca = -1;
+		}
+
+		int resultadoAno = 0;
+		int resultadoMeses = 0;
+		int resultadoDias = 0;
+
+		// Para cada mes e ano, vai de mes em mes pegar o ultimo dia para ir
+		// acumulando
+		// no total de dias. Ja leva em consideracao ano bissesto
+		while (curTime.get(GregorianCalendar.YEAR) < baseTime.get(GregorianCalendar.YEAR)
+				|| curTime.get(GregorianCalendar.MONTH) < baseTime.get(GregorianCalendar.MONTH)) {
+
+			int max_day = curTime.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+			resultadoMeses += max_day;
+			curTime.add(GregorianCalendar.MONTH, 1);
+
+		}
+
+		// Marca que é um saldo negativo ou positivo
+		resultadoMeses = resultadoMeses * multiplicadorDiferenca;
+
+		// Retirna a diferenca de dias do total dos meses
+		resultadoDias += (endTime.get(GregorianCalendar.DAY_OF_MONTH) - startTime.get(GregorianCalendar.DAY_OF_MONTH));
+
+		return resultadoAno + resultadoMeses + resultadoDias;
 	}
 
 	public static Integer obterDigitoVerificadorModulo10(Long numero) {
