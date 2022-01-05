@@ -807,21 +807,26 @@ public class ImpressaoContaCosanpa {
 				System.out.println("##COD AGENCIA DO IF: " + imovel.getCodigoAgencia());
 
 				Integer codigoConvenio = ControladorImovel.getInstancia().getImovelSelecionado().getCodigoConvenio();
+				Integer identificacaoFebraban = Integer.valueOf(ControladorRota.getInstancia().getDadosGerais().getCodigoEmpresaFebraban());
 
 				    String representacaoNumericaCodBarraFormatada = "";
 					String representacaoNumericaCodBarra = Util.obterRepresentacaoNumericaCodigoBarra(new Integer(3), imovel.getValorConta(), new Integer(Integer.parseInt(imovel.getInscricao().substring(0, 3))), new Integer(imovel.getMatricula()),
 							Util.formatarAnoMesParaMesAnoSemBarra(imovel.getAnoMesConta()), new Integer(imovel.getDigitoVerificadorConta()), null, null, null, null, null, null);
-				if(codigoConvenio == null) {
+
+				if(codigoConvenio == identificacaoFebraban) {
 					 representacaoNumericaCodBarraFormatada = representacaoNumericaCodBarra.substring(0, 11).trim() + "-" + representacaoNumericaCodBarra.substring(11, 12).trim() + " " + representacaoNumericaCodBarra.substring(12, 23).trim() + "-"
 							+ representacaoNumericaCodBarra.substring(23, 24).trim() + " " + representacaoNumericaCodBarra.substring(24, 35).trim() + "-" + representacaoNumericaCodBarra.substring(35, 36).trim() + " " + representacaoNumericaCodBarra.substring(36, 47).trim() + "-"
 							+ representacaoNumericaCodBarra.substring(47, 48);
-				}else{
-					 representacaoNumericaCodBarraFormatada = representacaoNumericaCodBarra;
-				}
 					repNumericaCodBarra += formarLinha(5, 0, 66, 2840, representacaoNumericaCodBarraFormatada, 0, 0);
 					String representacaoCodigoBarrasSemDigitoVerificador = representacaoNumericaCodBarra.substring(0, 11) + representacaoNumericaCodBarra.substring(12, 23) + representacaoNumericaCodBarra.substring(24, 35) + representacaoNumericaCodBarra.substring(36, 47);
 					repCodigoBarrasSemDigitoVerificador += "B I2OF5 1 2 120 35 2863 " + representacaoCodigoBarrasSemDigitoVerificador + "\n";
-
+				}else{
+					representacaoNumericaCodBarraFormatada = representacaoNumericaCodBarra;
+					repNumericaCodBarra += formarLinha(5, 0, 66, 2840, representacaoNumericaCodBarraFormatada, 0, 0);
+					String representacaoCodigoBarrasSemDigitoVerificador = Util.obterRepresentacaoNumericaCodigoBarraSemDigitoVerificador(new Integer(3), imovel.getValorConta(), new Integer(Integer.parseInt(imovel.getInscricao().substring(0, 3))), new Integer(imovel.getMatricula()),
+							Util.formatarAnoMesParaMesAnoSemBarra(imovel.getAnoMesConta()), new Integer(imovel.getDigitoVerificadorConta()), null, null, null, null, null, null);
+					repCodigoBarrasSemDigitoVerificador += "B I2OF5 1 2 120 35 2863 " + representacaoCodigoBarrasSemDigitoVerificador + "\n";
+				}
 			} else {
 				repCodigoBarrasSemDigitoVerificador = formarLinha(4, 0, 182, 2863, "DEBITO AUTOMATICO", 0, 0);
 			}
