@@ -1543,10 +1543,8 @@ public class Util {
 		// Cria a variável que vai armazenar a representação númerica do código
 		// de barras
 		String representacaoNumericaCodigoBarra = "";
-		Integer codigoConvenio = ControladorImovel.getInstancia().getImovelSelecionado().getCodigoConvenio();
-		Integer identificacaoFebraban = Integer.valueOf(ControladorRota.getInstancia().getDadosGerais().getCodigoEmpresaFebraban());
 
-		if(codigoConvenio == identificacaoFebraban){
+		if(ControladorImovel.getInstancia().getImovelSelecionado().getCpfCnpjCliente().equals("                  ")){
 
 			// G.05.1 - Identificação do produto
 			String identificacaoProduto = "8";
@@ -1578,7 +1576,7 @@ public class Util {
 			// G.05.6 - Identificação da empresa
 			// Fixo por enquanto
 			String identificacaoEmpresa = ControladorRota.getInstancia().getDadosGerais().getCodigoEmpresaFebraban();
-			identificacaoEmpresa = Util.adicionarZerosEsquerdaNumero(7, identificacaoEmpresa);
+			identificacaoEmpresa = Util.adicionarZerosEsquerdaNumero(4, identificacaoEmpresa);
 			representacaoNumericaCodigoBarra = representacaoNumericaCodigoBarra + identificacaoEmpresa;
 
 			// G.05.7 Identificação do pagamento
@@ -1642,6 +1640,9 @@ public class Util {
 			// verificadores
 			representacaoNumericaCodigoBarra = codigoBarraCampo1 + codigoBarraDigitoVerificadorCampo1 + codigoBarraCampo2 + codigoBarraDigitoVerificadorCampo2 + codigoBarraCampo3
 					+ codigoBarraDigitoVerificadorCampo3 + codigoBarraCampo4 + codigoBarraDigitoVerificadorCampo4;
+
+			// Retorna a representação númerica do código de barras
+
 		} else{
 
 			String representacaoNumericaCodigoBarraMontagem = "";
@@ -1798,7 +1799,7 @@ public class Util {
 		}
 
 		// Carteira
-		String carteira = "18";
+		String carteira = "17";
 		representacaoNumericaCodigoBarraSemDigitoVerificador = representacaoNumericaCodigoBarraSemDigitoVerificador + carteira;
 
 		// Numero sem DV
