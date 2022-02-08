@@ -1689,7 +1689,7 @@ public class Util {
 			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + numeroConta;
 
 			// Carteira
-			String carteira = "18";
+			String carteira = "17";
 			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + carteira;
 
 			// G.05.3 - Dígito verificador geral
