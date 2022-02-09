@@ -1694,6 +1694,7 @@ public class Util {
 
 			// G.05.3 - Dígito verificador geral
 			// [SB0001] Obter Dígito verificador geral
+		//	representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem.substring(0,3) + representacaoNumericaCodigoBarraMontagem.substring(4,44);
 			String digitoVerificadorGeral = (Util.obterDigitoVerificadorModulo11(representacaoNumericaCodigoBarraMontagem)).toString();
 
 			if(digitoVerificadorGeral.equalsIgnoreCase("0") ||
@@ -1701,6 +1702,9 @@ public class Util {
 					digitoVerificadorGeral.equalsIgnoreCase("11")){
 				digitoVerificadorGeral = "1";
 			}
+
+		//	numeroConta = Util.removerUltimoCaractere(numeroConta);
+
             // Numero sem DV
 			String nossoNumeroSemDv = "";
 			nossoNumeroSemDv = identificacaoEmpresa + idTipoDocumentoFichaCompensacao + numeroConta;
@@ -1728,7 +1732,7 @@ public class Util {
 
 			String codigoBarraCampo5 = representacaoNumericaCodigoBarra.substring(5, 19);
 
-			// Monta a representação númerica do código de barras com os dígitos verificadores
+			// Monta a representação numerica do codigo de barras com os digitos verificadores
 			representacaoNumericaCodigoBarra = codigoBarraCampo1
 					+ codigoBarraDigitoVerificadorCampo1
 					+ codigoBarraCampo2
@@ -1742,75 +1746,6 @@ public class Util {
 
 		// Retorna a representação númerica do código de barras
 		return representacaoNumericaCodigoBarra;
-	}
-
-	public static String obterRepresentacaoNumericaCodigoBarraSemDigitoVerificador(Integer tipoPagamento, double valorCodigoBarra, Integer idLocalidade, Integer matriculaImovel,
-															   String mesAnoReferenciaConta, Integer digitoVerificadorRefContaModulo10, Integer idTipoDebito, String anoEmissaoGuiaPagamento, String sequencialDocumentoCobranca,
-															   Integer idTipoDocumento, Integer idCliente, Integer seqFaturaClienteResponsavel) {
-		String representacaoNumericaCodigoBarraSemDigitoVerificador = "";
-		// G.05.1 - Codigo Banco
-		String codigoBancoFichaCompensacao = "001";
-		representacaoNumericaCodigoBarraSemDigitoVerificador = representacaoNumericaCodigoBarraSemDigitoVerificador + codigoBancoFichaCompensacao;
-
-		// Codigo Moeda
-		String codigoMoeda = "9";
-		representacaoNumericaCodigoBarraSemDigitoVerificador = representacaoNumericaCodigoBarraSemDigitoVerificador + codigoMoeda;
-
-		//Fator vencimento
-		Date validade = ControladorImovel.getInstancia().getImovelSelecionado().getDataValidadeConta();
-		String fatorVencimento = Util.obterFatorVencimento(validade);
-
-		representacaoNumericaCodigoBarraSemDigitoVerificador = representacaoNumericaCodigoBarraSemDigitoVerificador + fatorVencimento;
-
-		//Valor Conta
-		String valorContaString = Util.formatarDoubleParaMoedaReal(valorCodigoBarra);
-		valorContaString = replaceAll(valorContaString, ".", "");
-		valorContaString = replaceAll(valorContaString, ",", "");
-
-		// G.05.5 - Valor do código de barras
-		String valorCodigoBarraFormatado = Util.adicionarZerosEsquerdaNumero(10, valorContaString);
-		representacaoNumericaCodigoBarraSemDigitoVerificador = representacaoNumericaCodigoBarraSemDigitoVerificador + valorCodigoBarraFormatado;
-
-		//Zeros
-		String zeros = "0";
-		zeros = Util.adicionarZerosEsquerdaNumero(6, zeros);
-		representacaoNumericaCodigoBarraSemDigitoVerificador = representacaoNumericaCodigoBarraSemDigitoVerificador + zeros;
-
-		// G.05.1 - Identificação do convenio
-		String identificacaoEmpresa = String.valueOf(ControladorImovel.getInstancia().getImovelSelecionado().getCodigoConvenio());
-		identificacaoEmpresa = Util.adicionarZerosEsquerdaNumero(7, identificacaoEmpresa);
-		representacaoNumericaCodigoBarraSemDigitoVerificador = representacaoNumericaCodigoBarraSemDigitoVerificador + identificacaoEmpresa;
-
-		// G.05.1 - Id tipo documento
-		String idTipoDocumentoFichaCompensacao = "01";
-		representacaoNumericaCodigoBarraSemDigitoVerificador = representacaoNumericaCodigoBarraSemDigitoVerificador + idTipoDocumentoFichaCompensacao;
-
-		String numeroConta = String.valueOf(ControladorImovel.getInstancia().getImovelSelecionado().getNumeroConta());
-		numeroConta = Util.adicionarZerosEsquerdaNumero(8, numeroConta);
-		numeroConta = Util.removerUltimoCaractere(numeroConta);
-		representacaoNumericaCodigoBarraSemDigitoVerificador = representacaoNumericaCodigoBarraSemDigitoVerificador + numeroConta;
-
-		String digitoVerificadorGeral = (Util.obterDigitoVerificadorModulo11(representacaoNumericaCodigoBarraSemDigitoVerificador)).toString();
-
-		if(digitoVerificadorGeral.equalsIgnoreCase("0") ||
-				digitoVerificadorGeral.equalsIgnoreCase("10") ||
-				digitoVerificadorGeral.equalsIgnoreCase("11")){
-			digitoVerificadorGeral = "1";
-		}
-
-		// Carteira
-		String carteira = "17";
-		representacaoNumericaCodigoBarraSemDigitoVerificador = representacaoNumericaCodigoBarraSemDigitoVerificador + carteira;
-
-		// Numero sem DV
-		String nossoNumeroSemDv = "";
-		nossoNumeroSemDv = identificacaoEmpresa + idTipoDocumentoFichaCompensacao + numeroConta;
-
-		//Representacao numerica do cadigo de barras para ser formatado
-		representacaoNumericaCodigoBarraSemDigitoVerificador = codigoBancoFichaCompensacao + codigoMoeda  + digitoVerificadorGeral + fatorVencimento + valorCodigoBarraFormatado + zeros + nossoNumeroSemDv + carteira;
-
-
-		return representacaoNumericaCodigoBarraSemDigitoVerificador;
 	}
 
 	public static String removerUltimoCaractere(String str)
