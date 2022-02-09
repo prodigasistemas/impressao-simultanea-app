@@ -826,8 +826,8 @@ public class ImpressaoContaCosanpa {
 					String representacaoNumericaSemPontos = representacaoNumericaCodBarra.substring(0,5) + representacaoNumericaCodBarra.substring(6,11) + representacaoNumericaCodBarra.substring(12,17)
 							+ representacaoNumericaCodBarra.substring(18,24) + representacaoNumericaCodBarra.substring(25,30) + representacaoNumericaCodBarra.substring(31,37) + representacaoNumericaCodBarra.substring(38,39)
 							+ representacaoNumericaCodBarra.substring(40,54);
-					String representacaoCodigoBarrasSemDigitoVerificador = representacaoNumericaSemPontos.substring(0, 4) + representacaoNumericaSemPontos.substring(32, 47) + representacaoNumericaSemPontos.substring(4, 9) + representacaoNumericaSemPontos.substring(10, 19)
-							+ representacaoNumericaSemPontos.substring(20, 31);
+					String representacaoCodigoBarrasSemDigitoVerificador = representacaoNumericaSemPontos.substring(0, 4) + representacaoNumericaSemPontos.substring(32, 47) + representacaoNumericaSemPontos.substring(4, 9) + representacaoNumericaSemPontos.substring(10, 20)
+							+ representacaoNumericaSemPontos.substring(21, 31);
 					repCodigoBarrasSemDigitoVerificador += "B I2OF5 1 2 120 35 2863 " + representacaoCodigoBarrasSemDigitoVerificador + "\n"; }
 			} else {
 				repCodigoBarrasSemDigitoVerificador = formarLinha(4, 0, 182, 2863, "DEBITO AUTOMATICO", 0, 0);

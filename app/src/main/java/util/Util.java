@@ -1694,7 +1694,6 @@ public class Util {
 
 			// G.05.3 - Dígito verificador geral
 			// [SB0001] Obter Dígito verificador geral
-		//	representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem.substring(0,3) + representacaoNumericaCodigoBarraMontagem.substring(4,44);
 			String digitoVerificadorGeral = (Util.obterDigitoVerificadorModulo11(representacaoNumericaCodigoBarraMontagem)).toString();
 
 			if(digitoVerificadorGeral.equalsIgnoreCase("0") ||
@@ -1702,8 +1701,6 @@ public class Util {
 					digitoVerificadorGeral.equalsIgnoreCase("11")){
 				digitoVerificadorGeral = "1";
 			}
-
-		//	numeroConta = Util.removerUltimoCaractere(numeroConta);
 
             // Numero sem DV
 			String nossoNumeroSemDv = "";
