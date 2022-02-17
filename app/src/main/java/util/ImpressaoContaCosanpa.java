@@ -116,6 +116,12 @@ public class ImpressaoContaCosanpa {
 	private String txtConsumo = "";
 	private String anormalidadeLeitura = "";
 
+	//Linhas Boleto
+	private String banco = "";
+	private String bancoDigito = "";
+	private String numeroDocumento = "";
+
+
 	private String montarComandoImpressaoFatura(int tipoImpressao) {
 
 		String comando = "! 0 200 200 3200 1\n"+
@@ -161,6 +167,11 @@ public class ImpressaoContaCosanpa {
 
 				//"T 7 0 37 436 ANTERIOR\n" +
 				//"T 7 0 37 460 ATUAL\n" +
+
+				"T 5 0 37 460 "+ "GRUPO" + "\n" +
+				"T 5 0 109 485 "+ grupoFaturamento + "\n" +
+				"T 5 0 352 485 4\n"+
+				"T 5 0 680 485 "+imovel.getMatricula()+"\n"+
 
 				anormalidadeConsumo + // TODO
 				anormalidadeLeitura + // TODO
@@ -253,13 +264,31 @@ public class ImpressaoContaCosanpa {
 							"T 0 2 598 2606 "+ dataVencimento + "\n" +
 							"T 0 2 730 2606 "+ totalAPagar + "\n" +
 
+							banco+
+							bancoDigito+
+
+							"T 7 0 300 2821 PAGAVEL EM QUALQUER BANCO\n"+
+
 							repNumericaCodBarra +
+
+							"T 7 0 32 2897 PAGADOR:" + imovel.getNomeUsuario() +"\n"+
+							getCpfCnpjUsuario()+
+
+							"T 7 0 32 2925 NOSSO NUMERO\n" +
+							"T 7 0 32 2945"+ getNossoNumero() +"\n" +
+							"T 7 0 251 2925 NUMERO DOCUMENTO\n " +
+							"T 7 0 251 2945 "+ numeroDocumento +" \n" +
+							"T 7 0 450 2925 VENCIMENTO\n" +
+							"T 7 0 450 2945 "+ dataVencimentoConta + "\n" +
+							"T 7 0 580 2925 VALOR DOCUMENTO\n" +
+							"T 7 0 580 2945 "+ valorConta +"\n" +
+
+							"T 7 0 32 2970 COMPANHIA DE SANEAMENTO DO PARA / CNPJ: 04.945.341/0001-90\n" +
+							"T 7 0 32 2996 INFORMACOES DE RESPONSABILIDADE DO BENEFICIARIO\n" +
+							"T 7 0 32 3016 EM CASO DE ATRASO, MULTAS, JUROS E CORRECAO\n" +
+							"T 7 0 32 3036 SERAO COBRADOS NA PROXIMA FATURA\n"+
 							repCodigoBarrasSemDigitoVerificador +
-//
-//							"T 5 0 79 3010 "+ "GRUPO" + "\n" +
-//							"T 5 0 109 3035 "+ grupoFaturamento + "\n" +
-//							"T 5 0 352 3035 4\n"+
-//							"T 5 0 680 3035 "+imovel.getMatricula()+"\n"+
+
 							"FORM\n"+
 							"PRINT\n";
 
@@ -341,10 +370,14 @@ public class ImpressaoContaCosanpa {
 
 					//Linhas do Boleto
 					"LINE 32 2840 802 2840 1\n" +
+					"LINE 224 2820 224 2840 2\n" +
+					"LINE 293 2820 293 2840 2 \n" +
 					"LINE 32 2892 802 2892 1\n" +
 					"LINE 32 2924 802 2924 1\n" +
-					"LINE 32 2968 802 2968 1\n" +
-					"LINE 32 2995 802 2995 1\n"+
+					"LINE 241 2924 241 2968 2\n" +
+					"LINE 446 2924 446 2968 2\n" +
+					"LINE 575 2924 575 2968 2\n" +
+					"LINE 32 2968 802 2968 1\n"+
 					"";
 
 
@@ -814,7 +847,7 @@ public class ImpressaoContaCosanpa {
 			if (imovel.getCodigoAgencia() == null || imovel.getCodigoAgencia().equals("")) {
 				System.out.println("##COD AGENCIA DO IF: " + imovel.getCodigoAgencia());
 
-				if(ControladorImovel.getInstancia().getImovelSelecionado().getCpfCnpjCliente().equals("                  ")) {
+				if(ControladorImovel.getInstancia().getImovelSelecionado().getCpfCnpjCliente().equals("                 ")) {
 				String representacaoNumericaCodBarraFormatada = "";
 				String representacaoNumericaCodBarra = Util.obterRepresentacaoNumericaCodigoBarra(new Integer(3), imovel.getValorConta(), new Integer(Integer.parseInt(imovel.getInscricao().substring(0, 3))), new Integer(imovel.getMatricula()),
 						Util.formatarAnoMesParaMesAnoSemBarra(imovel.getAnoMesConta()), new Integer(imovel.getDigitoVerificadorConta()), null, null, null, null, null, null);
@@ -825,6 +858,7 @@ public class ImpressaoContaCosanpa {
 				repNumericaCodBarra += formarLinha(5, 1, 80, 2849, representacaoNumericaCodBarraFormatada, 0, 0);
 				String representacaoCodigoBarrasSemDigitoVerificador = representacaoNumericaCodBarra.substring(0, 11) + representacaoNumericaCodBarra.substring(12, 23) + representacaoNumericaCodBarra.substring(24, 35) + representacaoNumericaCodBarra.substring(36, 47);
 				repCodigoBarrasSemDigitoVerificador += "B I2OF5 1 2 95 35 3076 " + representacaoCodigoBarrasSemDigitoVerificador + "\n";
+
 				}else{
 					String representacaoNumericaCodBarraFormatada = "";
 					String representacaoNumericaCodBarra = Util.obterRepresentacaoNumericaCodigoBarra(new Integer(3), imovel.getValorConta(), new Integer(Integer.parseInt(imovel.getInscricao().substring(0, 3))), new Integer(imovel.getMatricula()),
@@ -837,6 +871,8 @@ public class ImpressaoContaCosanpa {
 					String representacaoCodigoBarrasSemDigitoVerificador = representacaoNumericaSemPontos.substring(0, 4) + representacaoNumericaSemPontos.substring(32, 47) + representacaoNumericaSemPontos.substring(4, 9) + representacaoNumericaSemPontos.substring(10, 20)
 							+ representacaoNumericaSemPontos.substring(21, 31);
 					repCodigoBarrasSemDigitoVerificador += "B I2OF5 1 2 90 35 3076 " + representacaoCodigoBarrasSemDigitoVerificador + "\n"; }
+					banco = "T 7 0 32 2821 BANCO DO BRASIL\n";
+					bancoDigito = "T 7 0 230 2821 001-9\n";
 			} else {
 				repCodigoBarrasSemDigitoVerificador = formarLinha(4, 0, 182, 3036, "DEBITO AUTOMATICO", 0, 0);
 			}
@@ -1599,6 +1635,35 @@ public class ImpressaoContaCosanpa {
 		linha += formarLinha(0, 2, 243, 140, String.format("Email: %s", Constantes.emailAgenciaReguladora), 0, 0);
 
 		return linha;
+	}
+
+	public String getCpfCnpjUsuario() {
+		String linha = "";
+		if (!imovel.getCpfCnpjCliente().isEmpty() && imovel.getCpfCnpjCliente().length() < 14) {
+			linha = "T 7 0 516 2897 CPF:" + imovel.getCpfCnpjCliente() + "\n";
+		} else if (!imovel.getCpfCnpjCliente().isEmpty()){
+			linha = "T 7 0 516 2897 CNPJ:" + imovel.getCpfCnpjCliente() + "\n";
+		}
+		return linha;
+	}
+
+	public String getNossoNumero() {
+		// G.05.1 - Identificação do convenio
+		String identificacaoEmpresa = String.valueOf(imovel.getCodigoConvenio());
+		identificacaoEmpresa = Util.adicionarZerosEsquerdaNumero(7, identificacaoEmpresa);
+
+		// G.05.1 - Id tipo documento
+		String idTipoDocumentoFichaCompensacao = "01";
+
+		String numeroConta = String.valueOf(imovel.getNumeroConta());
+		numeroConta = Util.adicionarZerosEsquerdaNumero(8, numeroConta);
+		numeroConta = Util.removerUltimoCaractere(numeroConta);
+
+		// Numero sem DV
+		String nossoNumeroSemDv = "";
+		nossoNumeroSemDv = identificacaoEmpresa + idTipoDocumentoFichaCompensacao + numeroConta;
+
+		return nossoNumeroSemDv;
 	}
 
 }
