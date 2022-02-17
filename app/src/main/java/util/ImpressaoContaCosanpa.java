@@ -119,6 +119,7 @@ public class ImpressaoContaCosanpa {
 	//Linhas Boleto
 	private String banco = "";
 	private String bancoDigito = "";
+	private String nossoNumero = "";
 	private String numeroDocumento = "";
 
 
@@ -275,9 +276,9 @@ public class ImpressaoContaCosanpa {
 							getCpfCnpjUsuario()+
 
 							"T 7 0 32 2925 NOSSO NUMERO\n" +
-							"T 7 0 32 2945 "+ getNossoNumero() +"\n" +
+							"T 7 0 32 2945 "+ nossoNumero +"\n" +
 							"T 7 0 251 2925 NUMERO DOCUMENTO\n" +
-							"T 7 0 251 2945 "+ imovel.getAnoMesConta() + imovel.getNumeroConta() +" \n" +
+							"T 7 0 251 2945 "+ numeroDocumento +" \n" +
 							"T 7 0 450 2925 VENCIMENTO\n" +
 							"T 7 0 450 2945 "+ dataVencimentoConta + "\n" +
 							"T 7 0 580 2925 VALOR DOCUMENTO\n" +
@@ -873,6 +874,8 @@ public class ImpressaoContaCosanpa {
 					repCodigoBarrasSemDigitoVerificador += "B I2OF5 1 2 90 35 3076 " + representacaoCodigoBarrasSemDigitoVerificador + "\n";
 					banco = "T 7 0 32 2821 BANCO DO BRASIL\n";
 					bancoDigito = "T 7 0 230 2821 001-9\n";
+					nossoNumero = getNossoNumero();
+					numeroDocumento = imovel.getAnoMesConta() + imovel.getNumeroConta();
 				}
 
 			} else {
@@ -1641,10 +1644,10 @@ public class ImpressaoContaCosanpa {
 
 	public String getCpfCnpjUsuario() {
 		String linha = "";
-		if (!imovel.getCpfCnpjCliente().isEmpty() && imovel.getCpfCnpjCliente().trim().length() < 14) {
-			linha = "T 7 0 516 2897 CPF:" + imovel.getCpfCnpjCliente() + "\n";
-		} else if (!imovel.getCpfCnpjCliente().isEmpty()){
+		if (imovel.getCpfCnpjCliente().trim().length() > 11) {
 			linha = "T 7 0 516 2897 CNPJ:" + imovel.getCpfCnpjCliente() + "\n";
+		} else if (!imovel.getCpfCnpjCliente().trim().equals("")){
+			linha = "T 7 0 516 2897 CPF:" + imovel.getCpfCnpjCliente() + "\n";
 		}
 		return linha;
 	}
