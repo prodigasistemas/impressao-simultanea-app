@@ -275,9 +275,9 @@ public class ImpressaoContaCosanpa {
 							getCpfCnpjUsuario()+
 
 							"T 7 0 32 2925 NOSSO NUMERO\n" +
-							"T 7 0 32 2945"+ getNossoNumero() +"\n" +
-							"T 7 0 251 2925 NUMERO DOCUMENTO\n " +
-							"T 7 0 251 2945 "+ numeroDocumento +" \n" +
+							"T 7 0 32 2945 "+ getNossoNumero() +"\n" +
+							"T 7 0 251 2925 NUMERO DOCUMENTO\n" +
+							"T 7 0 251 2945 "+ imovel.getAnoMesConta() + imovel.getNumeroConta() +" \n" +
 							"T 7 0 450 2925 VENCIMENTO\n" +
 							"T 7 0 450 2945 "+ dataVencimentoConta + "\n" +
 							"T 7 0 580 2925 VALOR DOCUMENTO\n" +
@@ -847,7 +847,7 @@ public class ImpressaoContaCosanpa {
 			if (imovel.getCodigoAgencia() == null || imovel.getCodigoAgencia().equals("")) {
 				System.out.println("##COD AGENCIA DO IF: " + imovel.getCodigoAgencia());
 
-				if(ControladorImovel.getInstancia().getImovelSelecionado().getCpfCnpjCliente().equals("                 ")) {
+				if(ControladorImovel.getInstancia().getImovelSelecionado().getCpfCnpjCliente().equals("                  ")) {
 				String representacaoNumericaCodBarraFormatada = "";
 				String representacaoNumericaCodBarra = Util.obterRepresentacaoNumericaCodigoBarra(new Integer(3), imovel.getValorConta(), new Integer(Integer.parseInt(imovel.getInscricao().substring(0, 3))), new Integer(imovel.getMatricula()),
 						Util.formatarAnoMesParaMesAnoSemBarra(imovel.getAnoMesConta()), new Integer(imovel.getDigitoVerificadorConta()), null, null, null, null, null, null);
@@ -870,9 +870,11 @@ public class ImpressaoContaCosanpa {
 							+ representacaoNumericaCodBarra.substring(40,54);
 					String representacaoCodigoBarrasSemDigitoVerificador = representacaoNumericaSemPontos.substring(0, 4) + representacaoNumericaSemPontos.substring(32, 47) + representacaoNumericaSemPontos.substring(4, 9) + representacaoNumericaSemPontos.substring(10, 20)
 							+ representacaoNumericaSemPontos.substring(21, 31);
-					repCodigoBarrasSemDigitoVerificador += "B I2OF5 1 2 90 35 3076 " + representacaoCodigoBarrasSemDigitoVerificador + "\n"; }
+					repCodigoBarrasSemDigitoVerificador += "B I2OF5 1 2 90 35 3076 " + representacaoCodigoBarrasSemDigitoVerificador + "\n";
 					banco = "T 7 0 32 2821 BANCO DO BRASIL\n";
 					bancoDigito = "T 7 0 230 2821 001-9\n";
+				}
+
 			} else {
 				repCodigoBarrasSemDigitoVerificador = formarLinha(4, 0, 182, 3036, "DEBITO AUTOMATICO", 0, 0);
 			}
@@ -1639,7 +1641,7 @@ public class ImpressaoContaCosanpa {
 
 	public String getCpfCnpjUsuario() {
 		String linha = "";
-		if (!imovel.getCpfCnpjCliente().isEmpty() && imovel.getCpfCnpjCliente().length() < 14) {
+		if (!imovel.getCpfCnpjCliente().isEmpty() && imovel.getCpfCnpjCliente().trim().length() < 14) {
 			linha = "T 7 0 516 2897 CPF:" + imovel.getCpfCnpjCliente() + "\n";
 		} else if (!imovel.getCpfCnpjCliente().isEmpty()){
 			linha = "T 7 0 516 2897 CNPJ:" + imovel.getCpfCnpjCliente() + "\n";
