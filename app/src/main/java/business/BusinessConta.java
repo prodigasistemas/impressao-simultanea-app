@@ -455,6 +455,7 @@ public class BusinessConta {
 		if(Imovel.PERFIL_BOLSA_AGUA == imovelPerfil && reterConta){
 				mensagemPermiteImpressao = "Conta retida, entrega posterior.";
 				permiteImpressao = false;
+			    getImovelSelecionado().setIndcGeracaoConta(Constantes.NAO);
 		} else if (!leituraInvalida && !emiteConta) {
 
 			mensagemPermiteImpressao = "Conta do imóvel nao pode ser emitida.";

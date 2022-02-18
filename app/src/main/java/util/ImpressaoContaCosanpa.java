@@ -151,8 +151,8 @@ public class ImpressaoContaCosanpa {
 
 				"T 7 0 163 362 LEITURA\n"+
 				"T 7 0 163 382 FATURADO\n" +
-				"T 7 0 190 406 "+ leituraAnteriorInformada +"\n"+
-				"T 7 0 190 430 "+ leituraAtualInformada + "\n" +
+				"T 7 0 190 406 "+ leituraAnteriorFaturada +"\n"+
+				"T 7 0 190 430 "+ leituraAtualFaturada + "\n" +
 				"T 7 0 313 382 DATA\n"+
 				"T 7 0 285 406 "+ dataLeituraAnteriorInformada +"\n"+
 				"T 7 0 285 430 "+ dataLeituraAtualInformada + "\n"+
