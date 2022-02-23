@@ -1680,12 +1680,11 @@ public class Util {
 			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + identificacaoEmpresa;
 
 			// G.05.1 - Id tipo documento
-			String idTipoDocumentoFichaCompensacao = "01";
+			String idTipoDocumentoFichaCompensacao = "1";
 			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + idTipoDocumentoFichaCompensacao;
 
 			String numeroConta = String.valueOf(ControladorImovel.getInstancia().getImovelSelecionado().getNumeroConta());
-			numeroConta = Util.adicionarZerosEsquerdaNumero(8, numeroConta);
-			numeroConta = Util.removerUltimoCaractere(numeroConta);
+			numeroConta = Util.adicionarZerosEsquerdaNumero(9, numeroConta);
 			representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + numeroConta;
 
 			// Carteira
