@@ -1658,11 +1658,10 @@ public class ImpressaoContaCosanpa {
 		identificacaoEmpresa = Util.adicionarZerosEsquerdaNumero(7, identificacaoEmpresa);
 
 		// G.05.1 - Id tipo documento
-		String idTipoDocumentoFichaCompensacao = "01";
+		String idTipoDocumentoFichaCompensacao = "1";
 
 		String numeroConta = String.valueOf(imovel.getNumeroConta());
-		numeroConta = Util.adicionarZerosEsquerdaNumero(8, numeroConta);
-		numeroConta = Util.removerUltimoCaractere(numeroConta);
+		numeroConta = Util.adicionarZerosEsquerdaNumero(9, numeroConta);
 
 		// Numero sem DV
 		String nossoNumeroSemDv = "";
