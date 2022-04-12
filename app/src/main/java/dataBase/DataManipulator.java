@@ -508,7 +508,8 @@ public class DataManipulator {
 																		"indc_geracao",
 																		"latitude",
 																		"longitude",
-				                                                        "enviar_conta_fisica"
+				                                                        "enviar_conta_fisica",
+				                                                        "codigo_convenio"
 		}, condition, null, null, null,  "id asc");
 		Imovel imovel = null;
 		
@@ -601,6 +602,7 @@ public class DataManipulator {
           	imovel.setLatitude(Double.valueOf(cursor.getString(82)));
           	imovel.setLongitude(Double.valueOf(cursor.getString(83)));
 			imovel.setEnviarContaFisica(Integer.parseInt(cursor.getString(84)));
+			imovel.setCodigoConvenio(cursor.getString(85));
 		}
 		
 		fecharCursor(cursor);
@@ -1819,6 +1821,7 @@ public class DataManipulator {
 		// fazer o parse da nova posição da linha
 		// adicionar curso nos metodos que retorna imovel
 	     initialValues.put("enviar_conta_fisica", parser.obterDadoParser(1));
+		 initialValues.put("codigo_convenio", parser.obterDadoParser(7));
 
 		db.insert(Constantes.TABLE_IMOVEL, null, initialValues);
 		
