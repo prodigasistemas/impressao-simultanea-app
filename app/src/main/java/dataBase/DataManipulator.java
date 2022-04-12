@@ -602,7 +602,7 @@ public class DataManipulator {
           	imovel.setLatitude(Double.valueOf(cursor.getString(82)));
           	imovel.setLongitude(Double.valueOf(cursor.getString(83)));
 			imovel.setEnviarContaFisica(Integer.parseInt(cursor.getString(84)));
-			imovel.setCodigoConvenio(Integer.parseInt(cursor.getString(85)));
+			imovel.setCodigoConvenio(cursor.getString(85));
 		}
 		
 		fecharCursor(cursor);

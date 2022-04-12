@@ -848,19 +848,10 @@ public class ImpressaoContaCosanpa {
 			if (imovel.getCodigoAgencia() == null || imovel.getCodigoAgencia().equals("")) {
 				System.out.println("##COD AGENCIA DO IF: " + imovel.getCodigoAgencia());
 
-				if(ControladorImovel.getInstancia().getImovelSelecionado().getCpfCnpjCliente().equals("                  ")) {
-				String representacaoNumericaCodBarraFormatada = "";
-				String representacaoNumericaCodBarra = Util.obterRepresentacaoNumericaCodigoBarra(new Integer(3), imovel.getValorConta(), new Integer(Integer.parseInt(imovel.getInscricao().substring(0, 3))), new Integer(imovel.getMatricula()),
-						Util.formatarAnoMesParaMesAnoSemBarra(imovel.getAnoMesConta()), new Integer(imovel.getDigitoVerificadorConta()), null, null, null, null, null, null);
+				String cpfCnpf = ControladorImovel.getInstancia().getImovelSelecionado().getCpfCnpjCliente().trim();
+				String codigoConvenio = ControladorImovel.getInstancia().getImovelSelecionado().getCodigoConvenio().trim();
 
-				representacaoNumericaCodBarraFormatada = representacaoNumericaCodBarra.substring(0, 11).trim() + "-" + representacaoNumericaCodBarra.substring(11, 12).trim() + " " + representacaoNumericaCodBarra.substring(12, 23).trim() + "-"
-						+ representacaoNumericaCodBarra.substring(23, 24).trim() + " " + representacaoNumericaCodBarra.substring(24, 35).trim() + "-" + representacaoNumericaCodBarra.substring(35, 36).trim() + " " + representacaoNumericaCodBarra.substring(36, 47).trim() + "-"
-						+ representacaoNumericaCodBarra.substring(47, 48);
-				repNumericaCodBarra += formarLinha(5, 1, 80, 2849, representacaoNumericaCodBarraFormatada, 0, 0);
-				String representacaoCodigoBarrasSemDigitoVerificador = representacaoNumericaCodBarra.substring(0, 11) + representacaoNumericaCodBarra.substring(12, 23) + representacaoNumericaCodBarra.substring(24, 35) + representacaoNumericaCodBarra.substring(36, 47);
-				repCodigoBarrasSemDigitoVerificador += "B I2OF5 1 2 95 35 3076 " + representacaoCodigoBarrasSemDigitoVerificador + "\n";
-
-				}else{
+				if(cpfCnpf.length() > 0 && codigoConvenio.length() > 0){
 					String representacaoNumericaCodBarraFormatada = "";
 					String representacaoNumericaCodBarra = Util.obterRepresentacaoNumericaCodigoBarra(new Integer(3), imovel.getValorConta(), new Integer(Integer.parseInt(imovel.getInscricao().substring(0, 3))), new Integer(imovel.getMatricula()),
 							Util.formatarAnoMesParaMesAnoSemBarra(imovel.getAnoMesConta()), new Integer(imovel.getDigitoVerificadorConta()), null, null, null, null, null, null);
@@ -876,6 +867,18 @@ public class ImpressaoContaCosanpa {
 					bancoDigito = "T 7 0 230 2821 001-9\n";
 					nossoNumero = getNossoNumero();
 					numeroDocumento = imovel.getAnoMesConta() + imovel.getNumeroConta();
+
+				}else{
+					String representacaoNumericaCodBarraFormatada = "";
+					String representacaoNumericaCodBarra = Util.obterRepresentacaoNumericaCodigoBarra(new Integer(3), imovel.getValorConta(), new Integer(Integer.parseInt(imovel.getInscricao().substring(0, 3))), new Integer(imovel.getMatricula()),
+							Util.formatarAnoMesParaMesAnoSemBarra(imovel.getAnoMesConta()), new Integer(imovel.getDigitoVerificadorConta()), null, null, null, null, null, null);
+
+					representacaoNumericaCodBarraFormatada = representacaoNumericaCodBarra.substring(0, 11).trim() + "-" + representacaoNumericaCodBarra.substring(11, 12).trim() + " " + representacaoNumericaCodBarra.substring(12, 23).trim() + "-"
+							+ representacaoNumericaCodBarra.substring(23, 24).trim() + " " + representacaoNumericaCodBarra.substring(24, 35).trim() + "-" + representacaoNumericaCodBarra.substring(35, 36).trim() + " " + representacaoNumericaCodBarra.substring(36, 47).trim() + "-"
+							+ representacaoNumericaCodBarra.substring(47, 48);
+					repNumericaCodBarra += formarLinha(5, 1, 80, 2849, representacaoNumericaCodBarraFormatada, 0, 0);
+					String representacaoCodigoBarrasSemDigitoVerificador = representacaoNumericaCodBarra.substring(0, 11) + representacaoNumericaCodBarra.substring(12, 23) + representacaoNumericaCodBarra.substring(24, 35) + representacaoNumericaCodBarra.substring(36, 47);
+					repCodigoBarrasSemDigitoVerificador += "B I2OF5 1 2 95 35 3076 " + representacaoCodigoBarrasSemDigitoVerificador + "\n";
 				}
 
 			} else {
