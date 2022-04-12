@@ -71,10 +71,10 @@ import dataBase.DataManipulator;
 public class MainTab extends FragmentActivity implements TabHost.OnTabChangeListener, OnItemClickListener {
 
 	private static String logType = "";
-	
+
 	private static TabHost tabHost;
 	private static int increment;
-	
+
 	private BluetoothAdapter bluetoothAdapter;
 	private ListView listaDispositivos;
 	AlertDialog dialog;
@@ -87,7 +87,7 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.maintab);
-		
+
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		boolean enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -247,53 +247,53 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.proximoImovel:
+			case R.id.proximoImovel:
 
-			proximoImovel();
-			LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Proximo Imovel");
+				proximoImovel();
+				LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Proximo Imovel");
 
-			return true;
+				return true;
 
-		case R.id.imovelAnterior:
+			case R.id.imovelAnterior:
 
-			callImovelAnterior();
-			LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Imovel Anterior");
+				callImovelAnterior();
+				LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Imovel Anterior");
 
-			return true;
+				return true;
 
-		case R.id.imprimirConta:
-			LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Imprimir Conta");
+			case R.id.imprimirConta:
+				LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Imprimir Conta");
 
-			// Verifica se a data atual é anterior ao mes de referencia da rota em andamento.
-			if (Util.compararData(getImovelSelecionado().getDataLeituraAnteriorNaoMedido(), MedidorAguaTab.getCurrentDateByGPS()) > 0) {
-				showMessage("Data do celular está errada. Por favor, verifique a configuração do celular e tente novamente.");
-	//		} else if(getImovelSelecionado().getEnviarContaFisica() == Constantes.NAO) {
-			//	showMessage("Imovel indisponivel para conta fisica.");
-			} else {
+				// Verifica se a data atual é anterior ao mes de referencia da rota em andamento.
+				if (Util.compararData(getImovelSelecionado().getDataLeituraAnteriorNaoMedido(), MedidorAguaTab.getCurrentDateByGPS()) > 0) {
+					showMessage("Data do celular está errada. Por favor, verifique a configuração do celular e tente novamente.");
+				} else if(getImovelSelecionado().getEnviarContaFisica() == Constantes.NAO) {
+						showMessage("Imovel indisponivel para conta fisica.");
+				} else {
+					calculoEImpressao();
+				}
+				return true;
+
+			case R.id.calcularConsumo:
+				// inicia procedimento de cálculo de consumo de imóveis condominiais
 				calculoEImpressao();
-			}
-			return true;
+				LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Calcular Consumo");
 
-		case R.id.calcularConsumo:
-			// inicia procedimento de cálculo de consumo de imóveis condominiais
-			calculoEImpressao();
-			LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Calcular Consumo");
+				return true;
 
-			return true;
+			case R.id.imprimirContasCondominio:
+				imprimirCondominio();
+				LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Imprimir Contas de Condominio");
+				return true;
 
-		case R.id.imprimirContasCondominio:
-			 imprimirCondominio();
-			 LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Imprimir Contas de Condominio");
-			return true;
+			case R.id.localizarPendente:
+				localizarImovelPendente();
+				LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Localizar Pendente");
 
-		case R.id.localizarPendente:
-			localizarImovelPendente();
-			LogUtil.salvarLog("FLUXO DE MENU", "Clicou >> Localizar Pendente");
+				return true;
 
-			return true;
-
-		default:
-			return super.onOptionsItemSelected(item);
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -360,29 +360,29 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 		if (Util.isEmulator()) {
 
 			switch (impressaoTipo) {
-			case Constantes.IMPRESSAO_FATURA:
-				Log.i("Comando Fatura", new ImpressaoContaCosanpa().getComandoImpressaoFatura(getImovelSelecionado(), Constantes.IMPRESSAO_FATURA));
-				progressTitleMsg = "Imprimindo Fatura";
-				ControladorImovel.getInstancia().setupDataAfterPrinting(impressaoTipo);
-				ControladorAcessoOnline.getInstancia().transmitirImovel(getApplicationContext(), increment);
-				proximoImovel();
-				break;
+				case Constantes.IMPRESSAO_FATURA:
+					Log.i("Comando Fatura", new ImpressaoContaCosanpa().getComandoImpressaoFatura(getImovelSelecionado(), Constantes.IMPRESSAO_FATURA));
+					progressTitleMsg = "Imprimindo Fatura";
+					ControladorImovel.getInstancia().setupDataAfterPrinting(impressaoTipo);
+					ControladorAcessoOnline.getInstancia().transmitirImovel(getApplicationContext(), increment);
+					proximoImovel();
+					break;
 
-			case Constantes.IMPRESSAO_NOTIFICACAO_DEBITO:
-				Log.i("Comando Notificação Débito", new ImpressaoContaCosanpa().imprimirNotificacaoDebito(getImovelSelecionado()));
-				progressTitleMsg = "Imprimindo Notificação de Débito";
-				ControladorImovel.getInstancia().setupDataAfterPrinting(impressaoTipo);
-				ControladorAcessoOnline.getInstancia().transmitirImovel(getApplicationContext(), increment);
-				break;
+				case Constantes.IMPRESSAO_NOTIFICACAO_DEBITO:
+					Log.i("Comando Notificação Débito", new ImpressaoContaCosanpa().imprimirNotificacaoDebito(getImovelSelecionado()));
+					progressTitleMsg = "Imprimindo Notificação de Débito";
+					ControladorImovel.getInstancia().setupDataAfterPrinting(impressaoTipo);
+					ControladorAcessoOnline.getInstancia().transmitirImovel(getApplicationContext(), increment);
+					break;
 
-			case Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO:
-				Log.i("Comando Fatura", new ImpressaoContaCosanpa().getComandoImpressaoFatura(getImovelSelecionado(), Constantes.IMPRESSAO_FATURA));
-				Log.i("Comando Notificação Débito", new ImpressaoContaCosanpa().imprimirNotificacaoDebito(getImovelSelecionado()));
-				progressTitleMsg = "Imprimindo Fatura e Notificação de Débito";
-				ControladorImovel.getInstancia().setupDataAfterPrinting(impressaoTipo);
-				ControladorAcessoOnline.getInstancia().transmitirImovel(getApplicationContext(), increment);
-				proximoImovel();
-				break;
+				case Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO:
+					Log.i("Comando Fatura", new ImpressaoContaCosanpa().getComandoImpressaoFatura(getImovelSelecionado(), Constantes.IMPRESSAO_FATURA));
+					Log.i("Comando Notificação Débito", new ImpressaoContaCosanpa().imprimirNotificacaoDebito(getImovelSelecionado()));
+					progressTitleMsg = "Imprimindo Fatura e Notificação de Débito";
+					ControladorImovel.getInstancia().setupDataAfterPrinting(impressaoTipo);
+					ControladorAcessoOnline.getInstancia().transmitirImovel(getApplicationContext(), increment);
+					proximoImovel();
+					break;
 			}
 
 		} else {
@@ -396,17 +396,17 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 			} else {
 
 				switch (impressaoTipo) {
-				case Constantes.IMPRESSAO_FATURA:
-					progressTitleMsg = "Imprimindo Fatura";
-					break;
+					case Constantes.IMPRESSAO_FATURA:
+						progressTitleMsg = "Imprimindo Fatura";
+						break;
 
-				case Constantes.IMPRESSAO_NOTIFICACAO_DEBITO:
-					progressTitleMsg = "Imprimindo Notificação de Débito";
-					break;
+					case Constantes.IMPRESSAO_NOTIFICACAO_DEBITO:
+						progressTitleMsg = "Imprimindo Notificação de Débito";
+						break;
 
-				case Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO:
-					progressTitleMsg = "Imprimindo Fatura e Notificação de Débito";
-					break;
+					case Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO:
+						progressTitleMsg = "Imprimindo Fatura e Notificação de Débito";
+						break;
 				}
 
 				progress = new ProgressDialog(this);
@@ -769,24 +769,24 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 				if (!getImovelSelecionado().isImovelCondominio()) {
 
 					switch (ControladorImovel.getInstancia().getImpressaoTipo(MainTab.this)) {
-					case Constantes.IMPRESSAO_FATURA:
-						imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_FATURA);
-						break;
+						case Constantes.IMPRESSAO_FATURA:
+							imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_FATURA);
+							break;
 
-					case Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO:
-						imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO);
-						break;
+						case Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO:
+							imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO);
+							break;
 
-					case Constantes.IMPRESSAO_NOTIFICACAO_DEBITO:
-						imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_NOTIFICACAO_DEBITO);
-						break;
+						case Constantes.IMPRESSAO_NOTIFICACAO_DEBITO:
+							imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_NOTIFICACAO_DEBITO);
+							break;
 
-					case Constantes.IMPRESSAO_NAO_PERMITIDA:
-						showMessage(BusinessConta.getInstancia().getMensagemPermiteImpressao());
-						getImovelSelecionado().setImovelStatus(Constantes.IMOVEL_STATUS_CONCLUIDO);
-						setTabColor();
-						getDataManipulator().salvarImovel(getImovelSelecionado());
-						break;
+						case Constantes.IMPRESSAO_NAO_PERMITIDA:
+							showMessage(BusinessConta.getInstancia().getMensagemPermiteImpressao());
+							getImovelSelecionado().setImovelStatus(Constantes.IMOVEL_STATUS_CONCLUIDO);
+							setTabColor();
+							getDataManipulator().salvarImovel(getImovelSelecionado());
+							break;
 					}
 
 				} else {
@@ -893,15 +893,17 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 						// Caso o valor da conta seja menor que o valor permitido para ser impresso
 						// ou o valor do crédito for maior que o valor da conta, não imprime a conta
 						String comando = null;
-						if (imovel.isValorContaAcimaDoMinimo() && imovel.getIndcEmissaoConta() == Constantes.SIM) { // && imovel.getEnviarContaFisica() == Constantes.SIM
+
+						if (imovel.isValorContaAcimaDoMinimo() && imovel.getIndcEmissaoConta() == Constantes.SIM && imovel.getEnviarContaFisica() == Constantes.SIM) {
+
 							comando = new ImpressaoContaCosanpa().getComandoImpressaoFatura(imovel, Constantes.IMPRESSAO_FATURA);
 							conexao.write(comando.getBytes());
-							
+
 							getDataManipulator().updateConfiguracao("bluetooth_address", bluetoothAddress);
 							Thread.sleep(1500);
-							
+
 							progressImpressaoCondominial.setProgress(indiceImovelImpresso);
-							
+
 							imovel.setIndcImovelImpresso(Constantes.SIM);
 							imovel.setQuantidadeContasImpressas(1 + (imovel.getQuantidadeContasImpressas()));
 							// Guarda a data da impressao da conta de imovel
@@ -910,9 +912,11 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 								imovel.setDataImpressaoNaoMedido(Util.dateToAnoMesDiaString(MedidorAguaTab.getCurrentDateByGPS()));
 							}
 							getDataManipulator().salvarImovel(imovel);
-						} //else {
-						 //   showMessage("Imovel indisponivel para impressão.");
-					//  }
+
+						} else {
+						    showMessage("Imovel indisponivel para impressão.");
+						}
+
 
 						// Verifica se é a última conta
 						if (imovel.getId() == idImovelFinal) {
@@ -1101,28 +1105,28 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 				if (!getImovelSelecionado().isImovelCondominio()) {
 
 					switch (ControladorImovel.getInstancia().getImpressaoTipo(getApplicationContext())) {
-					case Constantes.IMPRESSAO_FATURA:
-						LogUtil.salvarLog(logType, "IMPRESSAO DE FATURA");
-						imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_FATURA);
-						break;
+						case Constantes.IMPRESSAO_FATURA:
+							LogUtil.salvarLog(logType, "IMPRESSAO DE FATURA");
+							imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_FATURA);
+							break;
 
-					case Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO:
-						LogUtil.salvarLog(logType, "IMPRESSAO DE FATURA E NOTIFICACAO");
-						imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO);
-						break;
+						case Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO:
+							LogUtil.salvarLog(logType, "IMPRESSAO DE FATURA E NOTIFICACAO");
+							imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO);
+							break;
 
-					case Constantes.IMPRESSAO_NOTIFICACAO_DEBITO:
-						LogUtil.salvarLog(logType, "IMPRESSAO DE NOTIFICACAO");
-						imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_NOTIFICACAO_DEBITO);
-						break;
+						case Constantes.IMPRESSAO_NOTIFICACAO_DEBITO:
+							LogUtil.salvarLog(logType, "IMPRESSAO DE NOTIFICACAO");
+							imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_NOTIFICACAO_DEBITO);
+							break;
 
-					case Constantes.IMPRESSAO_NAO_PERMITIDA:
-						LogUtil.salvarLog(logType, "IMPRESSAO NAO PERMITIDA");
-						getImovelSelecionado().setImovelStatus(Constantes.IMOVEL_STATUS_CONCLUIDO);
-						setTabColor();
-						getDataManipulator().salvarImovel(getImovelSelecionado());
-						ControladorAcessoOnline.getInstancia().transmitirImovel(this, increment);
-						break;
+						case Constantes.IMPRESSAO_NAO_PERMITIDA:
+							LogUtil.salvarLog(logType, "IMPRESSAO NAO PERMITIDA");
+							getImovelSelecionado().setImovelStatus(Constantes.IMOVEL_STATUS_CONCLUIDO);
+							setTabColor();
+							getDataManipulator().salvarImovel(getImovelSelecionado());
+							ControladorAcessoOnline.getInstancia().transmitirImovel(this, increment);
+							break;
 					}
 
 				} else {
@@ -1136,28 +1140,28 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 				if (!getImovelSelecionado().isImovelCondominio()) {
 
 					switch (ControladorImovel.getInstancia().getImpressaoTipo(getApplicationContext())) {
-					case Constantes.IMPRESSAO_FATURA:
-						LogUtil.salvarLog(logType, "IMPRESSAO DE FATURA");
-						imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_FATURA);
-						break;
+						case Constantes.IMPRESSAO_FATURA:
+							LogUtil.salvarLog(logType, "IMPRESSAO DE FATURA");
+							imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_FATURA);
+							break;
 
-					case Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO:
-						LogUtil.salvarLog(logType, "IMPRESSAO DE FATURA E NOTIFICACAO");
-						imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO);
-						break;
+						case Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO:
+							LogUtil.salvarLog(logType, "IMPRESSAO DE FATURA E NOTIFICACAO");
+							imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_FATURA_E_NOTIFICACAO);
+							break;
 
-					case Constantes.IMPRESSAO_NOTIFICACAO_DEBITO:
-						LogUtil.salvarLog(logType, "IMPRESSAO DE NOTIFICACAO");
-						imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_NOTIFICACAO_DEBITO);
-						break;
+						case Constantes.IMPRESSAO_NOTIFICACAO_DEBITO:
+							LogUtil.salvarLog(logType, "IMPRESSAO DE NOTIFICACAO");
+							imprimirConta(ControladorRota.getInstancia().getBluetoothAddress(), Constantes.IMPRESSAO_NOTIFICACAO_DEBITO);
+							break;
 
-					case Constantes.IMPRESSAO_NAO_PERMITIDA:
-						LogUtil.salvarLog(logType, "IMPRESSAO NAO PERMITIDA");
-						getImovelSelecionado().setImovelStatus(Constantes.IMOVEL_STATUS_CONCLUIDO);
-						setTabColor();
-						getDataManipulator().salvarImovel(getImovelSelecionado());
-						ControladorAcessoOnline.getInstancia().transmitirImovel(this, increment);
-						break;
+						case Constantes.IMPRESSAO_NAO_PERMITIDA:
+							LogUtil.salvarLog(logType, "IMPRESSAO NAO PERMITIDA");
+							getImovelSelecionado().setImovelStatus(Constantes.IMOVEL_STATUS_CONCLUIDO);
+							setTabColor();
+							getDataManipulator().salvarImovel(getImovelSelecionado());
+							ControladorAcessoOnline.getInstancia().transmitirImovel(this, increment);
+							break;
 					}
 
 				} else {
