@@ -435,7 +435,7 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 		/*
 		 * Caso não haja nenhum endereco bluetooth préviamente salvo é mostrada
 		 * a tela de pareamento de dispositivos. Caso contrário é realizada a
-		 * conexão com a impressora e impressa a conta
+		 * conexão com a impressora e impressa a conta fim
 		 */
 		if (Util.isEmulator()) {
 
