@@ -452,7 +452,13 @@ public class BusinessConta {
 			}
 		}
 
-		if(Imovel.PERFIL_BOLSA_AGUA == imovelPerfil && reterConta){
+		if(getImovelSelecionado().getEnviarContaFisica() == Constantes.NAO) {
+
+			mensagemPermiteImpressao = "Imovel indisponivel para conta fisica.";
+			permiteImpressao = false;
+
+		} else if (Imovel.PERFIL_BOLSA_AGUA == imovelPerfil && reterConta){
+
 				mensagemPermiteImpressao = "Conta retida, entrega posterior.";
 				permiteImpressao = false;
 			    getImovelSelecionado().setIndcGeracaoConta(Constantes.NAO);
