@@ -18,6 +18,7 @@ import model.DadosRelatorio;
 import android.os.Build;
 import android.util.Log;
 import business.ControladorRota;
+import model.Imovel;
 
 public class Util {
 
@@ -1459,7 +1460,7 @@ public class Util {
 
 	public static String obterRepresentacaoNumericaCodigoBarra(Integer tipoPagamento, double valorCodigoBarra, Integer idLocalidade, Integer matriculaImovel,
 			String mesAnoReferenciaConta, Integer digitoVerificadorRefContaModulo10, Integer idTipoDebito, String anoEmissaoGuiaPagamento, String sequencialDocumentoCobranca,
-			Integer idTipoDocumento, Integer idCliente, Integer seqFaturaClienteResponsavel) {
+			Integer idTipoDocumento, Integer idCliente, Integer seqFaturaClienteResponsavel, Imovel imovel) {
 
 		// [FS0001] Verificar compatibilidade dos campos informados com o tipo
 		// de pagamento
@@ -1545,11 +1546,12 @@ public class Util {
 		String representacaoNumericaCodigoBarra = "";
 
 		String cpfCnpf = ControladorImovel.getInstancia().getImovelSelecionado().getCpfCnpjCliente().trim();
-		String codigoConvenio = ControladorImovel.getInstancia().getImovelSelecionado().getCodigoConvenio().trim();
+		//String codigoConvenio = ControladorImovel.getInstancia().getImovelSelecionado().getCodigoConvenio().trim();
+		String codigoConvenioImovel = imovel.getCodigoConvenio().trim();
 
-		if(cpfCnpf.length() > 0 && codigoConvenio.length() > 0){
+		if(cpfCnpf.length() > 0 &&  codigoConvenioImovel.length() > 0){
 
-			representacaoNumericaCodigoBarra = Util.codigoDeBarrasBoleto(valorCodigoBarra);
+			representacaoNumericaCodigoBarra = Util.codigoDeBarrasBoleto(valorCodigoBarra, imovel);
 
 		} else{
 
@@ -1563,7 +1565,7 @@ public class Util {
 		return representacaoNumericaCodigoBarra;
 	}
 
-	public static String codigoDeBarrasBoleto (Double valorCodigoBarra){
+	public static String codigoDeBarrasBoleto (Double valorCodigoBarra, Imovel imovel){
         String representacaoNumericaCodigoBarra = "";
 		String representacaoNumericaCodigoBarraMontagem = "";
 		// G.05.1 - Codigo Banco
@@ -1575,7 +1577,8 @@ public class Util {
 		representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + codigoMoeda;
 
 		//Fator vencimento
-		Date validade = ControladorImovel.getInstancia().getImovelSelecionado().getDataValidadeConta();
+		Date validade = validade = imovel.getDataValidadeConta();
+
 		String fatorVencimento = Util.obterFatorVencimento(validade);
 
 		representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + fatorVencimento;
@@ -1595,7 +1598,8 @@ public class Util {
 		representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + zeros;
 
 		// G.05.1 - Identificação do convenio
-		String identificacaoEmpresa = ControladorImovel.getInstancia().getImovelSelecionado().getCodigoConvenio();
+		String identificacaoEmpresa = imovel.getCodigoConvenio();
+
 		identificacaoEmpresa = Util.adicionarZerosEsquerdaNumero(7, identificacaoEmpresa);
 		representacaoNumericaCodigoBarraMontagem = representacaoNumericaCodigoBarraMontagem + identificacaoEmpresa;
 

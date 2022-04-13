@@ -267,9 +267,7 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 				// Verifica se a data atual é anterior ao mes de referencia da rota em andamento.
 				if (Util.compararData(getImovelSelecionado().getDataLeituraAnteriorNaoMedido(), MedidorAguaTab.getCurrentDateByGPS()) > 0) {
 					showMessage("Data do celular está errada. Por favor, verifique a configuração do celular e tente novamente.");
-				} else if(getImovelSelecionado().getEnviarContaFisica() == Constantes.NAO) {
-						showMessage("Imovel indisponivel para conta fisica.");
-				} else {
+				}else{
 					calculoEImpressao();
 				}
 				return true;
@@ -894,7 +892,7 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 						// ou o valor do crédito for maior que o valor da conta, não imprime a conta
 						String comando = null;
 
-						if (imovel.isValorContaAcimaDoMinimo() && imovel.getIndcEmissaoConta() == Constantes.SIM && imovel.getEnviarContaFisica() == Constantes.SIM) {
+                        if (imovel.isValorContaAcimaDoMinimo() && imovel.getIndcEmissaoConta() == Constantes.SIM && imovel.getEnviarContaFisica() == Constantes.SIM) {
 
 							comando = new ImpressaoContaCosanpa().getComandoImpressaoFatura(imovel, Constantes.IMPRESSAO_FATURA);
 							conexao.write(comando.getBytes());
@@ -912,9 +910,11 @@ public class MainTab extends FragmentActivity implements TabHost.OnTabChangeList
 								imovel.setDataImpressaoNaoMedido(Util.dateToAnoMesDiaString(MedidorAguaTab.getCurrentDateByGPS()));
 							}
 							getDataManipulator().salvarImovel(imovel);
-
 						} else {
-						    showMessage("Imovel indisponivel para impressão.");
+							imovel.setIndcImovelImpresso(Constantes.NAO);
+							imovel.setImovelStatus(Constantes.IMOVEL_STATUS_CONCLUIDO);
+							setTabColor();
+							getDataManipulator().salvarImovel(imovel);
 						}
 
 
