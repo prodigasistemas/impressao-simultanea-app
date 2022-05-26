@@ -1550,14 +1550,9 @@ public class Imovel {
 			for (int i = 0; i < this.getCreditos(Constantes.SIM).size(); i++) {
 
 				if (isCreditoBolsaAgua(i)) {
-					double valorAguaEsgoto = this.getValorAgua() + this.getValorEsgoto();
 					double valorCredito = ((Credito) (this.getCreditos().get(i))).getValor();
+					soma += valorCredito;
 
-					if (valorAguaEsgoto > valorCredito) {
-						soma += valorCredito;
-					} else {
-						soma += valorAguaEsgoto;
-					}
 				}
 			}
 		}

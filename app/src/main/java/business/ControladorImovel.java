@@ -1,5 +1,6 @@
 package business;
 
+import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -523,6 +524,24 @@ public class ControladorImovel {
 				valorFaturado = Util.arredondar(valorFaturado * (imovel.getPercentCobrancaEsgoto() / 100), 2);
 				valorTarifaMinima = Util.arredondar(valorTarifaMinima * (imovel.getPercentCobrancaEsgoto() / 100), 2);
 			}
+
+			if (tipoMedicao == Constantes.LIGACAO_AGUA) {
+
+				if (valorFaturado < imovel.getValorCreditosBolsaAgua()){
+					valorFaturado = imovel.getValorCreditosBolsaAgua();
+					consumoFaturadoCategoriaOuSubcategoria = 20;
+				}
+			}
+
+			if (tipoMedicao == Constantes.LIGACAO_POCO) {
+				Double valorBolsaAgua =  Util.arredondar(imovel.getValorCreditosBolsaAgua() * (imovel.getPercentCobrancaEsgoto() / 100), 2);
+				if (valorFaturado < imovel.getValorCreditosBolsaAgua()){
+					valorFaturado = valorBolsaAgua;
+					consumoFaturadoCategoriaOuSubcategoria = 20;
+				}
+			}
+
+
 
 			DadosFaturamento faturamento = new DadosFaturamento(valorFaturado, consumoFaturadoCategoriaOuSubcategoria, valorTarifaMinima, consumoMinimo, faixasParaInclusao);
 
