@@ -526,16 +526,16 @@ public class ControladorImovel {
 			}
 
 			if (tipoMedicao == Constantes.LIGACAO_AGUA) {
-
-				if (valorFaturado < imovel.getValorCreditosBolsaAgua()){
-					valorFaturado = imovel.getValorCreditosBolsaAgua();
+				Double valorBolsaAgua =  Util.arredondar(imovel.getValorCreditosBolsaAgua() * (62.5 / 100), 2);
+				if (valorFaturado < valorBolsaAgua){
+					valorFaturado = valorBolsaAgua;
 					consumoFaturadoCategoriaOuSubcategoria = 20;
 				}
 			}
 
 			if (tipoMedicao == Constantes.LIGACAO_POCO) {
-				Double valorBolsaAgua =  Util.arredondar(imovel.getValorCreditosBolsaAgua() * (imovel.getPercentCobrancaEsgoto() / 100), 2);
-				if (valorFaturado < imovel.getValorCreditosBolsaAgua()){
+				Double valorBolsaAgua =  Util.arredondar(imovel.getValorCreditosBolsaAgua() * (37.5 / 100), 2);
+				if (valorFaturado < valorBolsaAgua){
 					valorFaturado = valorBolsaAgua;
 					consumoFaturadoCategoriaOuSubcategoria = 20;
 				}
