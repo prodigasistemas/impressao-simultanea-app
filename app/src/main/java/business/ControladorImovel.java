@@ -533,29 +533,36 @@ public class ControladorImovel {
 					Double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (62.5 / 100), 2);
 					if (valorFaturado < valorBolsaAgua) {
 						valorFaturado = valorBolsaAgua;
+						if(consumoFaturadoCategoriaOuSubcategoria < 20) {
 							consumoFaturadoCategoriaOuSubcategoria = 20;
-							
+						}
 					}
 				}
 				if (tipoMedicao == Constantes.LIGACAO_POCO) {
 					Double valorBolsaAgua =  Util.arredondar(imovel.getValorCreditosBolsaAgua() * (37.5 / 100), 2);
 					if (valorFaturado < valorBolsaAgua){
 						valorFaturado = valorBolsaAgua;
+						if(consumoFaturadoCategoriaOuSubcategoria < 20) {
 							consumoFaturadoCategoriaOuSubcategoria = 20;
+						}
 					}
 				}
 			}
 			if(imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == NAO) {
 				if (valorFaturado < imovel.getValorCreditosBolsaAgua()) {
 					valorFaturado = imovel.getValorCreditosBolsaAgua();
+					if(consumoFaturadoCategoriaOuSubcategoria < 20) {
 						consumoFaturadoCategoriaOuSubcategoria = 20;
+					}
 				}
 			}
 
 			if(imovel.getIndcFaturamentoEsgoto() == SIM && imovel.getIndcFaturamentoAgua() == NAO) {
 				if (valorFaturado < imovel.getValorCreditosBolsaAgua()) {
 					valorFaturado = imovel.getValorCreditosBolsaAgua();
+					if(consumoFaturadoCategoriaOuSubcategoria < 20) {
 						consumoFaturadoCategoriaOuSubcategoria = 20;
+					}
 				}
 			}
 
