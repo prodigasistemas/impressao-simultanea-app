@@ -31,6 +31,9 @@ public class ControladorImovel {
     private static Imovel imovelSelecionado = new Imovel();
     private static long idImovelSelecionado = 0;
     private static int imovelListPosition = -1;
+
+	public static final int SIM = 1;
+	public static final int NAO = 2;
     
     public static ControladorImovel getInstancia() {
 
@@ -444,7 +447,7 @@ public class ControladorImovel {
 								
 								faixaParaInclusao = new DadosFaturamentoFaixa(consumoFaturadoFaixa, valorFaturadoFaixa, limiteInicialConsumoFaixa, limiteFinalConsumoFaixa, faixa.getValorM3Faixa());
 								faixaParaInclusao.setTipoFaturamentoFaixa(tipoMedicao);
-								
+
 								faixasParaInclusao.add(faixaParaInclusao);
 								valorPorEconomia = valorFaturadoFaixa;
 								consumoEconomiaCategoriaOuSubcategoria = consumoFaturadoFaixa;
@@ -525,23 +528,36 @@ public class ControladorImovel {
 				valorTarifaMinima = Util.arredondar(valorTarifaMinima * (imovel.getPercentCobrancaEsgoto() / 100), 2);
 			}
 
-			if (tipoMedicao == Constantes.LIGACAO_AGUA) {
-				Double valorBolsaAgua =  Util.arredondar(imovel.getValorCreditosBolsaAgua() * (62.5 / 100), 2);
-				if (valorFaturado < valorBolsaAgua){
-					valorFaturado = valorBolsaAgua;
-					consumoFaturadoCategoriaOuSubcategoria = 20;
+			if(imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == SIM) {
+				if (tipoMedicao == Constantes.LIGACAO_AGUA) {
+					Double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (62.5 / 100), 2);
+					if (valorFaturado < valorBolsaAgua) {
+						valorFaturado = valorBolsaAgua;
+							consumoFaturadoCategoriaOuSubcategoria = 20;
+							
+					}
+				}
+				if (tipoMedicao == Constantes.LIGACAO_POCO) {
+					Double valorBolsaAgua =  Util.arredondar(imovel.getValorCreditosBolsaAgua() * (37.5 / 100), 2);
+					if (valorFaturado < valorBolsaAgua){
+						valorFaturado = valorBolsaAgua;
+							consumoFaturadoCategoriaOuSubcategoria = 20;
+					}
+				}
+			}
+			if(imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == NAO) {
+				if (valorFaturado < imovel.getValorCreditosBolsaAgua()) {
+					valorFaturado = imovel.getValorCreditosBolsaAgua();
+						consumoFaturadoCategoriaOuSubcategoria = 20;
 				}
 			}
 
-			if (tipoMedicao == Constantes.LIGACAO_POCO) {
-				Double valorBolsaAgua =  Util.arredondar(imovel.getValorCreditosBolsaAgua() * (37.5 / 100), 2);
-				if (valorFaturado < valorBolsaAgua){
-					valorFaturado = valorBolsaAgua;
-					consumoFaturadoCategoriaOuSubcategoria = 20;
+			if(imovel.getIndcFaturamentoEsgoto() == SIM && imovel.getIndcFaturamentoAgua() == NAO) {
+				if (valorFaturado < imovel.getValorCreditosBolsaAgua()) {
+					valorFaturado = imovel.getValorCreditosBolsaAgua();
+						consumoFaturadoCategoriaOuSubcategoria = 20;
 				}
 			}
-
-
 
 			DadosFaturamento faturamento = new DadosFaturamento(valorFaturado, consumoFaturadoCategoriaOuSubcategoria, valorTarifaMinima, consumoMinimo, faixasParaInclusao);
 
