@@ -1,6 +1,5 @@
 package business;
 
-import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -528,45 +527,15 @@ public class ControladorImovel {
 				valorTarifaMinima = Util.arredondar(valorTarifaMinima * (imovel.getPercentCobrancaEsgoto() / 100), 2);
 			}
 
-			if(imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == SIM) {
-				if (tipoMedicao == Constantes.LIGACAO_AGUA) {
-					Double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (62.5 / 100), 2);
-					if (valorFaturado < valorBolsaAgua) {
-						valorFaturado = valorBolsaAgua;
-						if(consumoFaturadoCategoriaOuSubcategoria < 20) {
-							consumoFaturadoCategoriaOuSubcategoria = 20;
-						}
-					}
-				}
-				if (tipoMedicao == Constantes.LIGACAO_POCO) {
-					Double valorBolsaAgua =  Util.arredondar(imovel.getValorCreditosBolsaAgua() * (37.5 / 100), 2);
-					if (valorFaturado < valorBolsaAgua){
-						valorFaturado = valorBolsaAgua;
-						if(consumoFaturadoCategoriaOuSubcategoria < 20) {
-							consumoFaturadoCategoriaOuSubcategoria = 20;
-						}
-					}
-				}
-			}
-			if(imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == NAO) {
-				if (valorFaturado < imovel.getValorCreditosBolsaAgua()) {
-					valorFaturado = imovel.getValorCreditosBolsaAgua();
-					if(consumoFaturadoCategoriaOuSubcategoria < 20) {
-						consumoFaturadoCategoriaOuSubcategoria = 20;
-					}
-				}
-			}
-
-			if(imovel.getIndcFaturamentoEsgoto() == SIM && imovel.getIndcFaturamentoAgua() == NAO) {
-				if (valorFaturado < imovel.getValorCreditosBolsaAgua()) {
-					valorFaturado = imovel.getValorCreditosBolsaAgua();
-					if(consumoFaturadoCategoriaOuSubcategoria < 20) {
-						consumoFaturadoCategoriaOuSubcategoria = 20;
-					}
-				}
-			}
-
-			DadosFaturamento faturamento = new DadosFaturamento(valorFaturado, consumoFaturadoCategoriaOuSubcategoria, valorTarifaMinima, consumoMinimo, faixasParaInclusao);
+			DadosFaturamento faturamento = calculoValorFaturadoBolsaAgua(
+					imovel,
+					tipoMedicao,
+					valorFaturado,
+					consumoFaturadoCategoriaOuSubcategoria,
+					quantidadeEconomiasCategoriaSubCategoria,
+					valorTarifaMinima,
+					consumoMinimo,
+					faixasParaInclusao);
 
 			LogUtil.salvarLog(logType, "Valor Faturado: " + valorFaturado
 					+ " | Consumo FATURADO Categoria Ou Subcategoria: " + consumoFaturadoCategoriaOuSubcategoria
@@ -588,6 +557,62 @@ public class ControladorImovel {
 				dadosEconomiasSubcategorias.setFaturamentoEsgoto(faturamento);
 			}
 		}
+	}
+
+	private DadosFaturamento calculoValorFaturadoBolsaAgua(
+			Imovel imovel,
+			int tipoMedicao,
+			double valorFaturado,
+			int consumoFaturadoCategoriaOuSubcategoria,
+			int quantidadeEconomiasCategoriaSubCategoria,
+			double valorTarifaMinima,
+			int consumoMinimo,
+			List<DadosFaturamentoFaixa> faixasParaInclusao) {
+
+		if(imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == SIM) {
+			if (tipoMedicao == Constantes.LIGACAO_AGUA) {
+				double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (62.5 / 100), 2);
+				if (valorFaturado < valorBolsaAgua) {
+					valorFaturado = valorBolsaAgua;
+					if(consumoFaturadoCategoriaOuSubcategoria < 20) {
+						consumoFaturadoCategoriaOuSubcategoria = 20;
+					}
+				}
+			}
+			if (tipoMedicao == Constantes.LIGACAO_POCO) {
+				double valorBolsaAgua =  Util.arredondar(imovel.getValorCreditosBolsaAgua() * (37.5 / 100), 2);
+				if (valorFaturado < valorBolsaAgua){
+					valorFaturado = valorBolsaAgua;
+					if(consumoFaturadoCategoriaOuSubcategoria < 20) {
+						consumoFaturadoCategoriaOuSubcategoria = 20;
+					}
+				}
+			}
+		}
+		if(imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == NAO) {
+			if (valorFaturado < imovel.getValorCreditosBolsaAgua()) {
+				valorFaturado = imovel.getValorCreditosBolsaAgua();
+				if(consumoFaturadoCategoriaOuSubcategoria < 20) {
+					consumoFaturadoCategoriaOuSubcategoria = 20;
+				}
+			}
+		}
+
+		if(imovel.getIndcFaturamentoEsgoto() == SIM && imovel.getIndcFaturamentoAgua() == NAO) {
+			if (valorFaturado < imovel.getValorCreditosBolsaAgua()) {
+				valorFaturado = imovel.getValorCreditosBolsaAgua();
+				if(consumoFaturadoCategoriaOuSubcategoria < 20) {
+					consumoFaturadoCategoriaOuSubcategoria = 20;
+				}
+			}
+		}
+
+		return new DadosFaturamento(
+				valorFaturado,
+				consumoFaturadoCategoriaOuSubcategoria,
+				valorTarifaMinima,
+				consumoMinimo,
+				faixasParaInclusao);
 	}
     
     /**
