@@ -575,6 +575,7 @@ public class ControladorImovel {
 
     	//Verificação se o imovel tem um ou mais pontos de consumo
 		//Imovel com somente UM ponto de consumo
+		if(getImovelSelecionado().getIndcImovelCalculado() != Constantes.SIM){
     	if(quantidadeEconomiasCategoriaSubCategoria == 1) {
     		//Verifica se o imovel tem faturamento Água é Esgoto
 			if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == SIM) {
@@ -648,12 +649,17 @@ public class ControladorImovel {
 							}
 						}
 						//verifica se o consumo é maior que 20
-					} else if(consumoFaturadoCategoriaOuSubcategoria > 20) {
+			/*		} else if(consumoFaturadoCategoriaOuSubcategoria > 20) {
 						//verifica se o valor faturado é menor que o valor da cota do bolsa água
 						if (valorFaturado < valorBolsaAgua) {
 							valorFaturado = valorBolsaAgua;
-							this.getImovelSelecionado().getCreditos();
-						}
+							for (int i = 0; i < creditos.size(); i++) {
+								Credito credito = (Credito) creditos.get(i);
+								if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
+									credito.setValor(String.valueOf(valorFaturado));
+								}
+							}
+						}*/
 					}
 				}
 				//verifica se o tipo medição atual é de água
@@ -706,7 +712,7 @@ public class ControladorImovel {
 				}
 			}
 		}
-
+		}
 		return new DadosFaturamento(
 				valorFaturado,
 				consumoFaturadoCategoriaOuSubcategoria,
