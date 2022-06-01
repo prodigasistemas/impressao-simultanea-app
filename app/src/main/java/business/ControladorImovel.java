@@ -576,158 +576,158 @@ public class ControladorImovel {
 
     	//Verificação se o imovel tem um ou mais pontos de consumo
 		//Imovel com somente UM ponto de consumo
-		if(getImovelSelecionado().getIndcImovelCalculado() != Constantes.SIM){
-    	if(quantidadeEconomiasCategoriaSubCategoria == 1) {
-    		//Verifica se o imovel tem faturamento Água é Esgoto
-			if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == SIM) {
-				//verifica se o tipo medição atual é de água
-				if (tipoMedicao == Constantes.LIGACAO_AGUA) {
-					//calculo do valor que equivale a cota do credito destinado a água
-					double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (62.5 / 100), 2);
+		if (getImovelSelecionado().getIndcImovelCalculado() != Constantes.SIM) {
+			if (quantidadeEconomiasCategoriaSubCategoria == 1) {
+				//Verifica se o imovel tem faturamento Água é Esgoto
+				if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == SIM) {
+					//verifica se o tipo medição atual é de água
+					if (tipoMedicao == Constantes.LIGACAO_AGUA) {
+						//calculo do valor que equivale a cota do credito destinado a água
+						double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (62.5 / 100), 2);
+						//verifica se o valor faturado é menor que o valor da cota do bolsa água
+						if (valorFaturado < valorBolsaAgua) {
+							valorFaturado = valorBolsaAgua;
+							//verifica se o consumo é menor que 20
+							if (consumoFaturadoCategoriaOuSubcategoria < 20) {
+								consumoFaturadoCategoriaOuSubcategoria = 20;
+							}
+						}
+					}
+					//verifica se o tipo medição atual é de esgoto
+					if (tipoMedicao == Constantes.LIGACAO_POCO) {
+						//calculo do valor que equivale a cota do credito destinado ao esgoto
+						double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (37.5 / 100), 2);
+						//verifica se o valor faturado é menor que o valor da cota do bolsa água
+						if (valorFaturado < valorBolsaAgua) {
+							valorFaturado = valorBolsaAgua;
+							//verifica se o consumo é menor que 20
+							if (consumoFaturadoCategoriaOuSubcategoria < 20) {
+								consumoFaturadoCategoriaOuSubcategoria = 20;
+							}
+						}
+					}
+				}
+				//Verifica se o imovel tem faturamento Água sem Esgoto
+				if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == NAO) {
 					//verifica se o valor faturado é menor que o valor da cota do bolsa água
-					if (valorFaturado < valorBolsaAgua) {
-						valorFaturado = valorBolsaAgua;
-						//verifica se o consumo é menor que 20
+					if (valorFaturado < imovel.getValorCreditosBolsaAgua()) {
+						valorFaturado = imovel.getValorCreditosBolsaAgua();
 						if (consumoFaturadoCategoriaOuSubcategoria < 20) {
 							consumoFaturadoCategoriaOuSubcategoria = 20;
 						}
 					}
 				}
-				//verifica se o tipo medição atual é de esgoto
-				if (tipoMedicao == Constantes.LIGACAO_POCO) {
-					//calculo do valor que equivale a cota do credito destinado ao esgoto
-					double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (37.5 / 100), 2);
+				//Verifica se o imovel tem faturamento Esgoto sem Água
+				if (imovel.getIndcFaturamentoEsgoto() == SIM && imovel.getIndcFaturamentoAgua() == NAO) {
 					//verifica se o valor faturado é menor que o valor da cota do bolsa água
-					if (valorFaturado < valorBolsaAgua) {
-						valorFaturado = valorBolsaAgua;
-						//verifica se o consumo é menor que 20
+					if (valorFaturado < imovel.getValorCreditosBolsaAgua()) {
+						valorFaturado = imovel.getValorCreditosBolsaAgua();
 						if (consumoFaturadoCategoriaOuSubcategoria < 20) {
 							consumoFaturadoCategoriaOuSubcategoria = 20;
 						}
 					}
 				}
-			}
-			//Verifica se o imovel tem faturamento Água sem Esgoto
-			if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == NAO) {
-				//verifica se o valor faturado é menor que o valor da cota do bolsa água
-				if (valorFaturado < imovel.getValorCreditosBolsaAgua()) {
-					valorFaturado = imovel.getValorCreditosBolsaAgua();
-					if (consumoFaturadoCategoriaOuSubcategoria < 20) {
-						consumoFaturadoCategoriaOuSubcategoria = 20;
-					}
-				}
-			}
-			//Verifica se o imovel tem faturamento Esgoto sem Água
-			if (imovel.getIndcFaturamentoEsgoto() == SIM && imovel.getIndcFaturamentoAgua() == NAO) {
-				//verifica se o valor faturado é menor que o valor da cota do bolsa água
-				if (valorFaturado < imovel.getValorCreditosBolsaAgua()) {
-					valorFaturado = imovel.getValorCreditosBolsaAgua();
-					if (consumoFaturadoCategoriaOuSubcategoria < 20) {
-						consumoFaturadoCategoriaOuSubcategoria = 20;
-					}
-				}
-			}
-			//Imovel com MAIS DE UM ponto de consumo
-		} else {
-			List<Credito> creditos = this.getImovelSelecionado().getCreditos();
-			//Verifica se o imovel tem faturamento Água é Esgoto
-			if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == SIM) {
-				//verifica se o tipo medição atual é de água
-				if (tipoMedicao == Constantes.LIGACAO_AGUA) {
-					//calculo do valor que equivale a cota do credito destinado a água
-					double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (51.47 / 100), 2);
-					//verifica se o consumo é menor que 20
-					if(consumoFaturadoCategoriaOuSubcategoria <= 20) {
-						//verifica se o valor faturado é menor ou igual que o valor da cota do bolsa água
-						if (valorFaturado <= valorBolsaAgua) {
-							valorFaturado = valorBolsaAgua;
-							consumoFaturadoCategoriaOuSubcategoria = 20;
+				//Imovel com MAIS DE UM ponto de consumo
+			} else {
+				List<Credito> creditos = this.getImovelSelecionado().getCreditos();
+				//Verifica se o imovel tem faturamento Água é Esgoto
+				if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == SIM) {
+					//verifica se o tipo medição atual é de água
+					if (tipoMedicao == Constantes.LIGACAO_AGUA) {
+						//calculo do valor que equivale a cota do credito destinado a água
+						double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (51.47 / 100), 2);
+						//verifica se o consumo é menor que 20
+						if (consumoFaturadoCategoriaOuSubcategoria <= 20) {
+							//verifica se o valor faturado é menor ou igual que o valor da cota do bolsa água
+							if (valorFaturado <= valorBolsaAgua) {
+								valorFaturado = valorBolsaAgua;
+								consumoFaturadoCategoriaOuSubcategoria = 20;
+							}
+							//verifica se o consumo é maior que 20
 						}
-						//verifica se o consumo é maior que 20
 					}
-				}
-				//verifica se o tipo medição atual é de água
-				if (tipoMedicao == Constantes.LIGACAO_POCO) {
-					//calculo do valor que equivale a cota do credito destinado ao esgoto
-					double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (30.88 / 100), 2);
-					//verifica se o consumo é menor que 20
-					if (consumoFaturadoCategoriaOuSubcategoria <= 20) {
-						//verifica se o valor faturado é menor que o valor da cota do bolsa água
-						if (valorFaturado <= valorBolsaAgua) {
-							valorFaturado = valorBolsaAgua;
-							valorAguaEsgotoFinal = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (51.47 / 100), 2) + Util.arredondar(imovel.getValorCreditosBolsaAgua() * (30.88 / 100), 2);
-							consumoFaturadoCategoriaOuSubcategoria = 20;
-							for (int i = 0; i < creditos.size(); i++) {
-								Credito credito = (Credito) creditos.get(i);
-								if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
-									credito.setValor(String.valueOf(valorAguaEsgotoFinal));
-									ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+					//verifica se o tipo medição atual é de água
+					if (tipoMedicao == Constantes.LIGACAO_POCO) {
+						//calculo do valor que equivale a cota do credito destinado ao esgoto
+						double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (30.88 / 100), 2);
+						//verifica se o consumo é menor que 20
+						if (consumoFaturadoCategoriaOuSubcategoria <= 20) {
+							//verifica se o valor faturado é menor que o valor da cota do bolsa água
+							if (valorFaturado <= valorBolsaAgua) {
+								valorFaturado = valorBolsaAgua;
+								valorAguaEsgotoFinal = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (51.47 / 100), 2) + Util.arredondar(imovel.getValorCreditosBolsaAgua() * (30.88 / 100), 2);
+								consumoFaturadoCategoriaOuSubcategoria = 20;
+								for (int i = 0; i < creditos.size(); i++) {
+									Credito credito = (Credito) creditos.get(i);
+									if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
+										credito.setValor(String.valueOf(valorAguaEsgotoFinal));
+										ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+									}
 								}
 							}
-						}
-					} else if (consumoFaturadoCategoriaOuSubcategoria > 20) {
-						//verifica se o valor faturado é menor que o valor da cota do bolsa água
-						if (valorFaturado > valorBolsaAgua) {
-							valorAguaEsgotoFinal = valorAguaEsgotoFinal = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (51.47 / 100), 2) + Util.arredondar(imovel.getValorCreditosBolsaAgua() * (30.88 / 100), 2);
-							for (int i = 0; i < creditos.size(); i++) {
-								Credito credito = (Credito) creditos.get(i);
-								if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
-									credito.setValor(String.valueOf(valorAguaEsgotoFinal));
-									ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+						} else if (consumoFaturadoCategoriaOuSubcategoria > 20) {
+							//verifica se o valor faturado é menor que o valor da cota do bolsa água
+							if (valorFaturado > valorBolsaAgua) {
+								valorAguaEsgotoFinal = valorAguaEsgotoFinal = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (51.47 / 100), 2) + Util.arredondar(imovel.getValorCreditosBolsaAgua() * (30.88 / 100), 2);
+								for (int i = 0; i < creditos.size(); i++) {
+									Credito credito = (Credito) creditos.get(i);
+									if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
+										credito.setValor(String.valueOf(valorAguaEsgotoFinal));
+										ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+									}
 								}
 							}
 						}
 					}
 				}
-			}
-			//Verifica se o imovel tem faturamento Água sem Esgoto
-			if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == NAO) {
-				//verifica se o valor faturado é menor que o valor da cota do bolsa água
-				if (valorFaturado <= Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2)) {
-					valorFaturado = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2);
-					//verifica se o consumo é menor que 20
-					if (consumoFaturadoCategoriaOuSubcategoria < 20) {
-						consumoFaturadoCategoriaOuSubcategoria = 20;
-					}
-					for (int i = 0; i < creditos.size(); i++) {
-						Credito credito = (Credito) creditos.get(i);
-						if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
-							credito.setValor(String.valueOf(valorFaturado));
-							ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+				//Verifica se o imovel tem faturamento Água sem Esgoto
+				if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == NAO) {
+					//verifica se o valor faturado é menor que o valor da cota do bolsa água
+					if (valorFaturado <= Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2)) {
+						valorFaturado = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2);
+						//verifica se o consumo é menor que 20
+						if (consumoFaturadoCategoriaOuSubcategoria < 20) {
+							consumoFaturadoCategoriaOuSubcategoria = 20;
+						}
+						for (int i = 0; i < creditos.size(); i++) {
+							Credito credito = (Credito) creditos.get(i);
+							if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
+								credito.setValor(String.valueOf(valorFaturado));
+								ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+							}
+						}
+					} else {
+						valorAguaEsgotoFinal = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2);
+						for (int i = 0; i < creditos.size(); i++) {
+							Credito credito = (Credito) creditos.get(i);
+							if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
+								credito.setValor(String.valueOf(valorAguaEsgotoFinal));
+								ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+							}
 						}
 					}
-				} else {
-					valorAguaEsgotoFinal =Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2);
-					for (int i = 0; i < creditos.size(); i++) {
-						Credito credito = (Credito) creditos.get(i);
-						if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
-							credito.setValor(String.valueOf(valorAguaEsgotoFinal));
-							ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+				}
+				//Verifica se o imovel tem faturamento Esgoto sem Água
+				if (imovel.getIndcFaturamentoEsgoto() == SIM && imovel.getIndcFaturamentoAgua() == NAO) {
+					//verifica se o valor faturado é menor que o valor da cota do bolsa água
+					if (valorFaturado <= Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2)) {
+						valorFaturado = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2);
+						//verifica se o consumo é menor que 20
+						if (consumoFaturadoCategoriaOuSubcategoria < 20) {
+							consumoFaturadoCategoriaOuSubcategoria = 20;
+						}
+					} else {
+						valorAguaEsgotoFinal = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2);
+						for (int i = 0; i < creditos.size(); i++) {
+							Credito credito = (Credito) creditos.get(i);
+							if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
+								credito.setValor(String.valueOf(valorAguaEsgotoFinal));
+								ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+							}
 						}
 					}
 				}
 			}
-			//Verifica se o imovel tem faturamento Esgoto sem Água
-			if (imovel.getIndcFaturamentoEsgoto() == SIM && imovel.getIndcFaturamentoAgua() == NAO) {
-				//verifica se o valor faturado é menor que o valor da cota do bolsa água
-				if (valorFaturado <= Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2)) {
-					valorFaturado = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2);
-					//verifica se o consumo é menor que 20
-					if (consumoFaturadoCategoriaOuSubcategoria < 20) {
-						consumoFaturadoCategoriaOuSubcategoria = 20;
-					}
-				} else {
-					valorAguaEsgotoFinal =Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2);
-					for (int i = 0; i < creditos.size(); i++) {
-						Credito credito = (Credito) creditos.get(i);
-						if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
-							credito.setValor(String.valueOf(valorAguaEsgotoFinal));
-							ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
-						}
-					}
-				}
-			}
-		}
 		}
 		return new DadosFaturamento(
 				valorFaturado,
