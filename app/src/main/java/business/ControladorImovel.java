@@ -585,24 +585,15 @@ public class ControladorImovel {
 		    Boolean industrial = false;
 		//dados categoria do imovel
 		    List dadosCategoria = getImovelSelecionado().getDadosCategoria();
-		//laço para validar o comercial
+		//laço para validar o comercial residencial e industrial
 		for (int i = 0; i < dadosCategoria.size(); i++) {
 			DadosCategoria dadoCategoria = (DadosCategoria) dadosCategoria.get(i);
             if(dadoCategoria.getCodigoCategoria()==2){
 				comercial = true;
 			}
-		}
-		//laço para validar o residencial
-		for (int i = 0; i < dadosCategoria.size(); i++) {
-			DadosCategoria dadoCategoria = (DadosCategoria) dadosCategoria.get(i);
 			if(dadoCategoria.getCodigoCategoria()==1){
 				residencial = true;
 			}
-		}
-
-		//laço para validar o residencial
-		for (int i = 0; i < dadosCategoria.size(); i++) {
-			DadosCategoria dadoCategoria = (DadosCategoria) dadosCategoria.get(i);
 			if(dadoCategoria.getCodigoCategoria()==3){
 				industrial = true;
 			}
