@@ -577,12 +577,14 @@ public class ControladorImovel {
 		    Double valorAguaEsgotoFinal;
 		//lista de creditos
 		    List<Credito> creditos = this.getImovelSelecionado().getCreditos();
-		//variavel que diz se o imovel tem duas economias: uma residencial e uma comercial
+		//variavel que diz se o imovel e um comercial
 		    Boolean comercial = false;
-		//variavel que diz se o imovel tem duas economias: uma residencial e uma comercial
+		//variavel que diz se o imovel e um residencial
 		    Boolean residencial = false;
-		//variavel que diz se o imovel tem duas economias: uma residencial e uma comercial
+		//variavel que diz se o imovel e industrial
 		    Boolean industrial = false;
+		//variavel que diz se o imovel e publico
+		    Boolean publico = false;
 		//dados categoria do imovel
 		    List dadosCategoria = getImovelSelecionado().getDadosCategoria();
 		//laço para validar o comercial residencial e industrial
@@ -597,12 +599,15 @@ public class ControladorImovel {
 			if(dadoCategoria.getCodigoCategoria()==3){
 				industrial = true;
 			}
+			if(dadoCategoria.getCodigoCategoria()==4){
+				publico = true;
+			}
 		}
 
 		//Verifica se o imovel já foi calculado
 		if (getImovelSelecionado().getIndcImovelCalculado() != Constantes.SIM) {
 			//Verificação se o imovel tem economias residenciais e comercial
-			if (comercial == true && (residencial == true || industrial == true)) {
+			if (comercial == true && (residencial == true || industrial == true || publico == true)) {
 				//Verificação se o imovel tem um ou mais pontos de consumo
 				//Imovel com somente UM ponto de consumo
 				if (quantidadeEconomiasCategoriaSubCategoria == 1) {
