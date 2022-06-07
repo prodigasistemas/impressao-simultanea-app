@@ -1188,6 +1188,7 @@ public class ControladorImovel {
 						+ " | Consumo Minimo: " + dadosFaturamento.getConsumoMinimo());
 
 				atribuirDadosFaturamento(imovel, tipoMedicao, dadosEconomiasSubcategorias, faturamento);
+				getImovelSelecionado().setIndcImovelCalculado(Constantes.SIM);
 			}
 
 				// 4.8.Calcula data da vigência inicial = data da vigência final + 1 dia.
