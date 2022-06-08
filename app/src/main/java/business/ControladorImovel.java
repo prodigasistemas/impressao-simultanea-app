@@ -940,6 +940,8 @@ public class ControladorImovel {
 					 * tarifa de consumo: 1.1.3.1.Valor faturado na faixa; 1.1.3.2.Valor
 					 * da tarifa na faixa.
 					 */
+					DadosFaturamentoFaixa faixaProporcional = null;
+					DadosFaturamentoFaixa faixa = null;
 					for (int j = 0; j < imovel.getDadosCategoria().size(); j++) {
 
 						DadosCategoria reg2 = (DadosCategoria) imovel.getDadosCategoria().get(j);
@@ -974,8 +976,8 @@ public class ControladorImovel {
 						dadosFaturamento.setValorTarifaMinima(valorTarifaMinimaPorFator);
 
 						for (int k = 0; k < dadosFaturamento.getFaixas().size(); k++) {
-							DadosFaturamentoFaixa faixa = (DadosFaturamentoFaixa) dadosFaturamento.getFaixas().get(k);
-							DadosFaturamentoFaixa faixaProporcional = null;
+							faixa = (DadosFaturamentoFaixa) dadosFaturamento.getFaixas().get(k);
+
 
 							if (dadosFaturamentoProporcional.getFaixas() == null || dadosFaturamentoProporcional.getFaixas().equals("") || i == 0) {
 								faixaProporcional = new DadosFaturamentoFaixa();
@@ -1038,14 +1040,14 @@ public class ControladorImovel {
 
 						dadosFaturamento.setValorFaturado(faturamento.getValorFaturado());
 						dadosFaturamento.setValorTarifaMinima(faturamento.getValorFaturado());
-						valorFaturadoBolsaAgua = faturamento.getValorFaturado();
-						valorFaturadoBolsaAguaMinimo = faturamento.getValorFaturado();
+						dadosCategoria.getFaturamentoAguaProporcional().setValorFaturado(faturamento.getValorFaturado());
+
 
 						DadosCategoria dadosEconomiasSubcategorias = (DadosCategoria) dadosCategoria;
 
-						LogUtil.salvarLog(logType, "Valor Faturado: " + valorFaturadoBolsaAgua
+						LogUtil.salvarLog(logType, "Valor Faturado: " + faturamento.getValorFaturado()
 								+ " | Consumo FATURADO Categoria Ou Subcategoria: " + dadosFaturamento.getConsumoFaturado()
-								+ " | Valor Tarifa Minima: " + valorFaturadoBolsaAguaMinimo
+								+ " | Valor Tarifa Minima: " + Util.arredondar(valorFaturadoBolsaAguaMinimo, 2)
 								+ " | Consumo Minimo: " + dadosFaturamento.getConsumoMinimo());
 
 						atribuirDadosFaturamento(imovel, tipoMedicao, dadosEconomiasSubcategorias, faturamento);
