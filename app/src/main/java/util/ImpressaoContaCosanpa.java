@@ -1068,20 +1068,23 @@ public class ImpressaoContaCosanpa {
 		boolean tipoTarifaPorCategoria = ControladorImovel.getInstancia().tipoTarifaPorCategoria(imovel);
 		int qtdLinhas = 0;
 
-		boolean tarifaUnica = false;
+		boolean tarifaUnica = true;
 		ArrayList<List<TarifacaoMinima>> tarifacoesMinimasPorCategoria = imovel.getTarifacoesMinimasPorCategoria();
-		for(List<TarifacaoMinima> tarifa : tarifacoesMinimasPorCategoria){
-			if (tarifa.size() == 1) {
-				tarifaUnica = true;
-				break;
-			}
-		}
-
 
 
 		// 3
 		for (int i = 0; i < imovel.getDadosCategoria().size(); i++) {
 			DadosCategoria dadosEconomiasSubcategorias = imovel.getDadosCategoria().get(i);
+			for(List<TarifacaoMinima> tarifa : tarifacoesMinimasPorCategoria){
+				if (tarifa.size() > 0) {
+					if(imovel.getValorCreditosBolsaAgua() > 0.0){
+						if (tarifa.size() > 1) {
+							tarifaUnica = false;
+							break;
+						}
+					}
+				}
+			}
 			if (dadosEconomiasSubcategorias.getFaturamentoAgua() == null) {
 				continue;
 			}
@@ -1243,8 +1246,21 @@ public class ImpressaoContaCosanpa {
 					}
 				}
 			}
+			imovel.getValorCreditosBolsaAgua();
 			dados = new String[3];
-			if (consumoAgua == consumoEsgoto && valorAgua != 0) {
+			if(imovel.getValorCreditosBolsaAgua() > 0.0){
+				if (valorEsgoto != 0) {
+					// 1.2.1
+					dados[0] = "ESGOTO ";
+					// 1.2.3
+					dados[0] += Util.formatarDoubleParaMoedaReal(imovel.getPercentCobrancaEsgoto());
+					// 1.2.3
+					dados[0] += " % DO VALOR DE AGUA";
+					// 1.4
+					dados[2] = Util.formatarDoubleParaMoedaReal(valorEsgoto);
+					retorno.add(dados);
+				}
+			} else if (consumoAgua == consumoEsgoto && valorAgua != 0) {
 				if (valorEsgoto != 0) {
 					// 1.2.1
 					dados[0] = "ESGOTO ";
