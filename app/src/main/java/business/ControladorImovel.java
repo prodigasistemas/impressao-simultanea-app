@@ -1,12 +1,14 @@
 package business;
 
-import java.nio.DoubleBuffer;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
 import model.Consumo;
+import model.Credito;
 import model.DadosCategoria;
 import model.DadosFaturamento;
 import model.DadosFaturamentoFaixa;
@@ -22,6 +24,7 @@ import views.MedidorAguaTab;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
+import static model.Credito.CRED_BOLSA_AGUA;
 
 public class ControladorImovel {
 
@@ -31,6 +34,9 @@ public class ControladorImovel {
     private static Imovel imovelSelecionado = new Imovel();
     private static long idImovelSelecionado = 0;
     private static int imovelListPosition = -1;
+
+	public static final int SIM = 1;
+	public static final int NAO = 2;
     
     public static ControladorImovel getInstancia() {
 
@@ -204,7 +210,7 @@ public class ControladorImovel {
 		Date[] dataInicioVigencia = (Date[]) dadosCalculo[1];
 		
 		if (calculoSimples) {
-			this.calculoSimples(imovel, consumo, tipoMedicao, dataInicioVigencia[0]);
+			this.calculoSimples(imovel, consumo, tipoMedicao, dataInicioVigencia[0], true);
 		} else {
 			this.calculoProporcionalMaisUmaTarifa(imovel, consumo, tipoMedicao);
 		}
@@ -256,9 +262,10 @@ public class ControladorImovel {
     
     /**
      * [SB0001] - Cálculo Simples para uma Única Tarifa.
-     */
+	 * @return
+	 */
     @SuppressWarnings("unchecked")
-	private void calculoSimples(Imovel imovel, Consumo consumo, int tipoMedicao, Date dataInicioVigencia) {
+	private void calculoSimples(Imovel imovel, Consumo consumo, int tipoMedicao, Date dataInicioVigencia, boolean isCalculoSimples) {
     	logType = "calculoSimples";
     	
 		LogUtil.salvarLog(logType, "Tipo Calculo Tarifa: " + imovel.getTipoCalculoTarifa());
@@ -444,7 +451,7 @@ public class ControladorImovel {
 								
 								faixaParaInclusao = new DadosFaturamentoFaixa(consumoFaturadoFaixa, valorFaturadoFaixa, limiteInicialConsumoFaixa, limiteFinalConsumoFaixa, faixa.getValorM3Faixa());
 								faixaParaInclusao.setTipoFaturamentoFaixa(tipoMedicao);
-								
+
 								faixasParaInclusao.add(faixaParaInclusao);
 								valorPorEconomia = valorFaturadoFaixa;
 								consumoEconomiaCategoriaOuSubcategoria = consumoFaturadoFaixa;
@@ -525,46 +532,229 @@ public class ControladorImovel {
 				valorTarifaMinima = Util.arredondar(valorTarifaMinima * (imovel.getPercentCobrancaEsgoto() / 100), 2);
 			}
 
-			if (tipoMedicao == Constantes.LIGACAO_AGUA) {
+			//chamada do metodo que faz o calculo do uso cheio do credito Bolsa Água
 
-				if (valorFaturado < imovel.getValorCreditosBolsaAgua()){
-					valorFaturado = imovel.getValorCreditosBolsaAgua();
-					consumoFaturadoCategoriaOuSubcategoria = 20;
-				}
+			DadosFaturamento faturamento = null;
+
+			if (isCalculoSimples) {
+				faturamento = calculoValorFaturadoBolsaAgua(
+						imovel,
+						tipoMedicao,
+						valorFaturado,
+						consumoFaturadoCategoriaOuSubcategoria,
+						quantidadeEconomiasCategoriaSubCategoria,
+						valorTarifaMinima,
+						consumoMinimo,
+						faixasParaInclusao,
+						dadosEconomiasSubcategorias);
+			} else {
+				faturamento = new DadosFaturamento(
+						valorFaturado,
+						consumoFaturadoCategoriaOuSubcategoria,
+						valorTarifaMinima,
+						consumoMinimo,
+						faixasParaInclusao);
 			}
-
-			if (tipoMedicao == Constantes.LIGACAO_POCO) {
-				Double valorBolsaAgua =  Util.arredondar(imovel.getValorCreditosBolsaAgua() * (imovel.getPercentCobrancaEsgoto() / 100), 2);
-				if (valorFaturado < imovel.getValorCreditosBolsaAgua()){
-					valorFaturado = valorBolsaAgua;
-					consumoFaturadoCategoriaOuSubcategoria = 20;
-				}
-			}
-
-
-
-			DadosFaturamento faturamento = new DadosFaturamento(valorFaturado, consumoFaturadoCategoriaOuSubcategoria, valorTarifaMinima, consumoMinimo, faixasParaInclusao);
 
 			LogUtil.salvarLog(logType, "Valor Faturado: " + valorFaturado
 					+ " | Consumo FATURADO Categoria Ou Subcategoria: " + consumoFaturadoCategoriaOuSubcategoria
 					+ " | Valor Tarifa Minima: " + valorTarifaMinima
 					+ " | Consumo Minimo: " + consumoMinimo);
-			
-			faturamento.setIdDadosCategoria(dadosEconomiasSubcategorias.getId());
-			faturamento.setTipoFaturamento(tipoMedicao);
-			int posicao = imovel.getDadosCategoria().indexOf(dadosEconomiasSubcategorias);
-			if (tipoMedicao == Constantes.TIPO_FATURAMENTO_AGUA) {
-				imovel.getDadosCategoria().get(posicao).setFaturamentoAgua(faturamento);
-			} else if (tipoMedicao == Constantes.TIPO_FATURAMENTO_ESGOTO) {
-				imovel.getDadosCategoria().get(posicao).setFaturamentoEsgoto(faturamento);
-			}
 
-			if (tipoMedicao == ControladorConta.LIGACAO_AGUA) {
-				dadosEconomiasSubcategorias.setFaturamentoAgua(faturamento);
-			} else {
-				dadosEconomiasSubcategorias.setFaturamentoEsgoto(faturamento);
+			atribuirDadosFaturamento(imovel, tipoMedicao, dadosEconomiasSubcategorias, faturamento);
+		}
+	}
+
+	private void atribuirDadosFaturamento(Imovel imovel, int tipoMedicao, DadosCategoria dadosEconomiasSubcategorias, DadosFaturamento faturamento) {
+		faturamento.setIdDadosCategoria(dadosEconomiasSubcategorias.getId());
+		faturamento.setTipoFaturamento(tipoMedicao);
+		int posicao = imovel.getDadosCategoria().indexOf(dadosEconomiasSubcategorias);
+		if (tipoMedicao == Constantes.TIPO_FATURAMENTO_AGUA) {
+			imovel.getDadosCategoria().get(posicao).setFaturamentoAgua(faturamento);
+		} else if (tipoMedicao == Constantes.TIPO_FATURAMENTO_ESGOTO) {
+			imovel.getDadosCategoria().get(posicao).setFaturamentoEsgoto(faturamento);
+		}
+
+		if (tipoMedicao == ControladorConta.LIGACAO_AGUA) {
+			dadosEconomiasSubcategorias.setFaturamentoAgua(faturamento);
+		} else {
+			dadosEconomiasSubcategorias.setFaturamentoEsgoto(faturamento);
+		}
+	}
+
+	private DadosFaturamento calculoValorFaturadoBolsaAgua(
+			Imovel imovel,
+			int tipoMedicao,
+			double valorFaturado,
+			int consumoFaturadoCategoriaOuSubcategoria,
+			int quantidadeEconomiasCategoriaSubCategoria,
+			double valorTarifaMinima,
+			int consumoMinimo,
+			List<DadosFaturamentoFaixa> faixasParaInclusao,
+			DadosCategoria dadosEconomiasSubcategorias) {
+		//variavel utilizada para a atualização do valor do credito do água pará
+		Double valorAguaEsgotoFinal;
+		//lista de creditos
+		List<Credito> creditos = this.getImovelSelecionado().getCreditos();
+
+		//Verifica se o imovel já foi calculado
+		if (getImovelSelecionado().getIndcImovelCalculado() != Constantes.SIM) {
+			//Verificação se o imovel tem economias residenciais e comercial
+			if (dadosEconomiasSubcategorias.getCodigoCategoria() == DadosCategoria.RESIDENCIAL) {
+				//Verificação se o imovel tem um ou mais pontos de consumo
+				//Imovel com somente UM ponto de consumo
+				if (quantidadeEconomiasCategoriaSubCategoria == 1) {
+					//Verifica se o imovel tem faturamento Água é Esgoto
+					if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == SIM) {
+						//verifica se o tipo medição atual é de água
+						if (tipoMedicao == Constantes.LIGACAO_AGUA) {
+							//calculo do valor que equivale a cota do credito destinado a água
+							double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (62.5 / 100), 2);
+							//verifica se o valor faturado é menor que o valor da cota do bolsa água
+							if (valorFaturado <= valorBolsaAgua) {
+								valorFaturado = valorBolsaAgua;
+								if (consumoFaturadoCategoriaOuSubcategoria <= 20) {
+									consumoFaturadoCategoriaOuSubcategoria = 20;
+								}
+							}
+						}
+						if (tipoMedicao == Constantes.LIGACAO_POCO) {
+							//calculo do valor que equivale a cota do credito destinado a água
+							double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (37.5 / 100), 2);
+							//verifica se o valor faturado é menor que o valor da cota do bolsa água
+							if (valorFaturado <= valorBolsaAgua) {
+								valorFaturado = valorBolsaAgua;
+							}
+						}
+					}
+					//Verifica se o imovel tem faturamento Água sem Esgoto
+					if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == NAO) {
+						double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua(), 2);
+						//verifica se o valor faturado é menor que o valor da cota do bolsa água
+						if (valorFaturado < valorBolsaAgua) {
+							valorFaturado = valorBolsaAgua;
+							if (consumoFaturadoCategoriaOuSubcategoria <= 20) {
+								consumoFaturadoCategoriaOuSubcategoria = 20;
+							}
+						}
+					}
+					//Verifica se o imovel tem faturamento Esgoto sem Água
+					if (imovel.getIndcFaturamentoEsgoto() == SIM && imovel.getIndcFaturamentoAgua() == NAO) {
+						double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua(), 2);
+						//verifica se o valor faturado é menor que o valor da cota do bolsa água
+						if (valorFaturado < valorBolsaAgua) {
+							valorFaturado = valorBolsaAgua;
+							if (consumoFaturadoCategoriaOuSubcategoria <= 20) {
+								consumoFaturadoCategoriaOuSubcategoria = 20;
+							}
+						}
+					}
+					//Imovel com MAIS DE UM ponto de consumo
+				} else {
+					//Verifica se o imovel tem faturamento Água é Esgoto
+					if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == SIM) {
+						//verifica se o tipo medição atual é de água
+						if (tipoMedicao == Constantes.LIGACAO_AGUA) {
+							//calculo do valor que equivale a cota do credito destinado a água
+							double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (51.47 / 100), 2);
+							//verifica se o consumo é menor que 20
+
+							//verifica se o valor faturado é menor ou igual que o valor da cota do bolsa água
+							if (valorFaturado <= valorBolsaAgua) {
+								valorFaturado = valorBolsaAgua;
+								//verifica se o consumo é menor igual que 20
+								if (consumoFaturadoCategoriaOuSubcategoria <= 20) {
+									consumoFaturadoCategoriaOuSubcategoria = 20;
+								}
+								for (int i = 0; i < creditos.size(); i++) {
+									Credito credito = (Credito) creditos.get(i);
+									if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
+										credito.setValor(String.valueOf(valorBolsaAgua + Util.arredondar(valorBolsaAgua * 0.6, 2)));
+										ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+									}
+								}
+							}  else if (valorFaturado > valorBolsaAgua) {
+								for (int i = 0; i < creditos.size(); i++) {
+									Credito credito = (Credito) creditos.get(i);
+									if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
+										credito.setValor(String.valueOf(valorBolsaAgua + Util.arredondar(valorBolsaAgua * 0.6, 2)));
+										ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+									}
+								}
+							}
+						}
+					}
+					//Verifica se o imovel tem faturamento Água sem Esgoto
+					if (imovel.getIndcFaturamentoAgua() == SIM && imovel.getIndcFaturamentoEsgoto() == NAO) {
+						double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2);
+						//verifica se o valor faturado é menor que o valor da cota do bolsa água
+						if (valorFaturado <= valorBolsaAgua) {
+							valorFaturado = valorBolsaAgua;
+							//verifica se o consumo é menor que 20
+							if (consumoFaturadoCategoriaOuSubcategoria <= 20) {
+								consumoFaturadoCategoriaOuSubcategoria = 20;
+							}
+							for (int i = 0; i < creditos.size(); i++) {
+								Credito credito = (Credito) creditos.get(i);
+								if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
+									credito.setValor(String.valueOf(valorFaturado));
+									ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+								}
+							}
+						} else if (valorFaturado > valorBolsaAgua) {
+							for (int i = 0; i < creditos.size(); i++) {
+								Credito credito = (Credito) creditos.get(i);
+								if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
+									credito.setValor(String.valueOf(valorBolsaAgua));
+									ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+								}
+							}
+						}
+					}
+					//Verifica se o imovel tem faturamento Esgoto sem Água
+					if (imovel.getIndcFaturamentoEsgoto() == SIM && imovel.getIndcFaturamentoAgua() == NAO) {
+						double valorBolsaAgua = Util.arredondar(imovel.getValorCreditosBolsaAgua() * (82.35 / 100), 2);
+						//verifica se o valor faturado é menor que o valor da cota do bolsa água
+						if (valorFaturado <= valorBolsaAgua) {
+							valorFaturado = valorBolsaAgua;
+							for (int i = 0; i < creditos.size(); i++) {
+								Credito credito = (Credito) creditos.get(i);
+								if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
+									credito.setValor(String.valueOf(valorFaturado));
+									ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+								}
+							}
+							//verifica se o consumo é menor que 20
+							if (consumoFaturadoCategoriaOuSubcategoria <= 20) {
+								consumoFaturadoCategoriaOuSubcategoria = 20;
+							}
+						} else if (valorFaturado > valorBolsaAgua) {
+							for (int i = 0; i < creditos.size(); i++) {
+								Credito credito = (Credito) creditos.get(i);
+								if (credito.getCodigo().equals(CRED_BOLSA_AGUA)) {
+									credito.setValor(String.valueOf(valorBolsaAgua));
+									ControladorRota.getInstancia().getDataManipulator().updateCredito(imovel.getMatricula(), credito);
+								}
+							}
+						}
+					}
+				}
 			}
 		}
+		return new DadosFaturamento(
+				valorFaturado,
+				consumoFaturadoCategoriaOuSubcategoria,
+				valorTarifaMinima,
+				consumoMinimo,
+				faixasParaInclusao);
+	}
+
+	private double calcularPercentual(double valorFaturado, double valorCreditosBolsaAgua) {
+		double percentual = (valorFaturado / valorCreditosBolsaAgua) * 100;
+
+		return new BigDecimal(percentual)
+				.setScale(2, BigDecimal.ROUND_HALF_DOWN)
+				.doubleValue();
 	}
     
     /**
@@ -633,7 +823,7 @@ public class ControladorImovel {
      * @author Bruno Barros
      * @date 16/10/2009
      */
-    public void calculoProporcionalMaisUmaTarifa(Imovel imovel, Consumo consumo, int tipoMedicao) {
+	public void calculoProporcionalMaisUmaTarifa(Imovel imovel, Consumo consumo, int tipoMedicao) {
 		/*
 		 * 1.O sistema seleciona as tarifas vigentes para o imóvel no período de
 		 * leitura da seguinte forma: 1.1.Seleciona todas as ocorrências de
@@ -650,184 +840,268 @@ public class ControladorImovel {
 		 * da vigência. TODOS OS REGISTROS TIPO 9 PRESENTES NO IMOVEL JA
 		 * RESPEITAM AS CONDIÇÕES SUPRECITADAS, LOGO APENAS SELECIONAMOS
 		 */
-    	logType = "calculoProporcionalMaisUmaTarifa";
-    	
-    	ArrayList<List<TarifacaoMinima>> tarifacoesMinimasPorCategoria = imovel.getTarifacoesMinimasPorCategoria();
-	
-		// Selecionamos a data de leitura anterior dando prioridade ao ligação de água	
-		Date dataLeituraAnterior = null;
-		if (imovel.getMedidor(Constantes.LIGACAO_AGUA) != null && !imovel.getMedidor(Constantes.LIGACAO_AGUA).equals("")) {
-			dataLeituraAnterior = imovel.getMedidor(Constantes.LIGACAO_AGUA).getDataLeituraAnteriorFaturada();
-		} else {
-			if (imovel.getMedidor(Constantes.LIGACAO_POCO) != null && !imovel.getMedidor(Constantes.LIGACAO_POCO).equals("")) {
-			dataLeituraAnterior = imovel.getMedidor(Constantes.LIGACAO_POCO).getDataLeituraAnteriorFaturada();
+		logType = "calculoProporcionalMaisUmaTarifa";
+
+		boolean calculado = false;
+
+		ArrayList<List<TarifacaoMinima>> tarifacoesMinimasPorCategoria = imovel.getTarifacoesMinimasPorCategoria();
+
+		TarifacaoMinima codigoCategoria = null;
+		double valorFaturadoBolsaAgua = 0;
+		double valorFaturadoBolsaAguaMinimo = 0;
+		Vector faixasProporcional = new Vector();
+
+		if (getImovelSelecionado().getIndcImovelCalculado() == Constantes.NAO) {
+
+			// Selecionamos a data de leitura anterior dando prioridade ao ligação de água
+			Date dataLeituraAnterior = null;
+			if (imovel.getMedidor(Constantes.LIGACAO_AGUA) != null && !imovel.getMedidor(Constantes.LIGACAO_AGUA).equals("")) {
+				dataLeituraAnterior = imovel.getMedidor(Constantes.LIGACAO_AGUA).getDataLeituraAnteriorFaturada();
+			} else {
+				if (imovel.getMedidor(Constantes.LIGACAO_POCO) != null && !imovel.getMedidor(Constantes.LIGACAO_POCO).equals("")) {
+					dataLeituraAnterior = imovel.getMedidor(Constantes.LIGACAO_POCO).getDataLeituraAnteriorFaturada();
+				}
 			}
-		}
-	
-		if (dataLeituraAnterior == null) {
-			dataLeituraAnterior = imovel.getDataLeituraAnteriorNaoMedido();
-		}
 
-		Date dataLeituraAtual = Util.getDataSemHora(MedidorAguaTab.getCurrentDateByGPS());
+			if (dataLeituraAnterior == null) {
+				dataLeituraAnterior = imovel.getDataLeituraAnteriorNaoMedido();
+			}
 
-		// 2.Calcula a quantidade de dias entre as leituras = data corrente - data de leitura anterior;
-		long qtdDiasEntreLeituras = Util.obterModuloDiferencasDatasDias(dataLeituraAtual, dataLeituraAnterior);
-		qtdDiasEntreLeituras += 1;
-	
-		DadosFaturamento dadosFaturamento;			
-		// cria o objteto de faturamento proporcional para somar os valores por categoria de cada data de vigencia
-		DadosFaturamento dadosFaturamentoProporcional;
-		
-		for (List<TarifacaoMinima> tarifacoesMinimas : tarifacoesMinimasPorCategoria) {
-			
-			// 3.Data da vigência inicial = data da leitura anterior
-			Date dataVigenciaInicial = dataLeituraAnterior;
-			
-			// 4.Para cada tarifa vigente para o período de leitura, obtida no passo 1.3, ordenando por data de início da
-			// vigência, o sistema efetua os seguintes procedimentos
-			for (int i = 0; i < tarifacoesMinimas.size(); i++) {
-				// 4.1.[SB0001 – Cálculo Simples Para Uma Única Tarifa];
-				TarifacaoMinima reg9 = (TarifacaoMinima) tarifacoesMinimas.get(i);
-				this.calculoSimples(imovel, consumo, tipoMedicao, reg9.getDataVigencia());
-				
-				// 4.2.Caso exista próxima tarifa vigente então data da vigência final = data de início da vigência da próxima
-				// tarifa vigente menos um dia, caso contrário, data da vigência final = data corrente;
-				Date dataVigenciaFinal = null;
-				
-				if (i < tarifacoesMinimas.size() - 1) {
-					TarifacaoMinima proxReg9 = (TarifacaoMinima) tarifacoesMinimas.get(i + 1);
-					
-					if (proxReg9.getDataVigencia().before(dataLeituraAtual) || proxReg9.getDataVigencia().equals(dataLeituraAtual)) {
-						dataVigenciaFinal = Util.adicionarNumeroDiasDeUmaData(proxReg9.getDataVigencia(), -1);
-					} else {
-						dataVigenciaFinal = dataLeituraAtual;
-					}
-				} else {
-					if (reg9.getDataVigencia().before(dataLeituraAtual) || reg9.getDataVigencia().equals(dataLeituraAtual)) {
-						dataVigenciaFinal = dataLeituraAtual;
-					} else {
-						dataVigenciaFinal = reg9.getDataVigencia();
-					}
-				}
-				
-				// 4.3.Caso seja a primeira tarifa, a quantidade de dias de vigência da tarifa dentro do período
-				// de leitura = data da vigência final – data da vigência inicial
-				long qtdDiasVigenciaTarifaDentroPeriodoLeitura = Util.obterModuloDiferencasDatasDias(dataVigenciaFinal, dataVigenciaInicial);
-				
-				if (i == 0) {
-					if (dataVigenciaFinal.after(dataVigenciaInicial) || dataVigenciaFinal.equals(dataVigenciaInicial)) {
-						qtdDiasVigenciaTarifaDentroPeriodoLeitura += 1;
-					} else {
-						qtdDiasVigenciaTarifaDentroPeriodoLeitura = 0;
-					}
-					
-					// 4.4.Caso contrário a quantidade de dias de vigência da tarifa dentro do período de
-					// leitura = data da vigência final – data da vigência inicial + 1 dia;
-				} else {
-					if (dataVigenciaFinal.before(dataLeituraAtual) || dataVigenciaFinal.equals(dataLeituraAtual)) {
-						qtdDiasVigenciaTarifaDentroPeriodoLeitura += 1;
-					} else {
-						qtdDiasVigenciaTarifaDentroPeriodoLeitura = 0;
-					}
-				}
-				
-				// 4.5.Calcula o fator de vigência da tarifa = quantidade de dias de vigência da tarifa no período de
-				// leitura / quantidade de dias entre as leituras;
-				double fatorVigenciaTarifa = Util.arredondar((double) qtdDiasVigenciaTarifaDentroPeriodoLeitura / (double) qtdDiasEntreLeituras, 4);
-				
-				/*
-				 * 1.1.Para cada Categoria, aplica o fator de vigência da tarifa
-				 * sobre os seguintes atributos obtidos nos cálculos efetuados no
-				 * passo 4.1, arredondando para duas casas decimais: 1.1.1.Valor
-				 * faturado; 1.1.2.Valor da tarifa mínima; 1.1.3.Para cada faixa da
-				 * tarifa de consumo: 1.1.3.1.Valor faturado na faixa; 1.1.3.2.Valor
-				 * da tarifa na faixa.
-				 */
-				for (int j = 0; j < imovel.getDadosCategoria().size(); j++) {
-					
-					DadosCategoria reg2 = (DadosCategoria) imovel.getDadosCategoria().get(j);
-					
-					if (tipoMedicao == Constantes.LIGACAO_AGUA) {
-						dadosFaturamento = reg2.getFaturamentoAgua();
-						dadosFaturamentoProporcional = reg2.getFaturamentoAguaProporcional();
-					} else {
-						dadosFaturamento = reg2.getFaturamentoEsgoto();
-						dadosFaturamentoProporcional = reg2.getFaturamentoEsgotoProporcional();
-					}
-					
-					if (dadosFaturamentoProporcional == null
-							|| dadosFaturamentoProporcional.equals("") || i == 0) {
-						dadosFaturamentoProporcional = new DadosFaturamento();
-						dadosFaturamentoProporcional.setValorFaturado(0d);
-						dadosFaturamentoProporcional.setValorTarifaMinima(0d);
-					}
-					
-					double valorFaturadoPorFator = dadosFaturamentoProporcional.getValorFaturado();
-					valorFaturadoPorFator = valorFaturadoPorFator + Util.arredondar(dadosFaturamento.getValorFaturado() * fatorVigenciaTarifa, 2);
-					
-					double valorTarifaMinimaPorFator = dadosFaturamentoProporcional.getValorTarifaMinima();
-					valorTarifaMinimaPorFator = valorTarifaMinimaPorFator + Util.arredondar(dadosFaturamento.getValorTarifaMinima() * fatorVigenciaTarifa, 2);
-					
-					// seta os valores adicionados para os dados de faturamento proporcional
-					dadosFaturamentoProporcional.setValorFaturado(valorFaturadoPorFator);
-					dadosFaturamentoProporcional.setValorTarifaMinima(valorTarifaMinimaPorFator);
-					
-					// seta os dados do faturamento proporcional no dado de faturamento
-					dadosFaturamento.setValorFaturado(valorFaturadoPorFator);
-					dadosFaturamento.setValorTarifaMinima(valorTarifaMinimaPorFator);
-					
-					Vector faixasProporcional = new Vector();
-					
-					for (int k = 0; k < dadosFaturamento.getFaixas().size(); k++) {
-						DadosFaturamentoFaixa faixa = (DadosFaturamentoFaixa) dadosFaturamento.getFaixas().get(k);
-						DadosFaturamentoFaixa faixaProporcional = null;
-						
-						if (dadosFaturamentoProporcional.getFaixas() == null || dadosFaturamentoProporcional.getFaixas().equals("") || i == 0) {
-							faixaProporcional = new DadosFaturamentoFaixa();
-							faixaProporcional.setValorFaturado(0d);
-							faixaProporcional.setValorTarifa(0d);
+			Date dataLeituraAtual = Util.getDataSemHora(MedidorAguaTab.getCurrentDateByGPS());
+
+			// 2.Calcula a quantidade de dias entre as leituras = data corrente - data de leitura anterior;
+			long qtdDiasEntreLeituras = Util.obterModuloDiferencasDatasDias(dataLeituraAtual, dataLeituraAnterior);
+			qtdDiasEntreLeituras += 1;
+
+			DadosFaturamento dadosFaturamento = null;
+			// cria o objteto de faturamento proporcional para somar os valores por categoria de cada data de vigencia
+			DadosFaturamento dadosFaturamentoProporcional = null;
+
+			for (List<TarifacaoMinima> tarifacoesMinimas : tarifacoesMinimasPorCategoria) {
+
+				// 3.Data da vigência inicial = data da leitura anterior
+				Date dataVigenciaInicial = dataLeituraAnterior;
+				int contador = 0;
+				// 4.Para cada tarifa vigente para o período de leitura, obtida no passo 1.3, ordenando por data de início da
+				// vigência, o sistema efetua os seguintes procedimentos
+				for (int i = 0; i < tarifacoesMinimas.size(); i++) {
+					// 4.1.[SB0001 – Cálculo Simples Para Uma Única Tarifa];
+					TarifacaoMinima reg9 = (TarifacaoMinima) tarifacoesMinimas.get(i);
+					this.calculoSimples(imovel, consumo, tipoMedicao, reg9.getDataVigencia(), false);
+					codigoCategoria = tarifacoesMinimas.get(i);
+					// 4.2.Caso exista próxima tarifa vigente então data da vigência final = data de início da vigência da próxima
+					// tarifa vigente menos um dia, caso contrário, data da vigência final = data corrente;
+					Date dataVigenciaFinal = null;
+
+					if (i < tarifacoesMinimas.size() - 1) {
+						TarifacaoMinima proxReg9 = (TarifacaoMinima) tarifacoesMinimas.get(i + 1);
+
+						if (proxReg9.getDataVigencia().before(dataLeituraAtual) || proxReg9.getDataVigencia().equals(dataLeituraAtual)) {
+							dataVigenciaFinal = Util.adicionarNumeroDiasDeUmaData(proxReg9.getDataVigencia(), -1);
 						} else {
-							faixaProporcional = (DadosFaturamentoFaixa) dadosFaturamentoProporcional.getFaixas().get(k);
+							dataVigenciaFinal = dataLeituraAtual;
 						}
-						
-						double valorFaturadoPorFatorNaFaixa = faixaProporcional.getValorFaturado();
-						valorFaturadoPorFatorNaFaixa = valorFaturadoPorFatorNaFaixa + Util.arredondar(faixa.getValorFaturado() * fatorVigenciaTarifa, 2);
-						
-						double valorTarifaPorFatorNaFaixa = faixaProporcional.getValorTarifa();
-						valorTarifaPorFatorNaFaixa = valorTarifaPorFatorNaFaixa + Util.arredondar(faixa.getValorTarifa() * fatorVigenciaTarifa, 2);
-						
-						// seta os valores adicionados para os dados de faturamento proporcional
-						faixaProporcional.setValorFaturado(valorFaturadoPorFatorNaFaixa);
-						faixaProporcional.setValorTarifa(valorTarifaPorFatorNaFaixa);
-						faixasProporcional.addElement(faixaProporcional);
-						
-						// seta os dados do faturamento proporcional no dado de faturamento
-						faixa.setValorFaturado(valorFaturadoPorFatorNaFaixa);
-						faixa.setValorTarifa(valorTarifaPorFatorNaFaixa);
-					}
-					
-					// seta as faixas proporcionais no dado de faturamento proporcional
-					dadosFaturamentoProporcional.setFaixas(faixasProporcional);
-					if (tipoMedicao == Constantes.LIGACAO_AGUA) {
-						reg2.setFaturamentoAguaProporcional(dadosFaturamentoProporcional);
 					} else {
-						reg2.setFaturamentoEsgotoProporcional(dadosFaturamentoProporcional);
+						if (reg9.getDataVigencia().before(dataLeituraAtual) || reg9.getDataVigencia().equals(dataLeituraAtual)) {
+							dataVigenciaFinal = dataLeituraAtual;
+						} else {
+							dataVigenciaFinal = reg9.getDataVigencia();
+						}
+					}
+
+					// 4.3.Caso seja a primeira tarifa, a quantidade de dias de vigência da tarifa dentro do período
+					// de leitura = data da vigência final – data da vigência inicial
+					long qtdDiasVigenciaTarifaDentroPeriodoLeitura = Util.obterModuloDiferencasDatasDias(dataVigenciaFinal, dataVigenciaInicial);
+
+					if (i == 0) {
+						if (dataVigenciaFinal.after(dataVigenciaInicial) || dataVigenciaFinal.equals(dataVigenciaInicial)) {
+							qtdDiasVigenciaTarifaDentroPeriodoLeitura += 1;
+						} else {
+							qtdDiasVigenciaTarifaDentroPeriodoLeitura = 0;
+						}
+
+						// 4.4.Caso contrário a quantidade de dias de vigência da tarifa dentro do período de
+						// leitura = data da vigência final – data da vigência inicial + 1 dia;
+					} else {
+						if (dataVigenciaFinal.before(dataLeituraAtual) || dataVigenciaFinal.equals(dataLeituraAtual)) {
+							qtdDiasVigenciaTarifaDentroPeriodoLeitura += 1;
+						} else {
+							qtdDiasVigenciaTarifaDentroPeriodoLeitura = 0;
+						}
+					}
+
+					// 4.5.Calcula o fator de vigência da tarifa = quantidade de dias de vigência da tarifa no período de
+					// leitura / quantidade de dias entre as leituras;
+					double fatorVigenciaTarifa = Util.arredondar((double) qtdDiasVigenciaTarifaDentroPeriodoLeitura / (double) qtdDiasEntreLeituras, 4);
+
+					/*
+					 * 1.1.Para cada Categoria, aplica o fator de vigência da tarifa
+					 * sobre os seguintes atributos obtidos nos cálculos efetuados no
+					 * passo 4.1, arredondando para duas casas decimais: 1.1.1.Valor
+					 * faturado; 1.1.2.Valor da tarifa mínima; 1.1.3.Para cada faixa da
+					 * tarifa de consumo: 1.1.3.1.Valor faturado na faixa; 1.1.3.2.Valor
+					 * da tarifa na faixa.
+					 */
+					DadosFaturamentoFaixa faixaProporcional = null;
+					DadosFaturamentoFaixa faixa = null;
+					for (int j = 0; j < imovel.getDadosCategoria().size(); j++) {
+
+						List<DadosCategoria> teste = imovel.getDadosCategoria();
+						DadosCategoria reg2 = (DadosCategoria) imovel.getDadosCategoria().get(j);
+
+						if (tipoMedicao == Constantes.LIGACAO_AGUA) {
+							dadosFaturamento = reg2.getFaturamentoAgua();
+							dadosFaturamentoProporcional = reg2.getFaturamentoAguaProporcional();
+						} else {
+							dadosFaturamento = reg2.getFaturamentoEsgoto();
+							dadosFaturamentoProporcional = reg2.getFaturamentoEsgotoProporcional();
+						}
+
+						if (dadosFaturamentoProporcional == null
+								|| dadosFaturamentoProporcional.equals("") || i == 0) {
+							dadosFaturamentoProporcional = new DadosFaturamento();
+							dadosFaturamentoProporcional.setValorFaturado(0d);
+							dadosFaturamentoProporcional.setValorTarifaMinima(0d);
+						}
+
+						double valorFaturadoPorFator = dadosFaturamentoProporcional.getValorFaturado();
+						valorFaturadoPorFator = valorFaturadoPorFator + Util.arredondar(dadosFaturamento.getValorFaturado() * fatorVigenciaTarifa, 2);
+
+						double valorTarifaMinimaPorFator = dadosFaturamentoProporcional.getValorTarifaMinima();
+						valorTarifaMinimaPorFator = valorTarifaMinimaPorFator + Util.arredondar(dadosFaturamento.getValorTarifaMinima() * fatorVigenciaTarifa, 2);
+
+						// seta os valores adicionados para os dados de faturamento proporcional
+						dadosFaturamentoProporcional.setValorFaturado(valorFaturadoPorFator);
+						dadosFaturamentoProporcional.setValorTarifaMinima(valorTarifaMinimaPorFator);
+
+						// seta os dados do faturamento proporcional no dado de faturamento
+						dadosFaturamento.setValorFaturado(valorFaturadoPorFator);
+						dadosFaturamento.setValorTarifaMinima(valorTarifaMinimaPorFator);
+
+						if(calculado == true){
+							if(reg2.getCodigoCategoria() == DadosCategoria.RESIDENCIAL){
+								// seta os valores adicionados para os dados de faturamento proporcional
+								dadosFaturamentoProporcional.setValorFaturado(valorFaturadoBolsaAgua);
+								dadosFaturamentoProporcional.setValorTarifaMinima(valorTarifaMinimaPorFator);
+
+								// seta os dados do faturamento proporcional no dado de faturamento
+								dadosFaturamento.setValorFaturado(valorFaturadoBolsaAgua);
+								dadosFaturamento.setValorTarifaMinima(valorTarifaMinimaPorFator);
+							}
+
+						}
+
+						for (int k = 0; k < dadosFaturamento.getFaixas().size(); k++) {
+							faixa = (DadosFaturamentoFaixa) dadosFaturamento.getFaixas().get(k);
+
+
+							if (dadosFaturamentoProporcional.getFaixas() == null || dadosFaturamentoProporcional.getFaixas().equals("") || i == 0) {
+								faixaProporcional = new DadosFaturamentoFaixa();
+								faixaProporcional.setValorFaturado(0d);
+								faixaProporcional.setValorTarifa(0d);
+							} else {
+								faixaProporcional = (DadosFaturamentoFaixa) dadosFaturamentoProporcional.getFaixas().get(k);
+							}
+
+							double valorFaturadoPorFatorNaFaixa = faixaProporcional.getValorFaturado();
+							valorFaturadoPorFatorNaFaixa = valorFaturadoPorFatorNaFaixa + Util.arredondar(faixa.getValorFaturado() * fatorVigenciaTarifa, 2);
+
+							double valorTarifaPorFatorNaFaixa = faixaProporcional.getValorTarifa();
+							valorTarifaPorFatorNaFaixa = valorTarifaPorFatorNaFaixa + Util.arredondar(faixa.getValorTarifa() * fatorVigenciaTarifa, 2);
+
+							// seta os valores adicionados para os dados de faturamento proporcional
+							faixaProporcional.setValorFaturado(valorFaturadoPorFatorNaFaixa);
+							faixaProporcional.setValorTarifa(valorTarifaPorFatorNaFaixa);
+							faixasProporcional.addElement(faixaProporcional);
+
+							// seta os dados do faturamento proporcional no dado de faturamento
+							faixa.setValorFaturado(valorFaturadoPorFatorNaFaixa);
+							faixa.setValorTarifa(valorTarifaPorFatorNaFaixa);
+
+							}
+						if(calculado == false){
+
+							if (reg2.getCodigoCategoria() == DadosCategoria.RESIDENCIAL) {
+								valorFaturadoBolsaAgua = valorFaturadoPorFator;
+								contador++;
+							}
+							if (reg2.getCodigoCategoria() == DadosCategoria.RESIDENCIAL) {
+								valorFaturadoBolsaAguaMinimo = valorTarifaMinimaPorFator;
+							}/* else {
+
+								faixaProporcional.setValorFaturado(valorFaturadoPorFatorNaFaixa);
+								faixaProporcional.setValorTarifa(valorTarifaPorFatorNaFaixa);
+								faixasProporcional.addElement(faixaProporcional);
+
+								// seta os dados do faturamento proporcional no dado de faturamento
+								faixa.setValorFaturado(valorFaturadoPorFatorNaFaixa);
+								faixa.setValorTarifa(valorTarifaPorFatorNaFaixa);
+
+							}*/
+
+						}
+
+
+						// seta as faixas proporcionais no dado de faturamento proporcional
+						dadosFaturamentoProporcional.setFaixas(faixasProporcional);
+						if (tipoMedicao == Constantes.LIGACAO_AGUA) {
+							reg2.setFaturamentoAguaProporcional(dadosFaturamentoProporcional);
+						} else {
+							reg2.setFaturamentoEsgotoProporcional(dadosFaturamentoProporcional);
+						}
+
+					}
+					if (codigoCategoria.getCodigoCategoria() == DadosCategoria.RESIDENCIAL && contador == 2 && imovel.getValorCreditosBolsaAgua() > 0.0) {
+						// TODO - calcular novo valor faturado para o bolsa agua
+						DadosCategoria dadosCategoria = null;
+						for(DadosCategoria dados: imovel.getDadosCategoria()){
+                               if(dados.getCodigoCategoria() == DadosCategoria.RESIDENCIAL){
+								   dadosCategoria = dados;
+							   }
+						}
+						DadosFaturamento faturamento = calculoValorFaturadoBolsaAgua(
+								imovel,
+								tipoMedicao,
+								valorFaturadoBolsaAgua,
+								dadosFaturamento.getConsumoFaturado(),
+								dadosCategoria.getQtdEconomiasSubcategoria(),
+								valorFaturadoBolsaAguaMinimo,
+								dadosFaturamento.getConsumoMinimo(),
+								Collections.list(faixasProporcional.elements()),
+								dadosCategoria);
+
+						dadosFaturamento.setValorFaturado(faturamento.getValorFaturado());
+						dadosFaturamento.setValorTarifaMinima(faturamento.getValorFaturado());
+						dadosCategoria.getFaturamentoAguaProporcional().setValorFaturado(faturamento.getValorFaturado());
+
+						valorFaturadoBolsaAgua = faturamento.getValorFaturado();
+
+						calculado = true;
+
+						DadosCategoria dadosEconomiasSubcategorias = (DadosCategoria) dadosCategoria;
+
+						LogUtil.salvarLog(logType, "Valor Faturado: " + faturamento.getValorFaturado()
+								+ " | Consumo FATURADO Categoria Ou Subcategoria: " + dadosFaturamento.getConsumoFaturado()
+								+ " | Valor Tarifa Minima: " + Util.arredondar(valorFaturadoBolsaAguaMinimo, 2)
+								+ " | Consumo Minimo: " + dadosFaturamento.getConsumoMinimo());
+
+						atribuirDadosFaturamento(imovel, tipoMedicao, dadosEconomiasSubcategorias, faturamento);
+					}
+
+					// 4.8.Calcula data da vigência inicial = data da vigência final + 1 dia.
+					dataVigenciaFinal = Util.adicionarNumeroDiasDeUmaData(dataVigenciaFinal, +1);
+
+					dataVigenciaInicial = dataVigenciaFinal;
+
+					if (dataVigenciaFinal.before(dataLeituraAnterior)) {
+						dataVigenciaInicial = dataLeituraAnterior;
+					} else {
+						dataVigenciaInicial = dataVigenciaFinal;
 					}
 				}
-				
-				// 4.8.Calcula data da vigência inicial = data da vigência final + 1 dia.
-				dataVigenciaFinal = Util.adicionarNumeroDiasDeUmaData(dataVigenciaFinal, +1);
-				
-				dataVigenciaInicial = dataVigenciaFinal;
-				
-				if (dataVigenciaFinal.before(dataLeituraAnterior)) {
-                    dataVigenciaInicial = dataLeituraAnterior;
-                } else {
-                    dataVigenciaInicial = dataVigenciaFinal;
-                }
 			}
 		}
-		
+		getImovelSelecionado().setIndcImovelCalculado(Constantes.SIM);
 	}
 
 	public boolean isPrintingAllowed() {

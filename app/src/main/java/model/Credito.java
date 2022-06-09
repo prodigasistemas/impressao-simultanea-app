@@ -51,4 +51,5 @@ public class Credito {
 		return indcUso;
 	}
 
+	public int getMatricula() { return matricula; }
 }

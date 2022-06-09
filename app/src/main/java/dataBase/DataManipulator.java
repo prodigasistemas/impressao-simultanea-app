@@ -2125,6 +2125,28 @@ public class DataManipulator {
 		return db.insert(Constantes.TABLE_CREDITO, null, initialValues);
 				
 	}
+
+	public long updateCredito(int matricula, Credito credito) {
+
+		Cursor cursor = db.query(Constantes.TABLE_CREDITO, null,
+				"matricula = " + matricula, null, null, null, null);
+		ContentValues values = null;
+		int retorno = -1;
+
+			values = new ContentValues();
+
+			values.put("descricao", credito.getDescricao());
+			values.put("valor", credito.getValor());
+			values.put("codigo", credito.getCodigo());
+			values.put("indc_uso", credito.getIndcUso());
+
+
+			retorno = db.update(Constantes.TABLE_CREDITO, values, "matricula = ?", new String[] {String.valueOf(matricula)});
+
+
+		return retorno;
+	}
+
 	
 	public long insertDebito(String linhaArquivo) {
 		

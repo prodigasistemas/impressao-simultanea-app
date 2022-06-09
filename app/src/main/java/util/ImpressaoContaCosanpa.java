@@ -19,6 +19,8 @@ import model.HistoricoConsumo;
 import model.Imovel;
 import model.Imposto;
 import model.Medidor;
+import model.Tarifa;
+import model.TarifacaoMinima;
 import ui.FileManager;
 import views.MedidorAguaTab;
 import android.util.Log;
@@ -1065,9 +1067,18 @@ public class ImpressaoContaCosanpa {
 		// Verificamos se o tipo de calculo é por categoria ou por subcategoria
 		boolean tipoTarifaPorCategoria = ControladorImovel.getInstancia().tipoTarifaPorCategoria(imovel);
 		int qtdLinhas = 0;
+
+		boolean tarifaUnica = true;
+		ArrayList<List<TarifacaoMinima>> tarifacoesMinimasPorCategoria = imovel.getTarifacoesMinimasPorCategoria();
+
+
 		// 3
 		for (int i = 0; i < imovel.getDadosCategoria().size(); i++) {
 			DadosCategoria dadosEconomiasSubcategorias = imovel.getDadosCategoria().get(i);
+			for (List<TarifacaoMinima> tarifa : tarifacoesMinimasPorCategoria) {
+				if (!tarifa.isEmpty() && imovel.getValorCreditosBolsaAgua() > 0.0 && tarifa.size() > 1)
+					tarifaUnica = false;
+			}
 			if (dadosEconomiasSubcategorias.getFaturamentoAgua() == null) {
 				continue;
 			}
@@ -1129,7 +1140,7 @@ public class ImpressaoContaCosanpa {
 				System.out.println("dadosEconomiasSubcategorias.getFaturamentoAgua(): " + dadosEconomiasSubcategorias.getFaturamentoAgua());
 				System.out.println("dadosEconomiasSubcategorias.getFaturamentoAgua().getFaixas(): " + dadosEconomiasSubcategorias.getFaturamentoAgua().getFaixas());
 				System.out.println("dadosEconomiasSubcategorias.getFaturamentoAgua().getFaixas().size(): " + dadosEconomiasSubcategorias.getFaturamentoAgua().getFaixas().size());
-				if (dadosEconomiasSubcategorias.getFaturamentoAgua() != null && dadosEconomiasSubcategorias.getFaturamentoAgua().getFaixas() != null && dadosEconomiasSubcategorias.getFaturamentoAgua().getFaixas().size() > 0) {
+				if (dadosEconomiasSubcategorias.getFaturamentoAgua() != null && dadosEconomiasSubcategorias.getFaturamentoAgua().getFaixas() != null && dadosEconomiasSubcategorias.getFaturamentoAgua().getFaixas().size() > 0 && tarifaUnica == true) {
 					qtdLinhas++;
 					// 3.5.1.1
 					descricao = "ATE " + ((int) dadosEconomiasSubcategorias.getFaturamentoAgua().getConsumoMinimo() / quantidaEconomias) + " m3 - " + Util.formatarDoubleParaMoedaReal(dadosEconomiasSubcategorias.getFaturamentoAgua().getValorTarifaMinima() / quantidaEconomias)
@@ -1230,7 +1241,19 @@ public class ImpressaoContaCosanpa {
 				}
 			}
 			dados = new String[3];
-			if (consumoAgua == consumoEsgoto && valorAgua != 0) {
+			if(imovel.getValorCreditosBolsaAgua() > 0.0){
+				if (valorEsgoto != 0) {
+					// 1.2.1
+					dados[0] = "ESGOTO ";
+					// 1.2.3
+					dados[0] += Util.formatarDoubleParaMoedaReal(imovel.getPercentCobrancaEsgoto());
+					// 1.2.3
+					dados[0] += " % DO VALOR DE AGUA";
+					// 1.4
+					dados[2] = Util.formatarDoubleParaMoedaReal(valorEsgoto);
+					retorno.add(dados);
+				}
+			} else if (consumoAgua == consumoEsgoto && valorAgua != 0) {
 				if (valorEsgoto != 0) {
 					// 1.2.1
 					dados[0] = "ESGOTO ";
