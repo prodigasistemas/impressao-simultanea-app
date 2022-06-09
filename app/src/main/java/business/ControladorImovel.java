@@ -1055,7 +1055,7 @@ public class ControladorImovel {
 						// TODO - calcular novo valor faturado para o bolsa agua
 						DadosCategoria dadosCategoria = null;
 						for(DadosCategoria dados: imovel.getDadosCategoria()){
-                               if(dados.getCodigoCategoria() == 1){
+                               if(dados.getCodigoCategoria() == DadosCategoria.RESIDENCIAL){
 								   dadosCategoria = dados;
 							   }
 						}

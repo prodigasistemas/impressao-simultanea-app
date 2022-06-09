@@ -1075,15 +1075,9 @@ public class ImpressaoContaCosanpa {
 		// 3
 		for (int i = 0; i < imovel.getDadosCategoria().size(); i++) {
 			DadosCategoria dadosEconomiasSubcategorias = imovel.getDadosCategoria().get(i);
-			for(List<TarifacaoMinima> tarifa : tarifacoesMinimasPorCategoria){
-				if (tarifa.size() > 0) {
-					if(imovel.getValorCreditosBolsaAgua() > 0.0){
-						if (tarifa.size() > 1) {
-							tarifaUnica = false;
-							break;
-						}
-					}
-				}
+			for (List<TarifacaoMinima> tarifa : tarifacoesMinimasPorCategoria) {
+				if (!tarifa.isEmpty() && imovel.getValorCreditosBolsaAgua() > 0.0 && tarifa.size() > 1)
+					tarifaUnica = false;
 			}
 			if (dadosEconomiasSubcategorias.getFaturamentoAgua() == null) {
 				continue;
@@ -1246,7 +1240,6 @@ public class ImpressaoContaCosanpa {
 					}
 				}
 			}
-			imovel.getValorCreditosBolsaAgua();
 			dados = new String[3];
 			if(imovel.getValorCreditosBolsaAgua() > 0.0){
 				if (valorEsgoto != 0) {
