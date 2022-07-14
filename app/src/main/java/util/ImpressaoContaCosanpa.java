@@ -786,11 +786,11 @@ public class ImpressaoContaCosanpa {
 			opcaoDebitoAutomatico = imovel.getOpcaoDebitoAutomatico() == Constantes.NULO_INT ? "" : imovel.getOpcaoDebitoAutomatico()+"";
 			Log.i("opcao debito automatico", opcaoDebitoAutomatico);
 
-			if(Integer.parseInt(imovel.getCodigoPerfil()) == PERFIL_BOLSA_AGUA  && imovel.getValorConta() <= 0.0){
+		/*	if(Integer.parseInt(imovel.getCodigoPerfil()) == PERFIL_BOLSA_AGUA  && imovel.getValorConta() <= 0.0){
 				mensagemBolsaAgua = dividirLinha(7, 0, 30, 1270, "PROGRAMA AGUA PARA, QUITADO PELO GOVERNO DO ESTADO DO PARA", 27, 20);
 			}else if(Integer.parseInt(imovel.getCodigoPerfil()) == PERFIL_BOLSA_AGUA && imovel.getValorConta() > 0.0 ){
 				mensagemBolsaAgua = dividirLinha(7, 0, 30, 1270, "PROGRAMA AGUA PARA, 20.000  LITROS QUITADOS PELO GOVERNO DO ESTADO DO PARA", 28, 20);
-			}
+			}*/
 
 			if (imovel.getMensagemQuitacaoAnual() != null && !imovel.getMensagemQuitacaoAnual().equals("")) {
 				mensagens = dividirLinha(7, 0, 35, 1815, imovel.getMensagemQuitacaoAnual(), 60, 20);
@@ -1577,7 +1577,8 @@ public class ImpressaoContaCosanpa {
 		if (imovel.getValorCreditosBolsaAgua() > 0d) {
 			dados = new String[3];
 			// 1.1.2
-			dados[0] = " CREDITO SUBSIDIO AGUA PARA";
+			//dados[0] = " CREDITO SUBSIDIO AGUA PARA";
+			dados[0] = "  SUBSIDIO ";
 			// 1.1.3
 			dados[2] = Util.formatarDoubleParaMoedaReal(imovel.getValorCreditosBolsaAgua());
 
