@@ -928,11 +928,9 @@ public class ControladorImovel {
 						consumo20Metros.setConsumoCobradoMes(20);
 						consumo20Metros.setConsumoCobradoMesOriginal(20);
 						consumo20Metros.setAnormalidadeConsumo(0);
-						if(consumo20Metros.equals(consumo)){
-							valorFaturadoBolsaAgua = Util.arredondar(dadosFaturamentoProporcional.getValorFaturado(), 2);
-						}else{
-							valorFaturadoBolsaAgua = Util.arredondar(calcular20MetrosAguaPara(imovel, tipoMedicao, consumo20Metros), 2);
-						}
+
+						valorFaturadoBolsaAgua = Util.arredondar(calcular20MetrosAguaPara(imovel, tipoMedicao, consumo20Metros), 2);
+
 						if(dadosCategoria.getQtdEconomiasSubcategoria() == 1){
                             if(valorFaturadoBolsaAgua > dadosFaturamentoProporcional.getValorFaturado()){
                                  valorFaturadoBolsaAgua = dadosFaturamentoProporcional.getValorFaturado();
