@@ -426,7 +426,7 @@ public class BusinessConta {
 		boolean permiteImpressao = true;
 
 		int imovelPerfil =  Integer.parseInt(getImovelSelecionado().getCodigoPerfil());
-		double valorConta = getImovelSelecionado().getValorConta();
+		//double valorConta = getImovelSelecionado().getValorConta();
 		valorAcimaDoMinimo = getImovelSelecionado().isValorContaAcimaDoMinimo();
 		valorContaMaiorPermitido = getImovelSelecionado().isValorContaMaiorPermitido();
 
