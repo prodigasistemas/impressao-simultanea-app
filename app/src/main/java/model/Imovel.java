@@ -1498,9 +1498,9 @@ public class Imovel {
 			}
 		}
 
-		if (valorResidualCredito != 0d) {
+	/*	if (valorResidualCredito != 0d) {
 			soma = soma - this.valorResidualCredito;
-		}
+		}*/
 
 		return Util.arredondar(soma, 2);
 	}

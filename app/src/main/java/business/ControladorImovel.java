@@ -591,6 +591,7 @@ public class ControladorImovel {
 
 			atribuirDadosFaturamento(imovel, tipoMedicao, dadosEconomiasSubcategorias, faturamento);
 		}
+		getImovelSelecionado().setIndcImovelCalculado(Constantes.SIM);
 	}
 
 	private void atribuirDadosFaturamento(Imovel imovel, int tipoMedicao, DadosCategoria dadosEconomiasSubcategorias, DadosFaturamento faturamento) {
@@ -931,6 +932,10 @@ public class ControladorImovel {
 
 						valorFaturadoBolsaAgua = Util.arredondar(calcular20MetrosAguaPara(imovel, tipoMedicao, consumo20Metros), 2);
 
+						if(dadosFaturamentoProporcional.getValorFaturado() - valorFaturadoBolsaAgua < 2){
+							valorFaturadoBolsaAgua = dadosFaturamentoProporcional.getValorFaturado();
+						}
+
 						if(dadosCategoria.getQtdEconomiasSubcategoria() == 1){
                             if(valorFaturadoBolsaAgua > dadosFaturamentoProporcional.getValorFaturado()){
                                  valorFaturadoBolsaAgua = dadosFaturamentoProporcional.getValorFaturado();
@@ -1055,12 +1060,12 @@ public class ControladorImovel {
 				if(contador == 1){
 					 qtdDiasEntreLeiturasTaxas = Util.obterModuloDiferencasDatasDias(dataLeituraAtual, tarifa.getDataVigencia());
 					 valorFor = tarifa.getTarifaMinimaCategoria()+(tarifaCompl.getValorM3Faixa()*10);
-					 valorFor = (valorFor / qtdDiasEntreLeituras) * qtdDiasEntreLeiturasTaxas;
+					 valorFor = (valorFor / qtdDiasEntreLeituras) * (qtdDiasEntreLeiturasTaxas);
 				} else {
 					qtdDiasEntreLeiturasTaxas = Util.obterModuloDiferencasDatasDias(dataLeituraAtual, tarifaExemplo.getDataInicioVigencia());
 					qtdDiasEntreLeiturasTaxas2 = qtdDiasEntreLeituras - qtdDiasEntreLeiturasTaxas;
 					valorFor = tarifa.getTarifaMinimaCategoria()+(tarifaCompl.getValorM3Faixa()*10);
-					valorFor = (valorFor / qtdDiasEntreLeituras) * qtdDiasEntreLeiturasTaxas2;
+					valorFor = (valorFor / qtdDiasEntreLeituras) * (qtdDiasEntreLeiturasTaxas2);
 				}
 
 				valorBolsaAgua = valorBolsaAgua + valorFor;

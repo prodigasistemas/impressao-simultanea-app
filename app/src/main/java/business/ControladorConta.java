@@ -1053,7 +1053,7 @@ public class ControladorConta {
 		//double valorCreditos = getImovelSelecionado().getValorCreditos();
 
 		//Alterado em 24.09, para que seja feito a conta do valor residual sem o Credito do Bolsa Agua.
-		double valorCreditos = getImovelSelecionado().getValorCreditosSemBolsaAgua();
+			double valorCreditos = getImovelSelecionado().getValorCreditosSemBolsaAgua();
 
 		if (valorCreditos != 0d) {
 			double valorContaSemCreditos = getImovelSelecionado().getValorContaSemCreditos();
