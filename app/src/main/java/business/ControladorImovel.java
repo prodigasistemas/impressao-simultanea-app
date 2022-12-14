@@ -924,11 +924,10 @@ public class ControladorImovel {
 								dadosCategoria = dados;
 							}
 						}
-						Consumo consumo20Metros = consumo;
+						Consumo consumo20Metros = new Consumo();
 						consumo20Metros.setConsumoMedidoMes(20);
 						consumo20Metros.setConsumoCobradoMes(20);
 						consumo20Metros.setConsumoCobradoMesOriginal(20);
-						consumo20Metros.setAnormalidadeConsumo(0);
 
 						valorFaturadoBolsaAgua = Util.arredondar(calcular20MetrosAguaPara(imovel, tipoMedicao, consumo20Metros), 2);
 
