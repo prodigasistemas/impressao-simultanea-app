@@ -1517,7 +1517,7 @@ public class Imovel {
 
 			for (int i = 0; i < this.getCreditos(Constantes.SIM).size(); i++) {
 
-				if (!isCreditoBolsaAgua(i) && Integer.parseInt(this.getCodigoPerfil()) != PERFIL_BOLSA_AGUA){
+				if (!isCreditoBolsaAgua(i)){
 					soma += ((Credito) (this.getCreditos().get(i))).getValor();
 				}
 			}
