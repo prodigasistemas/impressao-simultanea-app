@@ -977,6 +977,11 @@ public class ControladorImovel {
 					dados.setFaturamentoEsgoto(dados.getFaturamentoAguaProporcional());
 					double esgoto = Util.arredondar(dados.getFaturamentoEsgoto().getValorFaturado() * 0.6, 2);
 					dados.getFaturamentoEsgoto().setValorFaturado(esgoto);
+					dados.getFaturamentoEsgoto().setConsumoMinimo(dados.getFaturamentoAgua().getConsumoMinimo());
+					dados.getFaturamentoEsgoto().setIdDadosCategoria(dados.getFaturamentoAgua().getIdDadosCategoria());
+					dados.getFaturamentoEsgoto().setTipoFaturamento(Constantes.TIPO_FATURAMENTO_ESGOTO);
+					dados.getFaturamentoEsgoto().setConsumoFaturado(dados.getFaturamentoAgua().getConsumoFaturado());
+					dados.getFaturamentoEsgoto().setValorTarifaMinima(esgoto);
 				}
 			}
 		}

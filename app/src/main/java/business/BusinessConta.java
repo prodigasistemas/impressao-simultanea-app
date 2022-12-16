@@ -84,6 +84,7 @@ import model.Consumo;
 import model.DadosCategoria;
 import model.DadosFaturamentoFaixa;
 import model.Imovel;
+import model.SituacaoTipo;
 import util.Constantes;
 import util.LogUtil;
 import views.MedidorAguaTab;
@@ -418,6 +419,8 @@ public class BusinessConta {
 
 		mensagemPermiteImpressao = null;
 
+		boolean existeTipoSituacaoEspecialFaturamento = getImovelSelecionado().getSituacaoTipo().getTipoSituacaoEspecialFaturamento() == SituacaoTipo.SITUACAO_ESPECIAL_FATURAR_MINIMO; //
+
 		// Caso o valor da conta seja menor que o valor permitido para ser impresso, não imprimir a conta.
 		boolean valorAcimaDoMinimo = true;
 		boolean valorContaMaiorPermitido = false;
@@ -447,8 +450,11 @@ public class BusinessConta {
 
 			if (possuiAnormalidadeConsumoReterConta()
 					|| (possuiPerfilReterConta() && possuiAnormalidadeLeituraReterConta())
-					|| getImovelSelecionado().isTarifacaoComplementarNulaOuZerada()) {
-				reterConta = true;
+					|| getImovelSelecionado().isTarifacaoComplementarNulaOuZerada() ) {
+
+				if (!existeTipoSituacaoEspecialFaturamento) {
+					reterConta = true;
+				}
 			}
 		}
 

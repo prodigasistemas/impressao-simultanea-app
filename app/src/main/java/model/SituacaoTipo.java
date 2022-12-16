@@ -4,6 +4,9 @@ import util.Util;
 
 public class SituacaoTipo {
 
+	//situacao especial de faturamento para impressao sem reter conta
+	public static final int SITUACAO_ESPECIAL_FATURAR_MINIMO = 8;
+
     private static SituacaoTipo instancia;
     private int id;
     private int matricula;
